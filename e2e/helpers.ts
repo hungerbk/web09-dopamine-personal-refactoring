@@ -23,7 +23,7 @@ export async function joinIssueIfNeeded(page: Page, nickname = 'Alice') {
  * 이슈 페이지로 이동하고, 참여 모달 처리 후 캔버스가 로드될 때까지 대기한다.
  */
 export async function navigateToIssue(page: Page, issueId: string) {
-  await page.goto(`/issue/${issueId}`);
+  await page.goto(`/issues/${issueId}`);
   await page.waitForLoadState('domcontentloaded');
   await joinIssueIfNeeded(page);
 

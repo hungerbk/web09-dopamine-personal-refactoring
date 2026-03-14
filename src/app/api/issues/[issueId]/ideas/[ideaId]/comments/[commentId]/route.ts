@@ -8,7 +8,7 @@ import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-help
 
 /**
  * [PATCH] 기존 댓글 내용 수정 API
- * 경로: /api/issues/[id]/ideas/[ideaId]/comment/[commentId]
+ * 경로: /api/issues/[issueId]/ideas/[ideaId]/comment/[commentId]
  */
 export async function PATCH(
   req: NextRequest,
@@ -49,7 +49,7 @@ export async function PATCH(
 
 /**
  * [DELETE] 댓글 삭제(Soft Delete) API
- * 경로: /api/issues/[id]/ideas/[ideaId]/comment/[commentId]
+ * 경로: /api/issues/[issueId]/ideas/[ideaId]/comment/[commentId]
  */
 export async function DELETE(
   _req: NextRequest,

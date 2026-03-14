@@ -9,7 +9,7 @@ const SEED_ISSUE_VOTE = '00000000-0000-0000-0000-000000000302';
 test.describe('이슈 요약', () => {
   test('8.1 요약 페이지가 렌더링된다', async ({ page }) => {
     await setIssueStatus(page, SEED_ISSUE_VOTE, 'CLOSE');
-    await page.goto(`/issue/${SEED_ISSUE_VOTE}/summary`);
+    await page.goto(`/issues/${SEED_ISSUE_VOTE}/summary`);
     await page.waitForLoadState('domcontentloaded');
 
     // 요약 페이지 콘텐츠 확인 (종료되지 않은 이슈는 리다이렉트될 수 있음)
@@ -24,7 +24,7 @@ test.describe('이슈 요약', () => {
 
   test('8.2 투표 랭킹이 표시된다', async ({ page }) => {
     await setIssueStatus(page, SEED_ISSUE_VOTE, 'CLOSE');
-    await page.goto(`/issue/${SEED_ISSUE_VOTE}/summary`);
+    await page.goto(`/issues/${SEED_ISSUE_VOTE}/summary`);
     await page.waitForLoadState('domcontentloaded');
 
     if (page.url().includes('/summary')) {
@@ -45,7 +45,7 @@ test.describe('이슈 요약', () => {
 
   test('8.3 워드클라우드가 표시된다', async ({ page }) => {
     await setIssueStatus(page, SEED_ISSUE_VOTE, 'CLOSE');
-    await page.goto(`/issue/${SEED_ISSUE_VOTE}/summary`);
+    await page.goto(`/issues/${SEED_ISSUE_VOTE}/summary`);
     await page.waitForLoadState('domcontentloaded');
 
     if (page.url().includes('/summary')) {
@@ -58,7 +58,7 @@ test.describe('이슈 요약', () => {
 
   test('8.4 선택된 아이디어가 표시된다', async ({ page }) => {
     await setIssueStatus(page, SEED_ISSUE_VOTE, 'CLOSE');
-    await page.goto(`/issue/${SEED_ISSUE_VOTE}/summary`);
+    await page.goto(`/issues/${SEED_ISSUE_VOTE}/summary`);
     await page.waitForLoadState('domcontentloaded');
 
     if (page.url().includes('/summary')) {

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 /**
  * SSE 엔드포인트
- * GET /api/issues/[id]/events
+ * GET /api/issues/[issueId]/events
  *
  * 특정 이슈에 대한 실시간 이벤트 스트림을 제공
  */

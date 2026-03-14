@@ -5,7 +5,7 @@ const SEED_TOPIC_ID = '00000000-0000-0000-0000-000000000201';
 
 test.describe('토픽 관리', () => {
   test('3.1 프로젝트 상세에서 토픽 목록이 표시된다', async ({ page }) => {
-    await page.goto(`/project/${SEED_PROJECT_ID}`);
+    await page.goto(`/projects/${SEED_PROJECT_ID}`);
 
     // 토픽 목록 섹션 확인
     await expect(page.getByText('토픽 목록')).toBeVisible();
@@ -16,7 +16,7 @@ test.describe('토픽 관리', () => {
   });
 
   test('3.2 토픽을 생성할 수 있다', async ({ page }) => {
-    await page.goto(`/project/${SEED_PROJECT_ID}`);
+    await page.goto(`/projects/${SEED_PROJECT_ID}`);
 
     // 토픽 생성 버튼 클릭
     const createButton = page.locator('button', { hasText: /토픽|추가|만들기/ });

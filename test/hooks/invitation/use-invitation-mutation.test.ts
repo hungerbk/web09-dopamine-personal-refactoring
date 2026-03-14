@@ -83,7 +83,7 @@ describe('useInvitationMutations', () => {
       await waitFor(() => expect(result.current.joinProject.isSuccess).toBe(true));
 
       expect(mockToastSuccess).toHaveBeenCalledWith('프로젝트에 참여합니다!');
-      expect(mockPush).toHaveBeenCalledWith(`/project/${projectId}`);
+      expect(mockPush).toHaveBeenCalledWith(`/projects/${projectId}`);
     });
 
     test('일반 에러 발생 시 에러 메시지를 띄우고 이동하지 않아야 한다', async () => {
@@ -125,7 +125,7 @@ describe('useInvitationMutations', () => {
       expect(mockToastError).toHaveBeenCalledWith(alreadyExistMsg);
 
       // 2. 중요: 에러 상황이지만 프로젝트 페이지로 이동해야 함 (Redirect)
-      expect(mockPush).toHaveBeenCalledWith(`/project/${projectId}`);
+      expect(mockPush).toHaveBeenCalledWith(`/projects/${projectId}`);
     });
   });
 });

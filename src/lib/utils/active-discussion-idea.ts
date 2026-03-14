@@ -1,4 +1,4 @@
-import type { IdeaWithPosition } from '@/app/(with-sidebar)/issue/types/idea';
+import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/types/idea';
 
 /**
  * 댓글 개수 기준으로 상위 3개 아이디어 ID를 반환

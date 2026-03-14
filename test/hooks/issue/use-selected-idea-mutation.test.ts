@@ -3,14 +3,14 @@
  */
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issue/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
 import { selectedIdeaQueryKey, useSelectedIdeaMutation } from '@/hooks';
 import * as issueApi from '@/lib/api/issue';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
 // 1. 외부 의존성 모킹
 jest.mock('@/lib/api/issue');
-jest.mock('@/hooks/issue/use-selected-idea-query');
+jest.mock('@/hooks/issues/use-selected-idea-query');
 jest.mock('react-hot-toast');
 
 // 2. React Query 모킹
@@ -23,7 +23,7 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹 (껍데기 생성)
-jest.mock('@/app/(with-sidebar)/issue/store/use-sse-connection-store', () => ({
+jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn(),
 }));
 

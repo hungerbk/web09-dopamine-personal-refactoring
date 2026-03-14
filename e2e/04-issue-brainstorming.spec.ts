@@ -115,7 +115,7 @@ test.describe('이슈 - 브레인스토밍', () => {
     });
     const page = await context.newPage();
 
-    await page.goto(`/issue/${SEED_ISSUE_BRAINSTORMING}`);
+    await page.goto(`/issues/${SEED_ISSUE_BRAINSTORMING}`);
     await page.waitForLoadState('domcontentloaded');
 
     // 이슈 참여 모달 확인

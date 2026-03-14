@@ -1,4 +1,4 @@
-import { FilterType } from '@/app/(with-sidebar)/issue/hooks';
+import { FilterType } from '@/app/(with-sidebar)/issues/hooks';
 
 type IdeaVoteSnapshot = {
   id: string;
