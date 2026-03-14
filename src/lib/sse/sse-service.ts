@@ -1,5 +1,5 @@
 import { sseManager } from '@/lib/sse/sse-manager';
-import { BroadcastingEvent } from '@/types/sse';
+import { BroadcastingEvent } from '@/types';
 
 // 브로드 캐스팅
 export function broadcast({ issueId, event, excludeConnectionId }: BroadcastingEvent) {

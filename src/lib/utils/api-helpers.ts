@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { ApiError, ApiSuccess } from '@/types/api';
+import type { ApiError, ApiSuccess } from '@/types';
 
 // 성공 응답 생성
 export function createSuccessResponse<T>(data: T, status = 200): NextResponse<ApiSuccess<T>> {
