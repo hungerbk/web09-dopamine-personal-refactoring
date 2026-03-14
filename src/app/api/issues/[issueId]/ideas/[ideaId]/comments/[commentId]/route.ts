@@ -49,7 +49,7 @@ export async function PATCH(
 
 /**
  * [DELETE] 댓글 삭제(Soft Delete) API
- * 경로: /api/issues/[issueId]]/ideas/[ideaId]/comment/[commentId]
+ * 경로: /api/issues/[issueId]/ideas/[ideaId]/comment/[commentId]
  */
 export async function DELETE(
   _req: NextRequest,
