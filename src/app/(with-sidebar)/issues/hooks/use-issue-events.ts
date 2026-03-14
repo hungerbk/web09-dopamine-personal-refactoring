@@ -254,7 +254,7 @@ export function useIssueEvents({
       }
 
       toast.error('이슈가 삭제되었습니다.');
-      const redirectPath = targetTopicId ? `/topic/${targetTopicId}` : '/';
+      const redirectPath = targetTopicId ? `/topics/${targetTopicId}` : '/';
       router.push(redirectPath);
     });
 

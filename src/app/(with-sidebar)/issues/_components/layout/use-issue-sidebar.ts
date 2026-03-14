@@ -131,7 +131,7 @@ export const useIssueSidebar = () => {
 
   const goToIssueMap = useCallback(() => {
     if (topicId) {
-      router.push(`/topic/${topicId}`);
+      router.push(`/topics/${topicId}`);
     }
   }, [topicId]);
 

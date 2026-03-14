@@ -43,7 +43,7 @@ export function useHeader({ issueId }: UseHeaderParams) {
 
   const handleGoback = useCallback(() => {
     if (topicId) {
-      router.push(`/topic/${topicId}`);
+      router.push(`/topics/${topicId}`);
     } else {
       router.push('/');
     }

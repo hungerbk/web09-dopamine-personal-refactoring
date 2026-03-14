@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useModalStore } from '@/components/modal/use-modal-store';
-import CreateIssueModal from '@/app/(with-sidebar)/topic/_components/create-issue-modal/create-issue-modal';
+import CreateIssueModal from '@/app/(with-sidebar)/topics/_components/create-issue-modal/create-issue-modal';
 import * as S from './new-issue-button.styles';
 
 export default function NewIssueButton() {

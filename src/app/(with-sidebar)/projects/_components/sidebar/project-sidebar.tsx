@@ -66,7 +66,7 @@ const ProjectSidebar = () => {
                     isTopic
                     key={topic.id}
                     title={topic.title}
-                    href={`/topic/${topic.id}`}
+                    href={`/topics/${topic.id}`}
                   />
                 ))
               ) : (

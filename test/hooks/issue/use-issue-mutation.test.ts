@@ -302,7 +302,7 @@ describe('Issue Mutations', () => {
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
         queryKey: ['topics', topicId],
       });
-      expect(mockRouter.push).toHaveBeenCalledWith(`/topic/${topicId}`);
+      expect(mockRouter.push).toHaveBeenCalledWith(`/topics/${topicId}`);
       expect(mockToastSuccess).toHaveBeenCalledWith('이슈를 삭제했습니다.');
     });
 

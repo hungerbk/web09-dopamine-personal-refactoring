@@ -27,7 +27,7 @@ describe('useTopicId Hook', () => {
   describe('토픽 페이지 (/topic)인 경우', () => {
     test('URL 파라미터(params.id)에서 topicId를 가져와야 한다', () => {
       // Given: 토픽 페이지 URL과 파라미터 설정
-      mockUsePathname.mockReturnValue('/topic/123');
+      mockUsePathname.mockReturnValue('/topics/123');
       mockUseParams.mockReturnValue({ id: '123' });
       // 이슈 쿼리는 실행되더라도 데이터가 없다고 가정 (또는 enabled: false라 실행 안 됨)
       mockUseIssueQuery.mockReturnValue({ data: undefined });
@@ -41,7 +41,7 @@ describe('useTopicId Hook', () => {
     });
 
     test('useIssueQuery는 비활성화 되어야 한다', () => {
-      mockUsePathname.mockReturnValue('/topic/123');
+      mockUsePathname.mockReturnValue('/topics/123');
       mockUseParams.mockReturnValue({ id: 'topic-123' });
 
       mockUseIssueQuery.mockReturnValue({ data: undefined });

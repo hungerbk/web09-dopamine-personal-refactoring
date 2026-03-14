@@ -28,7 +28,7 @@ const Card = ({
   const router = useRouter();
 
   const goTopic = () => {
-    router.push(`/topic/${id}`);
+    router.push(`/topics/${id}`);
   };
 
   return (

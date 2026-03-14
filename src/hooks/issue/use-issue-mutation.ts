@@ -169,7 +169,7 @@ export const useDeleteIssueMutation = (issueId: string) => {
 
       toast.success('이슈를 삭제했습니다.');
 
-      router.push(data.topicId ? `/topic/${data.topicId}` : '/');
+      router.push(data.topicId ? `/topics/${data.topicId}` : '/');
     },
 
     onError: (error: Error) => {

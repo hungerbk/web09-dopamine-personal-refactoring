@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
 import IssueHeader from '@/app/(with-sidebar)/issues/_components/header/header';
 import IssueSidebar from '@/app/(with-sidebar)/issues/_components/layout/issue-sidebar';
-import TopicHeader from '@/app/(with-sidebar)/topic/_components/header/topic-header';
-import TopicSidebar from '@/app/(with-sidebar)/topic/_components/layout/topic-sidebar';
+import TopicHeader from '@/app/(with-sidebar)/topics/_components/header/topic-header';
+import TopicSidebar from '@/app/(with-sidebar)/topics/_components/layout/topic-sidebar';
 import {
   SIDEBAR_TOGGLE_BORDER_RADIUS,
   SIDEBAR_TOGGLE_HEIGHT,
