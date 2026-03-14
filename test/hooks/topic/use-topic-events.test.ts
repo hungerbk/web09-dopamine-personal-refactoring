@@ -7,7 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { act, renderHook } from '@testing-library/react';
 import toast from 'react-hot-toast';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
-import { useTopicEvents } from '@/hooks/topic/use-topic-events';
+import { useTopicEvents } from '@/hooks/topics/use-topic-events';
 
 // 1. 외부 모듈 모킹
 jest.mock('@tanstack/react-query', () => ({

@@ -6,7 +6,7 @@ import CloseIssueModal from '@/app/(with-sidebar)/issues/_components/close-issue
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { ISSUE_STATUS, MEMBER_ROLE } from '@/constants/issue';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
-import { selectedIdeaQueryKey, useIssueMemberQuery } from '@/hooks/issue';
+import { selectedIdeaQueryKey, useIssueMemberQuery } from '@/hooks/issues';
 import { deleteCloseModal } from '@/lib/api/issue';
 import { useIssueStore } from '../store/use-issue-store';
 import { useSseConnectionStore } from '../store/use-sse-connection-store';

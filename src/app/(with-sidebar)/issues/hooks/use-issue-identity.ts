@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/react';
 import { DEFAULT_SELF_LABEL } from '@/constants/issue';
 import { getUserIdForIssue } from '@/lib/storage/issue-user-storage';
 import type { IssueMember } from '@/types/issue';
-import { useIssueQuery } from '@/hooks/issue';
+import { useIssueQuery } from '@/hooks/issues';
 
 interface UseIssueIdentityOptions {
   enabled?: boolean;

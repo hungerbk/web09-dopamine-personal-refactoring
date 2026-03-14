@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import LoadingOverlay from '@/components/loading-overlay/loading-overlay';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from '@/constants/project';
-import { useUpdateProjectMutation } from '@/hooks/project';
+import { useUpdateProjectMutation } from '@/hooks/projects';
 import { isProjectTitleTooLong } from '@/lib/utils/project-title';
 import * as S from './project-modal.styles';
 

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
-import { useTopicDetailQuery } from '@/hooks/topic';
+import { useTopicDetailQuery } from '@/hooks/topics';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 import * as HS from '../../../issues/_components/header/header.styles';
 import CreateIssueButton from '../create-issue-button/create-issue-button';

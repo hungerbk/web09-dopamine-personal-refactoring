@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useCommentMutations, useCommentQuery } from '@/hooks/comment';
+import { useCommentMutations, useCommentQuery } from '@/hooks/comments';
 import CommentList from './comment-list';
 import { CommentWindowContext } from './comment-window-context';
 import * as S from './comment-window.styles';

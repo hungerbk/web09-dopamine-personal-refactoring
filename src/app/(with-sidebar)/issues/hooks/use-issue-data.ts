@@ -1,7 +1,7 @@
 import { useIssueStore } from '@/app/(with-sidebar)/issues/store/use-issue-store';
 import { ISSUE_STATUS } from '@/constants/issue';
 import { IssueStatus } from '@/types/issue';
-import { useIssueMemberQuery, useIssueQuery } from '@/hooks/issue';
+import { useIssueMemberQuery, useIssueQuery } from '@/hooks/issues';
 
 export function useIssueData(issueId: string, enabled: boolean = true) {
   const { data: issue, isError: isIssueError } = useIssueQuery(issueId, enabled);

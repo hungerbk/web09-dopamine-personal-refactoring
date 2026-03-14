@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import type { Comment } from '@/lib/api/comment';
-import type { useCommentMutations } from '@/hooks/comment';
+import type { useCommentMutations } from '@/hooks/comments';
 
 interface UseCommentListOptions {
   issueId: string;

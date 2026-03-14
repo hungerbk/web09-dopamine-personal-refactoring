@@ -5,7 +5,7 @@ import type { MouseEventHandler, PointerEventHandler } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { ISSUE_STATUS } from '@/constants/issue';
-import { useSelectedIdeaMutation } from '@/hooks/issue';
+import { useSelectedIdeaMutation } from '@/hooks/issues';
 import { theme } from '@/styles/theme';
 import { useIssueData, useIssueIdentity } from '../../hooks';
 import { useCommentWindowStore } from '../../store/use-comment-window-store';

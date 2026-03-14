@@ -9,7 +9,7 @@ import {
   useIssueMemberQuery,
   useIssueQuery,
   useIssueStatusMutations,
-} from '@/hooks/issue';
+} from '@/hooks/issues';
 import { IssueStatus } from '@/types/issue';
 import { useCategoryOperations, useIdeasWithTemp, useIssueIdentity } from '../../hooks';
 

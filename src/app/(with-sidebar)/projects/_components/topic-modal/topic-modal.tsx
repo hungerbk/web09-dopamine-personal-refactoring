@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import * as S from '@/components/modal/issue-create-modal/issue-create-modal.styles';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_TOPIC_TITLE_LENGTH } from '@/constants/topic';
-import { useCreateTopicMutation } from '@/hooks/topic';
+import { useCreateTopicMutation } from '@/hooks/topics';
 
 interface TopicModalProps {
   projectId?: string;

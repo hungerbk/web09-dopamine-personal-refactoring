@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useModalStore } from '@/components/modal/use-modal-store';
-import { useCreateProjectMutation } from '@/hooks/project';
+import { useCreateProjectMutation } from '@/hooks/projects';
 import * as S from './project-create-modal.styles';
 
 export default function ProjectCreateModal() {

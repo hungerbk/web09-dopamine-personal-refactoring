@@ -1,7 +1,7 @@
 'use client';
 
-import { useTopicQuery } from '@/hooks/topic';
-import { useTopicEvents } from '@/hooks/topic/use-topic-events';
+import { useTopicQuery } from '@/hooks/topics';
+import { useTopicEvents } from '@/hooks/topics/use-topic-events';
 import { IssueConnection, IssueMapData, IssueNode } from '@/types/issue';
 import IssueNodeSkeletonGrid from '../_components/issue-node-skeleton-grid/issue-node-skeleton-grid';
 import TopicCanvas from '../_components/topic-canvas/topic-canvas';

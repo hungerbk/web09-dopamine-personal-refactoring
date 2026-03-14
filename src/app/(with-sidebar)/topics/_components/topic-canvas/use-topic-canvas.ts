@@ -3,7 +3,7 @@ import { applyNodeChanges } from '@xyflow/react';
 import type { Node, NodeChange } from '@xyflow/react';
 import { ISSUE_STATUS } from '@/constants/issue';
 import { IssueConnection, IssueMapData, IssueNode } from '@/types/issue';
-import { useTopicMutations, useTopicQuery } from '@/hooks/topic';
+import { useTopicMutations, useTopicQuery } from '@/hooks/topics';
 import { TopicNodeData } from '../issue-node/issue-node';
 
 function nodesToReactFlowNodes(issues: IssueMapData[], nodes: IssueNode[]) {

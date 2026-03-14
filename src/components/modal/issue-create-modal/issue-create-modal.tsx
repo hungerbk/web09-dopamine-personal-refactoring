@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { MAX_ISSUE_TITLE_LENGTH } from '@/constants/issue';
-import { useQuickStartMutation } from '@/hooks/issue';
+import { useQuickStartMutation } from '@/hooks/issues';
 import { generateRandomNickname } from '@/lib/utils/nickname';
 import { useModalStore } from '../use-modal-store';
 import * as S from './issue-create-modal.styles';

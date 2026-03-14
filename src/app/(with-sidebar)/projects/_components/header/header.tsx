@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import HeaderButton from '@/app/(with-sidebar)/issues/_components/header/header-button';
 import { useInviteProjectModal } from '@/components/modal/invite-project-modal/use-invite-project-modal';
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
-import { useProjectQuery } from '@/hooks/project';
+import { useProjectQuery } from '@/hooks/projects';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 import * as S from './header.styles';
 

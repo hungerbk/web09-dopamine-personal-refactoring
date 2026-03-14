@@ -7,7 +7,7 @@ import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-help
 
 /**
  * [GET] 특정 아이디어 댓글 목록 조회 API
- * 경로: /api/issues/[id]/ideas/[ideaId]/comment
+ * 경로: /api/issues/[issueId]/ideas/[ideaId]/comment
  */
 export async function GET(
   _req: NextRequest,
@@ -26,7 +26,7 @@ export async function GET(
 
 /**
  * [POST] 새로운 댓글 생성 API
- * 경로: /api/issues/[id]/ideas/[ideaId]/comment
+ * 경로: /api/issues/[issueId]/ideas/[ideaId]/comment
  */
 export async function POST(
   req: NextRequest,

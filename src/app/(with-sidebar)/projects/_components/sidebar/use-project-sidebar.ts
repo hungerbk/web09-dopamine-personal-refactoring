@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getChoseong } from 'es-hangul';
 import type { FilterType } from '@/components/sidebar/sidebar-filter';
-import { useProjectQuery } from '@/hooks/project';
+import { useProjectQuery } from '@/hooks/projects';
 import { matchSearch } from '@/lib/utils/search';
 
 export const useProjectSidebar = () => {
