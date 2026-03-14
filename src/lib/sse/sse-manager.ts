@@ -1,4 +1,4 @@
-import { BroadcastingEvent, CreateStreamParams } from '@/types/sse';
+import { BroadcastingEvent } from '@/types';
 import { broadcastMemberPresence } from '../utils/broadcast-helpers';
 
 interface ConnectedClient {
@@ -6,6 +6,13 @@ interface ConnectedClient {
   connectionId: string; // 각 SSE 연결을 식별하기 위한 고유 ID
   controller: ReadableStreamDefaultController;
 }
+
+interface CreateStreamParams {
+  issueId: string;
+  userId: string;
+  signal: AbortSignal;
+}
+
 
 export class SSEManager {
   private connections = new Map<string, Set<ConnectedClient>>();
