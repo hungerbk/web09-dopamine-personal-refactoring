@@ -151,7 +151,7 @@ describe('useTopicMutation', () => {
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
         queryKey: ['project', projectId],
       });
-      expect(mockRouter.push).toHaveBeenCalledWith(`/project/${projectId}`);
+      expect(mockRouter.push).toHaveBeenCalledWith(`/projects/${projectId}`);
       expect(toast.success).toHaveBeenCalledWith('토픽이 삭제되었습니다.');
     });
 

@@ -20,13 +20,13 @@ export const useInvitationMutations = (projectId: string) => {
 
     onSuccess: () => {
       toast.success('프로젝트에 참여합니다!');
-      router.push(`/project/${projectId}`);
+      router.push(`/projects/${projectId}`);
     },
 
     onError: (err) => {
       toast.error(err.message);
       if (err.message === CLIENT_ERROR_MESSAGES['ALREADY_EXISTED']) {
-        router.push(`/project/${projectId}`);
+        router.push(`/projects/${projectId}`);
       }
     },
   });

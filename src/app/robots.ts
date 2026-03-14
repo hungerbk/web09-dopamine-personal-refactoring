@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [
           '/project',
-          '/project/',
+          '/projects/',
           '/issue',
           '/issues/',
           '/topic',

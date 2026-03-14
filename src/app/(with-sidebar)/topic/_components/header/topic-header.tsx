@@ -32,7 +32,7 @@ export default function TopicHeader() {
   return (
     <S.HeaderContainer>
       <S.LeftSection>
-        <Link href={`/project/${topic?.projectId || ''}`}>
+        <Link href={`/projects/${topic?.projectId || ''}`}>
           <HS.ButtonsWrapper>
             <Image
               src="/leftArrow.svg"

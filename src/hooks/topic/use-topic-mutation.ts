@@ -81,7 +81,7 @@ export const useDeleteTopicMutation = (topicId: string) => {
 
       toast.success('토픽이 삭제되었습니다.');
 
-      router.push(`/project/${data.projectId}`);
+      router.push(`/projects/${data.projectId}`);
     },
 
     onError: (error: Error) => {

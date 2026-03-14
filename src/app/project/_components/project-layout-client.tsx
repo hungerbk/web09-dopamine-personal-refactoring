@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import ProjectHeader from '@/app/project/_components/header/project-header';
+import ProjectHeader from '@/app/projects/_components/header/project-header';
 
 const LayoutContainer = styled.div`
   display: flex;

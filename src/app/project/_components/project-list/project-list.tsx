@@ -1,6 +1,6 @@
 'use client';
 
-import { ProjectCard } from '@/app/project/_components/project-card/project-card';
+import { ProjectCard } from '@/app/projects/_components/project-card/project-card';
 import type { ProjectListItem } from '@/types/project';
 import * as S from './project-list.styles';
 

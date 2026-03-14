@@ -63,7 +63,7 @@ export function ProjectCard({
       setIsMenuOpen(false);
       return;
     }
-    router.push(`/project/${id}`);
+    router.push(`/projects/${id}`);
   };
 
   useEffect(() => {
