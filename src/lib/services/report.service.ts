@@ -5,7 +5,7 @@ import {
   RankedIdeaDto,
   ReportResponse,
   ReportWithDetails,
-} from '@/types/report';
+} from '@/app/(with-sidebar)/issues/_types';
 import { assignRank, compareIdeasByVote } from '../utils/sort-ideas';
 
 type ReportIdea = ReportWithDetails['issue']['ideas'][number];

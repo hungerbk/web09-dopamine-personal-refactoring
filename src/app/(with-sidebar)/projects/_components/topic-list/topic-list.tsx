@@ -3,7 +3,7 @@
 import Card, { CardSkeleton } from '@/app/(with-sidebar)/projects/_components/card/card';
 import EmptyTopicState from '@/app/(with-sidebar)/projects/_components/empty-topic-state/empty-topic-state';
 import { useProjectQuery } from '@/hooks/projects';
-import type { ProjectwithTopic } from '@/types/project';
+import type { ProjectwithTopic } from '@/app/projects/_types';
 import * as S from '@/app/(with-sidebar)/projects/[projectId]/page.styles';
 
 interface TopicListProps {

@@ -7,7 +7,7 @@ import CategoryCardHeader from './category-card-header';
 import { ChildrenWrapper, StyledCategoryCard } from './category-card.styles';
 import { useCategoryCard } from './use-category-card';
 import { useCategoryDnd } from './use-category-dnd';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 
 interface CategoryCardProps {
   id: string;

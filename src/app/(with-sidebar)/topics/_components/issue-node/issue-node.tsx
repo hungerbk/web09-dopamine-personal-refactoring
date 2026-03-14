@@ -4,7 +4,7 @@ import { memo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Node, NodeProps, Position } from '@xyflow/react';
 import { ISSUE_STATUS } from '@/constants/issue';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import { useTopicHoverContext } from '../issue-hover-context';
 import IssueHandle from './issue-handle';
 import * as S from './issue-node.styles';

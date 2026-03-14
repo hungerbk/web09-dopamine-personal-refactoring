@@ -7,7 +7,7 @@ import {
   deleteIdea as deleteIdeaAPI,
   updateIdea as updateIdeaAPI,
 } from '@/lib/api/idea';
-import type { CreateIdeaRequest, Idea } from '@/types/idea';
+import type { CreateIdeaRequest, Idea } from '@/app/(with-sidebar)/issues/_types';
 
 // Idea 타입을 IdeaWithPosition으로 변환하는 헬퍼 함수
 function transformIdeaToIdeaWithPosition(idea: Idea): IdeaWithPosition {

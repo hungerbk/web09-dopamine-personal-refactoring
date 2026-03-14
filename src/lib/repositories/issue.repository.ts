@@ -1,6 +1,6 @@
 import { IssueRole, IssueStatus } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
-import { PrismaTransaction } from '@/types/prisma';
+import { PrismaTransaction } from '@/types';
 
 type PrismaClientOrTx = PrismaTransaction | typeof prisma;
 

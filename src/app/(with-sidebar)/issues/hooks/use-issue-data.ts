@@ -1,6 +1,6 @@
 import { useIssueStore } from '@/app/(with-sidebar)/issues/store/use-issue-store';
 import { ISSUE_STATUS } from '@/constants/issue';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import { useIssueMemberQuery, useIssueQuery } from '@/hooks/issues';
 
 export function useIssueData(issueId: string, enabled: boolean = true) {

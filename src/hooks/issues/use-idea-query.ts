@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/types/idea';
-import type { SimpleIdea } from '@/types/idea';
+import type { SimpleIdea } from '@/app/(with-sidebar)/issues/_types';
 import { fetchIdeas } from '@/lib/api/idea';
 
 // 이슈의 아이디어 목록 조회 (SimpleIdea -> IdeaWithPosition)

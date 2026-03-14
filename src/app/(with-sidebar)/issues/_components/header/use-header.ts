@@ -10,7 +10,7 @@ import {
   useIssueQuery,
   useIssueStatusMutations,
 } from '@/hooks/issues';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import { useCategoryOperations, useIdeasWithTemp, useIssueIdentity } from '../../hooks';
 
 interface UseHeaderParams {

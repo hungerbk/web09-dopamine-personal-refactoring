@@ -4,7 +4,7 @@ import type React from 'react';
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { VOTE_TYPE } from '@/constants/issue';
-import type { CategoryRanking } from '@/types/report';
+import type { CategoryRanking } from '@/app/(with-sidebar)/issues/_types';
 import * as S from './categorized-list.styles';
 import * as DS from './dialog.styles';
 

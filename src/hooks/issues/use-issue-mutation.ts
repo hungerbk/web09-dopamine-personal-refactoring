@@ -11,7 +11,7 @@ import {
   updateIssueTitle,
 } from '@/lib/api/issue';
 import { setUserIdForIssue } from '@/lib/storage/issue-user-storage';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 
 interface DbIssue {
   id: string;

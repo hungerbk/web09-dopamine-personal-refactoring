@@ -5,7 +5,7 @@ import {
   deleteConnection as deleteConnectionAPI,
   updateNodePosition as updateNodePositionAPI,
 } from '@/lib/api/issue-map';
-import type { IssueConnection, IssueNode } from '@/types/issue';
+import type { IssueConnection, IssueNode } from '@/app/(with-sidebar)/issues/_types';
 
 export const useTopicMutations = (topicId: string) => {
   const queryClient = useQueryClient();

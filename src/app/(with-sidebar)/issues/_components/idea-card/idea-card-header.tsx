@@ -3,7 +3,7 @@
 import type { KeyboardEventHandler, MouseEventHandler, RefObject } from 'react';
 import Image from 'next/image';
 import { ISSUE_STATUS } from '@/constants/issue';
-import type { IssueStatus } from '@/types/issue';
+import type { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import * as S from './idea-card.styles';
 
 interface IdeaCardHeaderProps {

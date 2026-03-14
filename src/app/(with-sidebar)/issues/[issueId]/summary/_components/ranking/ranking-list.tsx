@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import type { CategoryRanking, RankedIdeaDto } from '@/types/report';
+import type { CategoryRanking, RankedIdeaDto } from '@/app/(with-sidebar)/issues/_types';
 import * as PS from '../../page.styles';
 import CategorizedListClient from './categorized-list';
 import NormalList from './normal-list';

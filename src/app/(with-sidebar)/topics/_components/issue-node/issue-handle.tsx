@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { theme } from '@/styles/theme';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import './issue-handle.css';
 
 interface IssueHandleProps {
