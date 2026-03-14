@@ -1,0 +1,94 @@
+'use client';
+
+import { useRef } from 'react';
+import { CanvasContext } from './canvas-context';
+import CanvasZoomControls from './canvas-zoom-controls';
+import * as S from './canvas.styles';
+import { useCanvasControls } from './use-canvas-controls';
+
+interface CanvasProps {
+  children?: React.ReactNode;
+  onDoubleClick?: (position: { x: number; y: number }) => void;
+  onCanvasClick: () => void;
+  showGrid?: boolean;
+  showControls?: boolean;
+  showMessage?: boolean;
+  showAddButton?: boolean;
+  boundContent?: boolean;
+  bottomMessage?: string;
+  enableAddIdea?: boolean;
+}
+
+export default function Canvas({
+  children,
+  onDoubleClick,
+  onCanvasClick,
+  showGrid = true,
+  showControls = true,
+  showMessage = true,
+  showAddButton = true,
+  boundContent = false,
+  bottomMessage = '',
+  enableAddIdea = false,
+}: CanvasProps) {
+  const canvasRef = useRef<HTMLDivElement>(null);
+
+  const {
+    scale,
+    offset,
+    isPanning,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleZoomIn,
+    handleZoomOut,
+    handleResetZoom,
+    handleCanvasDoubleClick,
+    handleAddIdeaButtonClick,
+  } = useCanvasControls({
+    canvasRef,
+    onDoubleClick,
+    isAddIdeaEnabled: enableAddIdea,
+    onCanvasClick,
+  });
+
+  return (
+    <>
+      <S.CanvasContainer
+        ref={canvasRef}
+        data-testid="issue-canvas"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onDoubleClick={handleCanvasDoubleClick}
+        showGrid={showGrid}
+        style={{
+          cursor: isPanning ? 'grabbing' : 'default',
+        }}
+      >
+        <S.CanvasViewport
+          boundContent={boundContent}
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+          }}
+        >
+          <CanvasContext.Provider value={{ scale }}>{children}</CanvasContext.Provider>
+        </S.CanvasViewport>
+      </S.CanvasContainer>
+
+      {showControls && (
+        <CanvasZoomControls
+          scale={scale}
+          onZoomIn={handleZoomIn}
+          onZoomOut={handleZoomOut}
+          onReset={handleResetZoom}
+        />
+      )}
+      {showAddButton && enableAddIdea && (
+        <S.AddIdeaButton onClick={handleAddIdeaButtonClick}>아이디어 추가</S.AddIdeaButton>
+      )}
+      {showMessage && <S.BottomMessage>{bottomMessage}</S.BottomMessage>}
+    </>
+  );
+}

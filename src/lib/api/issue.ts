@@ -1,0 +1,212 @@
+/**
+ * 이슈 관련 API 함수들 (공통 응답 포맷 사용)
+ */
+import getAPIResponseData from '@/lib/utils/api-response';
+import { withSseHeader } from '../utils/with-sse-header';
+
+/* =========================
+ * Issue
+ * ========================= */
+
+export function createQuickIssue(title: string, nickname: string) {
+  return getAPIResponseData<{
+    issueId: string;
+    userId: string;
+  }>({
+    url: '/api/issues',
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title, nickname }),
+  });
+}
+
+export function getIssue(issueId: string) {
+  return getAPIResponseData<{
+    id: string;
+    title: string;
+    status: string;
+    topicId?: string | null;
+    projectId?: string | null;
+    createdAt: string;
+    updatedAt: string;
+  }>({
+    url: `/api/issues/${issueId}`,
+    method: 'GET',
+  });
+}
+
+export function updateIssueStatus(
+  issueId: string,
+  status: string,
+  selectedIdeaId?: string,
+  memo?: string,
+  connectionId?: string,
+) {
+  return getAPIResponseData<{
+    id: string;
+    title: string;
+    status: string;
+    topicId?: string | null;
+    createdAt: string;
+    updatedAt: string;
+  }>({
+    url: `/api/issues/${issueId}/status`,
+    method: 'PATCH',
+    headers: withSseHeader({ 'Content-Type': 'application/json' }, connectionId),
+    body: JSON.stringify({ status, selectedIdeaId, memo }),
+  });
+}
+
+export function updateIssueTitle(issueId: string, title: string, connectionId?: string) {
+  return getAPIResponseData<{ id: string }>({
+    url: `/api/issues/${issueId}`,
+    method: 'PATCH',
+    headers: withSseHeader({ 'Content-Type': 'application/json' }, connectionId),
+    body: JSON.stringify({ title }),
+  });
+}
+
+export function deleteIssue(issueId: string, connectionId?: string) {
+  return getAPIResponseData<{ id: string; topicId: string | null }>({
+    url: `/api/issues/${issueId}`,
+    method: 'DELETE',
+    headers: withSseHeader(undefined, connectionId),
+  });
+}
+
+/* =========================
+ * Issue Members
+ * ========================= */
+
+export function getIssueMembers(issueId: string) {
+  return getAPIResponseData<
+    Array<{
+      id: string;
+      nickname: string;
+      role: string;
+      profile?: string | null;
+      isConnected: boolean;
+    }>
+  >({
+    url: `/api/issues/${issueId}/members`,
+    method: 'GET',
+  });
+}
+
+export function getIssueMember(issueId: string, userId: string) {
+  return getAPIResponseData<{
+    id: string;
+    nickname: string;
+    role: string;
+  }>({
+    url: `/api/issues/${issueId}/members/${userId}`,
+    method: 'GET',
+  });
+}
+
+export function joinIssue(issueId: string, nickname: string, connectionId?: string) {
+  return getAPIResponseData<{
+    userId: string;
+  }>({
+    url: `/api/issues/${issueId}/members`,
+    method: 'POST',
+    headers: withSseHeader({ 'Content-Type': 'application/json' }, connectionId),
+    body: JSON.stringify({ nickname }),
+  });
+}
+
+export function joinIssueAsLoggedInUser(issueId: string, connectionId?: string) {
+  return getAPIResponseData<{
+    userId: string;
+  }>({
+    url: `/api/issues/${issueId}/members`,
+    method: 'POST',
+    headers: withSseHeader({ 'Content-Type': 'application/json' }, connectionId),
+    body: JSON.stringify({}),
+  });
+}
+
+export function generateNickname(issueId: string) {
+  return getAPIResponseData<{
+    nickname: string;
+  }>({
+    url: `/api/issues/${issueId}/members/nickname`,
+    method: 'POST',
+  });
+}
+
+export function updateIssueMemberNickname(issueId: string, userId: string, nickname: string) {
+  return getAPIResponseData<{
+    success: boolean;
+  }>({
+    url: `/api/issues/${issueId}/members/${userId}`,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nickname }),
+  });
+}
+
+/* =========================
+ * AI / Structuring
+ * ========================= */
+
+export function categorizeIdeas(issueId: string) {
+  return getAPIResponseData<{
+    categories: Array<{ id: string }>;
+    ideaCategoryMap: Record<string, string>;
+  }>({
+    url: `/api/issues/${issueId}/categorize`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+/* =========================
+ * Selected Idea
+ * ========================= */
+
+export function selectIdea(issueId: string, selectedIdeaId: string, connectionId?: string) {
+  return getAPIResponseData<{
+    ok: boolean;
+  }>({
+    url: `/api/issues/${issueId}/ideas/${selectedIdeaId}/select`,
+    method: 'POST',
+    headers: withSseHeader(undefined, connectionId),
+  });
+}
+
+export function createIssueInTopic(topicId: string, title: string) {
+  return getAPIResponseData<{
+    issueId: string;
+  }>({
+    url: `/api/topics/${topicId}/issues`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title }),
+  });
+}
+
+/* =========================
+ * Close Modal
+ * ========================= */
+
+export function updateCloseModalMemo(issueId: string, memo: string, connectionId?: string) {
+  return getAPIResponseData<{
+    success: boolean;
+  }>({
+    url: `/api/issues/${issueId}/close-modal`,
+    method: 'PATCH',
+    headers: withSseHeader({ 'Content-Type': 'application/json' }, connectionId),
+    body: JSON.stringify({ memo }),
+  });
+}
+
+export function deleteCloseModal(issueId: string, connectionId?: string) {
+  return getAPIResponseData<{
+    success: boolean;
+  }>({
+    url: `/api/issues/${issueId}/close-modal`,
+    method: 'DELETE',
+    headers: withSseHeader(undefined, connectionId),
+  });
+}
