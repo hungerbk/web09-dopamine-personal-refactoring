@@ -1,6 +1,6 @@
 ﻿import { useState } from 'react';
 import { DragEndEvent, DragStartEvent, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
-import type { IdeaWithPosition, Position } from '@/app/(with-sidebar)/issue/types/idea';
+import type { IdeaWithPosition, Position } from '@/app/(with-sidebar)/issues/types/idea';
 
 interface UseDragAndDropProps {
   ideas: IdeaWithPosition[];

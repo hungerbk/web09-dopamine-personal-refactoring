@@ -6,13 +6,13 @@ import { notFound, useParams, usePathname, useRouter } from 'next/navigation';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import Canvas from '@/app/(with-sidebar)/issue/_components/canvas/canvas';
-import CategoryCard from '@/app/(with-sidebar)/issue/_components/category/category-card';
-import CommentWindow from '@/app/(with-sidebar)/issue/_components/comment/comment-window';
-import FilterPanel from '@/app/(with-sidebar)/issue/_components/filter-panel/filter-panel';
-import IdeaCard from '@/app/(with-sidebar)/issue/_components/idea-card/idea-card';
-import { Wrapper } from '@/app/(with-sidebar)/issue/_components/idea-card/idea-card.styles';
-import { useCanvasStore } from '@/app/(with-sidebar)/issue/store/use-canvas-store';
+import Canvas from '@/app/(with-sidebar)/issues/_components/canvas/canvas';
+import CategoryCard from '@/app/(with-sidebar)/issues/_components/category/category-card';
+import CommentWindow from '@/app/(with-sidebar)/issues/_components/comment/comment-window';
+import FilterPanel from '@/app/(with-sidebar)/issues/_components/filter-panel/filter-panel';
+import IdeaCard from '@/app/(with-sidebar)/issues/_components/idea-card/idea-card';
+import { Wrapper } from '@/app/(with-sidebar)/issues/_components/idea-card/idea-card.styles';
+import { useCanvasStore } from '@/app/(with-sidebar)/issues/store/use-canvas-store';
 import { ErrorPage } from '@/components/error/error';
 import LoadingOverlay from '@/components/loading-overlay/loading-overlay';
 import { useModalStore } from '@/components/modal/use-modal-store';
@@ -38,7 +38,7 @@ import { useSseConnectionStore } from '../store/use-sse-connection-store';
 const IssuePage = () => {
   const params = useParams<{ id: string; issueId?: string }>();
   const pathname = usePathname();
-  const issueIdFromPath = pathname?.split('/issue/')[1]?.split('/')[0] ?? '';
+  const issueIdFromPath = pathname?.split('/issues/')[1]?.split('/')[0] ?? '';
   const issueId =
     params.issueId ?? (Array.isArray(params.id) ? params.id[0] : (params.id ?? issueIdFromPath));
   const router = useRouter();
@@ -164,7 +164,7 @@ const IssuePage = () => {
   // 이슈가 종료된 경우 summary 페이지로 리다이렉트
   useEffect(() => {
     if (status === ISSUE_STATUS.CLOSE && issueId) {
-      router.replace(`/issue/${issueId}/summary`);
+      router.replace(`/issues/${issueId}/summary`);
     }
   }, [status, issueId, router]);
 

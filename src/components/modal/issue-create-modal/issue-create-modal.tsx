@@ -36,7 +36,7 @@ export default function CreateIssueModal() {
       {
         onSuccess: (newIssue) => {
           closeModal();
-          router.push(`/issue/${newIssue.issueId}`);
+          router.push(`/issues/${newIssue.issueId}`);
         },
       },
     );

@@ -22,7 +22,7 @@ function TopicNode({ id, data }: NodeProps<Node<TopicNodeData>>) {
   const dimmed = hoveredNodeId ? !connectedNodeIds.has(id) : false;
 
   const handleClick = useCallback(() => {
-    router.push(`/issue/${id}`);
+    router.push(`/issues/${id}`);
   }, [id, router]);
 
   return (

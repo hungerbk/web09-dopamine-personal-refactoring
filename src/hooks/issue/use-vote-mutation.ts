@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issue/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
 import { postVote } from '@/lib/api/vote';
-import type { IdeaWithPosition } from '@/app/(with-sidebar)/issue/types/idea';
+import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/types/idea';
 
 export const useVoteMutation = (issueId: string, ideaId: string) => {
   const queryClient = useQueryClient();

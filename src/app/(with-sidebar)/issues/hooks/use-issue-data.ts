@@ -1,4 +1,4 @@
-import { useIssueStore } from '@/app/(with-sidebar)/issue/store/use-issue-store';
+import { useIssueStore } from '@/app/(with-sidebar)/issues/store/use-issue-store';
 import { ISSUE_STATUS } from '@/constants/issue';
 import { IssueStatus } from '@/types/issue';
 import { useIssueMemberQuery, useIssueQuery } from '@/hooks/issue';

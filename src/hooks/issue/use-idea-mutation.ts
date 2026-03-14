@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issue/store/use-sse-connection-store';
-import type { IdeaWithPosition } from '@/app/(with-sidebar)/issue/types/idea';
+import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
+import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/types/idea';
 import {
   createIdea as createIdeaAPI,
   deleteIdea as deleteIdeaAPI,

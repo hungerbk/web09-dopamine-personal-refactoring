@@ -55,7 +55,7 @@ export default function IssueSidebar() {
               <SidebarItem
                 key={issue.id}
                 title={issue.title}
-                href={`/issue/${issue.id}`}
+                href={`/issues/${issue.id}`}
                 status={issue.status as any}
               />
             ))}

@@ -4,8 +4,8 @@ import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styled from '@emotion/styled';
-import IssueHeader from '@/app/(with-sidebar)/issue/_components/header/header';
-import IssueSidebar from '@/app/(with-sidebar)/issue/_components/layout/issue-sidebar';
+import IssueHeader from '@/app/(with-sidebar)/issues/_components/header/header';
+import IssueSidebar from '@/app/(with-sidebar)/issues/_components/layout/issue-sidebar';
 import TopicHeader from '@/app/(with-sidebar)/topic/_components/header/topic-header';
 import TopicSidebar from '@/app/(with-sidebar)/topic/_components/layout/topic-sidebar';
 import {

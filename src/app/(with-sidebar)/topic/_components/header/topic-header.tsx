@@ -7,7 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
 import { useTopicDetailQuery } from '@/hooks/topic';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as HS from '../../../issue/_components/header/header.styles';
+import * as HS from '../../../issues/_components/header/header.styles';
 import CreateIssueButton from '../create-issue-button/create-issue-button';
 import EditTopicButton from '../edit-topic-button/edit-topic-button';
 import * as S from './topic-header.styles';

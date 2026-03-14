@@ -3,7 +3,7 @@
 import Sidebar from '@/components/sidebar/sidebar';
 import SidebarItem from '@/components/sidebar/sidebar-item';
 import * as S from '@/components/sidebar/sidebar.styles';
-import NewIssueButton from '@/app/(with-sidebar)/issue/_components/layout/new-issue-button';
+import NewIssueButton from '@/app/(with-sidebar)/issues/_components/layout/new-issue-button';
 import { useTopicSidebar } from './use-topic-sidebar';
 
 export default function TopicSidebar() {
@@ -33,7 +33,7 @@ export default function TopicSidebar() {
               <SidebarItem
                 key={issue.id}
                 title={issue.title}
-                href={`/issue/${issue.id}`}
+                href={`/issues/${issue.id}`}
                 status={issue.status as any}
               />
             ))}

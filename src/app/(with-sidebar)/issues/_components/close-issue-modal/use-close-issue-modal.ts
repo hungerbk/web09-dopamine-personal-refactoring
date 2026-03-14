@@ -130,7 +130,7 @@ export function useCloseIssueModal({ issueId, isOwner }: UseCloseIssueModalParam
       await broadcastClose();
 
       closeModal();
-      router.push(`/issue/${issueId}/summary`);
+      router.push(`/issues/${issueId}/summary`);
     } catch (error) {
       console.error('이슈 종료 실패:', error);
       toast.error('이슈 종료에 실패했습니다. 다시 시도해주세요.');

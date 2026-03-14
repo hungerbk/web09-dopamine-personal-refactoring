@@ -50,7 +50,7 @@ export const useTopicSidebar = () => {
   const router = useRouter();
 
   const handleIssueClick = useCallback((issueId: string) => {
-    router.push(`/issue/${issueId}`);
+    router.push(`/issues/${issueId}`);
   }, [router]);
 
   return {

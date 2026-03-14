@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useCanvasStore } from '@/app/(with-sidebar)/issue/store/use-canvas-store';
+import { useCanvasStore } from '@/app/(with-sidebar)/issues/store/use-canvas-store';
 import { ISSUE_STATUS, MEMBER_ROLE } from '@/constants/issue';
 import { useTopicId } from '@/hooks';
 import {
@@ -135,7 +135,7 @@ export function useHeader({ issueId }: UseHeaderParams) {
 
   // URL 공유
   const handleCopyURL = () => {
-    const textToCopy = `${window.location.origin}/issue/${issueId}`;
+    const textToCopy = `${window.location.origin}/issues/${issueId}`;
     copyToClipboard(textToCopy);
   };
 

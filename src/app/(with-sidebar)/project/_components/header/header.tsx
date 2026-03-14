@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import HeaderButton from '@/app/(with-sidebar)/issue/_components/header/header-button';
+import HeaderButton from '@/app/(with-sidebar)/issues/_components/header/header-button';
 import { useInviteProjectModal } from '@/components/modal/invite-project-modal/use-invite-project-modal';
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
 import { useProjectQuery } from '@/hooks/project';

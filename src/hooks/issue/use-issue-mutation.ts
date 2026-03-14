@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issue/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
 import { ISSUE_STATUS, STEP_FLOW } from '@/constants/issue';
 import {
   createIssueInTopic,

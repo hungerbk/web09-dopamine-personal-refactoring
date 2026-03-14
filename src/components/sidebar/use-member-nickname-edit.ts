@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useUpdateNicknameMutation } from '@/hooks/issue/use-issue-member-mutation';
+import { useUpdateNicknameMutation } from '@/hooks/issues/use-issue-member-mutation';
 
 interface UseMemberNicknameEditProps {
   issueId?: string;

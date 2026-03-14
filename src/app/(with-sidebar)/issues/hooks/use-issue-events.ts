@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import CloseIssueModal from '@/app/(with-sidebar)/issue/_components/close-issue-modal/close-issue-modal';
+import CloseIssueModal from '@/app/(with-sidebar)/issues/_components/close-issue-modal/close-issue-modal';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { ISSUE_STATUS, MEMBER_ROLE } from '@/constants/issue';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';

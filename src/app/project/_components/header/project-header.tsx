@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as HS from '../../../(with-sidebar)/issue/_components/header/header.styles';
+import * as HS from '../../../(with-sidebar)/issues/_components/header/header.styles';
 import * as S from './project-header.styles';
 
 const ProjectHeader = () => {

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { Category } from '@/app/(with-sidebar)/issue/types/category';
+import type { Category } from '@/app/(with-sidebar)/issues/types/category';
 import { fetchCategories } from '@/lib/api/category';
 import type { Category as DbCategory } from '@/types/category';
 

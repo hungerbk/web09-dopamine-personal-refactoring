@@ -1,7 +1,7 @@
 'use client';
 
 import { useModalStore } from '@/components/modal/use-modal-store';
-import HeaderButton from '../../../issue/_components/header/header-button';
+import HeaderButton from '../../../issues/_components/header/header-button';
 import TopicModal from '../topic-modal/topic-modal';
 
 export default function CreateTopicButton() {

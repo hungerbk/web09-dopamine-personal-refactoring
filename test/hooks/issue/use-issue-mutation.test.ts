@@ -4,7 +4,7 @@
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issue/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
 import { ISSUE_STATUS } from '@/constants/issue';
 import {
   useCreateIssueInTopicMutation,
@@ -33,7 +33,7 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹
-jest.mock('@/app/(with-sidebar)/issue/store/use-sse-connection-store', () => ({
+jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn(),
 }));
 
