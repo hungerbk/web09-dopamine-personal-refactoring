@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/types/idea';
+import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/_types/idea';
 import type { SimpleIdea } from '@/app/(with-sidebar)/issues/_types';
 import { fetchIdeas } from '@/lib/api/idea';
 

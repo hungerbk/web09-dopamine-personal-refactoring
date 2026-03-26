@@ -4,7 +4,7 @@ import { useTooltipStore } from '@/components/tooltip/use-tooltip-store';
 import { ISSUE_STATUS, VOTE_TYPE } from '@/constants/issue';
 import type { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import { useVoteMutation } from '@/hooks/issues';
-import { CardStatus } from '../../types/idea';
+import { CardStatus } from '@/app/(with-sidebar)/issues/_types/idea';
 
 interface UseIdeaCardProps {
   id?: string;

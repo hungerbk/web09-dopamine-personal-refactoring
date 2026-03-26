@@ -1,7 +1,7 @@
 'use client';
 
 import { theme } from '@/styles/theme';
-import type { Position } from '../../types/idea';
+import type { Position } from '@/app/(with-sidebar)/issues/_types/idea';
 import { useCanvasContext } from '../canvas/canvas-context';
 import CategoryCardHeader from './category-card-header';
 import { ChildrenWrapper, StyledCategoryCard } from './category-card.styles';

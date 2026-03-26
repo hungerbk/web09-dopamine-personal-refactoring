@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { CardStatus } from '../../types/idea';
+import type { CardStatus } from '@/app/(with-sidebar)/issues/_types/idea';
 import * as S from './idea-card.styles';
 
 interface IdeaCardBadgeProps {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { Position } from '../types/idea';
+import type { Position } from '@/app/(with-sidebar)/issues/_types/idea';
 
 interface UseDraggableProps {
   initialPosition: Position;

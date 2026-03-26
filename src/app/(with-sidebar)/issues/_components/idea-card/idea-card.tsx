@@ -10,32 +10,18 @@ import { theme } from '@/styles/theme';
 import { useIssueData, useIssueIdentity } from '../../hooks';
 import { useCommentWindowStore } from '../../store/use-comment-window-store';
 import { useIdeaCardStackStore } from '../../store/use-idea-card-stack-store';
-import type { CardStatus, Position } from '../../types/idea';
+import type { IdeaWithPosition, CardStatus, Position } from '@/app/(with-sidebar)/issues/_types/idea';
 import IdeaCardBadge from './idea-card-badge';
 import IdeaCardFooter from './idea-card-footer';
 import IdeaCardHeader from './idea-card-header';
 import * as S from './idea-card.styles';
 import { useIdeaCard } from './use-idea-card';
 
-interface IdeaCardProps {
-  id: string;
+interface IdeaCardProps extends Omit<IdeaWithPosition, 'comments' | 'needDiscussion'> {
   issueId: string;
-  content: string;
-  author: string;
-  userId: string;
-  position: Position | null;
-  isSelected?: boolean;
-  isVoteButtonVisible?: boolean;
-  isVoteDisabled?: boolean;
-  agreeCount?: number;
-  disagreeCount?: number;
-  myVote?: 'AGREE' | 'DISAGREE' | null;
-  commentCount?: number;
-  editable?: boolean;
   status?: CardStatus;
   isHotIdea?: boolean;
   onVoteChange?: (agreeCount: number, disagreeCount: number) => void;
-  categoryId?: string | null;
   onSave?: (id: string, content: string) => void;
   onDelete?: (id: string) => void;
   onClick?: (id: string) => void;

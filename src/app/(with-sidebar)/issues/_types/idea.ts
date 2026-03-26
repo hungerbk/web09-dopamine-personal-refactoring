@@ -6,6 +6,7 @@ export interface CreateIdeaRequest {
   categoryId: string | null;
 }
 
+
 export interface Idea {
   id: string;
   issueId: string;
@@ -61,3 +62,21 @@ export interface SimpleIdea {
   isSelected: boolean;
   createdAt: Date | string;
 }
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface IdeaWithPosition extends Pick<Idea, 'id' | 'userId' | 'content' | 'categoryId' | 'myVote' | 'agreeCount' | 'disagreeCount' | 'comments'> {
+  author: string;
+  position: Position | null;
+  commentCount?: number;
+  isSelected?: boolean;
+  isVoteButtonVisible?: boolean;
+  isVoteDisabled?: boolean;
+  needDiscussion?: boolean;
+  editable?: boolean;
+}
+
+export type CardStatus = 'mostLiked' | 'needDiscussion' | 'selected' | 'default';

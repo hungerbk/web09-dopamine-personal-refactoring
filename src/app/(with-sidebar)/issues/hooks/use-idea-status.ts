@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { CardStatus } from '../types/idea';
+import { CardStatus } from '@/app/(with-sidebar)/issues/_types/idea';
 import { FilterType } from './use-filter-idea';
 
 export const useIdeaStatus = (filteredIds: Set<string>, activeFilter: FilterType) => {
