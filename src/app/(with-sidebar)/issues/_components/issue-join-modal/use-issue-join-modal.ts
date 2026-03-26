@@ -3,11 +3,7 @@ import toast from 'react-hot-toast';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { useIssueMemberMutations, useNicknameMutations } from '@/hooks/issues';
 
-export interface IssueJoinModalProps {
-  issueId: string;
-}
-
-export function useIssueJoinModal({ issueId }: IssueJoinModalProps) {
+export function useIssueJoinModal({ issueId }: { issueId: string }) {
   const { closeModal, setIsPending, isOpen } = useModalStore();
 
   const { generate } = useNicknameMutations(issueId);
