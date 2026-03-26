@@ -3,8 +3,15 @@
 import { useSession } from 'next-auth/react';
 import SocialLogin from '@/components/social-login/social-login';
 import { useInvitationMutations } from '@/hooks';
-import { InvitationInfoResponse } from '@/lib/api/invitation';
 import * as S from './pags.styles';
+
+interface InvitationInfoResponse {
+  isValid: boolean;
+  projectId: string;
+  projectTitle: string;
+  ownerName: string;
+  memberCount: number;
+}
 
 interface InvitationContainerprops {
   data: InvitationInfoResponse;

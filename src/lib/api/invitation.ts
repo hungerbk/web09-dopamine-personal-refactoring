@@ -11,13 +11,7 @@ interface CreateInvitationResponse {
   invitees: Invitee[];
 }
 
-export interface InvitationInfoResponse {
-  isValid: boolean;
-  projectId: string;
-  projectTitle: string;
-  ownerName: string;
-  memberCount: number;
-}
+
 
 export const createInvitation = (projectId: string, emails: string[]) => {
   return getAPIResponseData<CreateInvitationResponse>({
