@@ -1,8 +1,13 @@
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { type CreateTopicData, createTopic, deleteTopic, updateTopicTitle } from '@/lib/api/topic';
+import { createTopic, deleteTopic, updateTopicTitle } from '@/lib/api/topic';
 import type { ProjectwithTopic } from '@/app/projects/_types';
+
+interface CreateTopicData {
+  title: string;
+  projectId: string;
+}
 
 export const useCreateTopicMutation = () => {
   const queryClient = useQueryClient();
