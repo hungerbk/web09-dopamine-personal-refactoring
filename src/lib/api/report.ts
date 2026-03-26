@@ -3,12 +3,12 @@
  */
 import getAPIResponseData from '@/lib/utils/api-response';
 
-export interface WordCloudItem {
+interface WordCloudItem {
   word: string;
   count: number;
 }
 
-export interface WordCloudResponse {
+interface WordCloudResponse {
   wordClouds: Array<{
     id: string;
     word: string;

@@ -223,7 +223,7 @@ export function getTopNWords(
 /**
  * ideas, comments, memo에서 텍스트를 추출하여 워드클라우드 데이터를 생성합니다
  */
-export interface WordCloudSource {
+interface WordCloudSource {
   ideas: Array<{ content: string }>;
   comments: Array<{ content: string }>;
   memo: string | null;

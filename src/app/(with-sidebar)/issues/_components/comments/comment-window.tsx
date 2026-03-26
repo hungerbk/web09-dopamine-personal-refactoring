@@ -8,7 +8,7 @@ import * as S from './comment-window.styles';
 import { useCommentList } from './hooks/use-comment-list';
 import { getCommentErrorMessage, useCommentWindow } from './hooks/use-comment-window';
 
-export interface CommentWindowProps {
+interface CommentWindowProps {
   issueId: string;
   ideaId: string;
   userId: string;
