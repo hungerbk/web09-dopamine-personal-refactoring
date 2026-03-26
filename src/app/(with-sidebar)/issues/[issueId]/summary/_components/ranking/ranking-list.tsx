@@ -8,7 +8,7 @@ import CategorizedListClient from './categorized-list';
 import NormalList from './normal-list';
 import * as S from './ranking-list.styles';
 
-type RankingListProps = {
+interface RankingListProps {
   normalRankings: RankedIdeaDto[];
   categorizedRankings: CategoryRanking[];
 };

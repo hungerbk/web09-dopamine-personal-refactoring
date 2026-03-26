@@ -7,7 +7,7 @@ import type { RankedIdeaDto } from '@/app/(with-sidebar)/issues/_types';
 import * as DS from './dialog.styles';
 import * as S from './normal-list.styles';
 
-type NormalListProps = {
+interface NormalListProps {
   normalRankings: RankedIdeaDto[];
 };
 

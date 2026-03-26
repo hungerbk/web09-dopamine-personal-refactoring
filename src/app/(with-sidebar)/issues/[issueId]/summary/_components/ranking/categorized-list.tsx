@@ -8,7 +8,7 @@ import type { CategoryRanking } from '@/app/(with-sidebar)/issues/_types';
 import * as S from './categorized-list.styles';
 import * as DS from './dialog.styles';
 
-type CategorizedListProps = {
+interface CategorizedListProps {
   categorizedRankings: CategoryRanking[];
 };
 

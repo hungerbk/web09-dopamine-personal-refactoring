@@ -1,6 +1,6 @@
 import getAPIResponseData from '../utils/api-response';
 
-export type Topic = {
+export interface Topic {
   id: string;
   title: string;
   projectId: string;

@@ -5,7 +5,7 @@ import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 import { createCategory, deleteCategory, updateCategory } from '@/lib/api/category';
 import type { Category } from '@/app/(with-sidebar)/issues/_types';
 
-type CategoryPayload = {
+interface CategoryPayload {
   title: string;
   positionX?: number;
   positionY?: number;

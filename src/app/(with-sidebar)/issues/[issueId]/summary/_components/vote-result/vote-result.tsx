@@ -3,7 +3,7 @@
 import * as PS from '../../page.styles';
 import * as S from './vote-result.styles';
 
-type VoteResultProps = {
+interface VoteResultProps {
   participants: number;
   totalVotes: number;
   maxCommentCount: number;

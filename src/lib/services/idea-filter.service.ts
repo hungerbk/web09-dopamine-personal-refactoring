@@ -1,6 +1,6 @@
 import { FilterType } from '@/app/(with-sidebar)/issues/hooks';
 
-type IdeaVoteSnapshot = {
+interface IdeaVoteSnapshot {
   id: string;
   agreeCount?: number;
   disagreeCount?: number;
