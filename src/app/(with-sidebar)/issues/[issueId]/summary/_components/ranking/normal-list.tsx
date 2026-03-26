@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { VOTE_TYPE } from '@/constants/issue';
-import type { RankedIdeaDto } from '@/types/report';
+import type { RankedIdeaDto } from '@/app/(with-sidebar)/issues/_types';
 import * as DS from './dialog.styles';
 import * as S from './normal-list.styles';
 
-type NormalListProps = {
+interface NormalListProps {
   normalRankings: RankedIdeaDto[];
 };
 

@@ -2,8 +2,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useCategoryMutations, useCategoryQuery } from '@/hooks/issues';
 import { generateUniqueCategoryName } from '@/lib/utils/category';
-import type { Position } from '@/app/(with-sidebar)/issues/types/idea';
-import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/types/idea';
+import type { Position } from '@/app/(with-sidebar)/issues/_types/idea';
+import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/_types/idea';
 
 export function useCategoryOperations(issueId: string, ideas: IdeaWithPosition[], scale: number) {
   const categorySizesRef = useRef<Map<string, { width: number; height: number }>>(new Map());

@@ -1,7 +1,7 @@
 import getAPIResponseData from '../utils/api-response';
 import { withSseHeader } from '../utils/with-sse-header';
 
-export type Comment = {
+export interface Comment {
   id: string;
   content: string;
   createdAt: Date | string;

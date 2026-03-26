@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-type Theme = {
+interface Theme {
   colors?: {
     surface: string;
     surfaceMuted: string;

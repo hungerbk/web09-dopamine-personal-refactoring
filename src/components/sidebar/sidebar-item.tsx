@@ -1,5 +1,5 @@
 import { STATUS_LABEL } from '@/constants/issue';
-import { IssueStatus } from '@/types/issue';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
 import * as S from './sidebar.styles';
 
 interface SidebarItemProps {

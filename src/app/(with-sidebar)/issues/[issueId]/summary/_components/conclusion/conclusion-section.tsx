@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import * as S from './conclusion-section.styles';
 
-type ConclusionSectionProps = {
+interface ConclusionSectionProps {
   badgeText?: string;
   title: string;
   votes: number;

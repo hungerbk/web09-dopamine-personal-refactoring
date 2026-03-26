@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useIdeaCardStackStore } from '@/app/(with-sidebar)/issues/store/use-idea-card-stack-store';
-import type { IdeaWithPosition, Position } from '@/app/(with-sidebar)/issues/types/idea';
+import type { IdeaWithPosition, Position } from '@/app/(with-sidebar)/issues/_types/idea';
 import { ISSUE_STATUS } from '@/constants/issue';
 import { useIdeaMutations, useSelectedIdeaMutation } from '@/hooks/issues';
 import { useIdeasWithTemp } from './use-ideas-with-temp';

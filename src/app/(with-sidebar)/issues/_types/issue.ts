@@ -4,7 +4,7 @@ export type IssueStatus = (typeof ISSUE_STATUS)[keyof typeof ISSUE_STATUS];
 
 type MemberRole = (typeof MEMBER_ROLE)[keyof typeof MEMBER_ROLE];
 
-export type IssueMember = {
+export interface IssueMember {
   id: string;
   nickname: string;
   role: MemberRole;
@@ -12,7 +12,7 @@ export type IssueMember = {
 };
 
 // 완전한 Issue 타입 (DB 스키마 기반)
-export type Issue = {
+export interface Issue {
   id: string;
   topicId: string | null;
   title: string;
@@ -26,14 +26,14 @@ export type Issue = {
 // 특정 용도에 맞는 Issue 타입들
 export type IssueMapData = Pick<Issue, 'id' | 'title' | 'status' | 'createdAt' | 'updatedAt'>;
 
-export type IssueNode = {
+export interface IssueNode {
   id: string;
   issueId: string;
   positionX: number;
   positionY: number;
 };
 
-export type IssueConnection = {
+export interface IssueConnection {
   id: string;
   sourceIssueId: string;
   targetIssueId: string;

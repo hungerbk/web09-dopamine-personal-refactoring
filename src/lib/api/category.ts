@@ -1,8 +1,8 @@
-import type { Category } from '@/types/category';
+import type { Category } from '@/app/(with-sidebar)/issues/_types';
 import getAPIResponseData from '../utils/api-response';
 import { withSseHeader } from '../utils/with-sse-header';
 
-type CategoryPayload = {
+interface CategoryPayload {
   title: string;
   positionX?: number;
   positionY?: number;

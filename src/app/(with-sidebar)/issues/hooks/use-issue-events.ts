@@ -11,7 +11,7 @@ import { deleteCloseModal } from '@/lib/api/issue';
 import { useIssueStore } from '../store/use-issue-store';
 import { useSseConnectionStore } from '../store/use-sse-connection-store';
 import { useIdeasWithTemp } from './use-ideas-with-temp';
-import type { IdeaWithPosition } from '../types/idea';
+import type { IdeaWithPosition } from '@/app/(with-sidebar)/issues/_types/idea';
 
 interface UseIssueEventsParams {
   issueId: string;

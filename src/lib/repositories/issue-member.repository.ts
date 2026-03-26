@@ -1,7 +1,7 @@
 import { IssueRole } from '@prisma/client';
 import { prisma } from '../prisma';
 import { createAnonymousUser } from './user.repository';
-import { PrismaTransaction } from '@/types/prisma';
+import { PrismaTransaction } from '@/types';
 
 export const issueMemberRepository = {
   async joinLoggedInMember(issueId: string, userId: string, baseName: string) {

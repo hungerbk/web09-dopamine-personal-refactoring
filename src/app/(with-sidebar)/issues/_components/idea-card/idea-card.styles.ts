@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { ISSUE_STATUS, VOTE_TYPE } from '@/constants/issue';
 import { theme } from '@/styles/theme';
-import { IssueStatus } from '@/types/issue';
-import { CardStatus } from '../../types/idea';
+import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
+import { CardStatus } from '@/app/(with-sidebar)/issues/_types/idea';
 
 export const Wrapper = styled.div`
   position: relative;

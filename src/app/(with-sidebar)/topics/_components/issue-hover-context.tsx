@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
 
-type IssueHoverContextValue = {
+interface IssueHoverContextValue {
   hoveredNodeId: string | null;
   connectedNodeIds: ReadonlySet<string>;
 };

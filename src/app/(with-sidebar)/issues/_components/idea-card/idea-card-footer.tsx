@@ -1,7 +1,7 @@
 'use client';
 
 import { VOTE_TYPE } from '@/constants/issue';
-import type { CardStatus } from '../../types/idea';
+import type { CardStatus } from '@/app/(with-sidebar)/issues/_types/idea';
 import * as S from './idea-card.styles';
 
 type VoteType = (typeof VOTE_TYPE)[keyof typeof VOTE_TYPE];

@@ -10,16 +10,6 @@ export interface SSEConnectionInfo {
   userId: string | null;
 }
 
-export interface SSEManagerStats {
-  [issueId: string]: number;
-}
-
-export interface CreateStreamParams {
-  issueId: string;
-  userId: string;
-  signal: AbortSignal;
-}
-
 export interface BroadcastingEvent {
   issueId: string;
   event: SSEEvent;

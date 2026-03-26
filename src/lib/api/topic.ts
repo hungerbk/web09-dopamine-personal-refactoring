@@ -1,6 +1,6 @@
 import getAPIResponseData from '../utils/api-response';
 
-export type Topic = {
+export interface Topic {
   id: string;
   title: string;
   projectId: string;
@@ -15,10 +15,6 @@ export function getTopic(topicId: string): Promise<Topic> {
   });
 }
 
-export interface CreateTopicData {
-  title: string;
-  projectId: string;
-}
 
 export function createTopic(title: string, projectId: string) {
   return getAPIResponseData<{ id: string; title: string }>({

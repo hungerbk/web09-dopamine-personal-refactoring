@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { applyNodeChanges } from '@xyflow/react';
 import type { Node, NodeChange } from '@xyflow/react';
 import { ISSUE_STATUS } from '@/constants/issue';
-import { IssueConnection, IssueMapData, IssueNode } from '@/types/issue';
+import { IssueConnection, IssueMapData, IssueNode } from '@/app/(with-sidebar)/issues/_types';
 import { useTopicMutations, useTopicQuery } from '@/hooks/topics';
 import { TopicNodeData } from '../issue-node/issue-node';
 

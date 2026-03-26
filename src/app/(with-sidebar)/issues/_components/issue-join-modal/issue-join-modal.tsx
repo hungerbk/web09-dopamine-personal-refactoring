@@ -3,7 +3,11 @@
 import { useEffect, useRef } from 'react';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import * as S from './issue-join-modal.styles';
-import { IssueJoinModalProps, useIssueJoinModal } from './use-issue-join-modal';
+import { useIssueJoinModal } from './use-issue-join-modal';
+
+interface IssueJoinModalProps {
+  issueId: string;
+}
 
 export default function IssueJoinModal({ issueId }: IssueJoinModalProps) {
   const { nickname, isLoading, setNickname, handleJoin, isOpen } = useIssueJoinModal({ issueId });
