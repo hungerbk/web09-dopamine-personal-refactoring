@@ -1,5 +1,5 @@
 import * as projectRepository from '@/lib/repositories/project.repository';
-import type { ProjectListItem } from '@/app/projects/_types';
+import type { ProjectListItem } from '@/projects/types';
 
 export async function getProjectListForUser(userId: string): Promise<ProjectListItem[]> {
   const projects = await projectRepository.getProjectsByUserMembership(userId);

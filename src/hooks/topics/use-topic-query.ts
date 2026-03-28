@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getTopicConnections, getTopicIssues, getTopicNodes } from '@/lib/api/issue-map';
 import { getTopic } from '@/lib/api/topic';
 import { ApiError } from '@/lib/utils/api-response';
-import type { IssueConnection, IssueMapData, IssueNode } from '@/app/(with-sidebar)/issues/_types';
+import type { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
 
 // 초기 데이터는 서버 컴포넌트에서 주입하고, invalidateQueries로 갱신
 export const useTopicQuery = (

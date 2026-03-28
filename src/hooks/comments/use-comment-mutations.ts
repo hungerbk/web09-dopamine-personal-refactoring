@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { type Comment, createComment, deleteComment, updateComment } from '@/lib/api/comment';
 import { getCommentQueryKey } from './use-comment-query';
 

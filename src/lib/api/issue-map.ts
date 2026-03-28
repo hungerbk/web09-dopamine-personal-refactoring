@@ -1,4 +1,4 @@
-import type { IssueConnection, IssueMapData, IssueNode } from '@/app/(with-sidebar)/issues/_types';
+import type { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
 import getAPIResponseData from '../utils/api-response';
 
 interface CreateConnectionPayload {

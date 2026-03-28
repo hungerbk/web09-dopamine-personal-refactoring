@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { createTopic, deleteTopic, updateTopicTitle } from '@/lib/api/topic';
-import type { ProjectwithTopic } from '@/app/projects/_types';
+import type { ProjectwithTopic } from '@/projects/types';
 
 interface CreateTopicData {
   title: string;

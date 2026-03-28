@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { InputTitle } from '@/app/projects/_components/project-create-modal/project-create-modal.styles';
+import { InputTitle } from '@/projects/components/project-create-modal/project-create-modal.styles';
 import { theme } from '@/styles/theme';
 
 export * from '@/components/modal/issue-create-modal/issue-create-modal.styles';
-export * from '@/app/projects/_components/project-create-modal/project-create-modal.styles';
+export * from '@/projects/components/project-create-modal/project-create-modal.styles';
 
 export const InfoContainer = styled.div`
   display: flex;
