@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import * as S from '@/app/(with-sidebar)/issues/_components/issue-join-modal/issue-join-modal.styles';
+import * as S from '@/issues/components/issue-join-modal/issue-join-modal.styles';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_ISSUE_TITLE_LENGTH } from '@/constants/issue';
 import { useCreateIssueInTopicMutation, useTopicId } from '@/hooks';

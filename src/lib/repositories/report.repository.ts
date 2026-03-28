@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { PrismaTransaction } from '@/types';
-import { ReportWithDetails } from '@/app/(with-sidebar)/issues/_types';
+import { ReportWithDetails } from '@/issues/types';
 
 type PrismaClientOrTx = PrismaTransaction | typeof prisma;
 

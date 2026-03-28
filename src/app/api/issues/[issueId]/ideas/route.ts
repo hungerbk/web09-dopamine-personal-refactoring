@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { FilterType } from '@/app/(with-sidebar)/issues/hooks';
+import type { FilterType } from '@/issues/hooks';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { ideaRepository } from '@/lib/repositories/idea.repository';
 import { ideaFilterService } from '@/lib/services/idea-filter.service';

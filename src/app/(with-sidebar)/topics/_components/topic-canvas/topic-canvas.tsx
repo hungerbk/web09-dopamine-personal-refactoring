@@ -5,7 +5,7 @@ import { MarkerType, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { EDGE_STYLE } from '@/constants/topic';
 import { theme } from '@/styles/theme';
-import { IssueConnection, IssueMapData, IssueNode } from '@/app/(with-sidebar)/issues/_types';
+import { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
 import TopicEdge from '../issue-connection/Issue-edge';
 import TopicConnectionLine from '../issue-connection/issue-connection-line';
 import { IssueHoverProvider } from '../issue-hover-context';

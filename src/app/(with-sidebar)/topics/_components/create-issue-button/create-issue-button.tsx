@@ -1,7 +1,7 @@
 'use client';
 
 import { useModalStore } from '@/components/modal/use-modal-store';
-import HeaderButton from '../../../issues/_components/header/header-button';
+import HeaderButton from '@/issues/components/header/header-button';
 import CreateIssueModal from '../create-issue-modal/create-issue-modal';
 
 export default function CreateIssueButton() {

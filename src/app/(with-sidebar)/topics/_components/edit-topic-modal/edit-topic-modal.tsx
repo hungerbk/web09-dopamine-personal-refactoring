@@ -2,8 +2,8 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import * as MS from '@/app/(with-sidebar)/issues/_components/edit-issue-modal/edit-issue-modal.styles';
-import * as S from '@/app/(with-sidebar)/issues/_components/issue-join-modal/issue-join-modal.styles';
+import * as MS from '@/issues/components/edit-issue-modal/edit-issue-modal.styles';
+import * as S from '@/issues/components/issue-join-modal/issue-join-modal.styles';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_TOPIC_TITLE_LENGTH } from '@/constants/topic';
 import { useDeleteTopicMutation, useUpdateTopicTitleMutation } from '@/hooks';

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { ISSUE_STATUS, STEP_FLOW } from '@/constants/issue';
 import {
   createIssueInTopic,
@@ -11,7 +11,7 @@ import {
   updateIssueTitle,
 } from '@/lib/api/issue';
 import { setUserIdForIssue } from '@/lib/storage/issue-user-storage';
-import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
+import { IssueStatus } from '@/issues/types';
 
 interface DbIssue {
   id: string;

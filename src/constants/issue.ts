@@ -1,4 +1,4 @@
-import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
+import { IssueStatus } from '@/issues/types';
 
 export const ISSUE_STATUS = {
   BRAINSTORMING: 'BRAINSTORMING',

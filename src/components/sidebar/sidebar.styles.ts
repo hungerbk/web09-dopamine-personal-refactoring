@@ -10,7 +10,7 @@ import {
   SIDEBAR_WIDTH,
 } from '@/constants/sidebar';
 import { theme } from '@/styles/theme';
-import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
+import { IssueStatus } from '@/issues/types';
 
 export const Sidebar = styled.aside`
   display: flex;

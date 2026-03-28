@@ -1,4 +1,4 @@
-import type { CreateIdeaRequest, Idea, SimpleIdea } from '@/app/(with-sidebar)/issues/_types';
+import type { CreateIdeaRequest, Idea, SimpleIdea } from '@/issues/types';
 import getAPIResponseData from '../utils/api-response';
 import { withSseHeader } from '../utils/with-sse-header';
 

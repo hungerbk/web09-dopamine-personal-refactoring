@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { css, keyframes } from '@emotion/react';
 import { ISSUE_STATUS } from '@/constants/issue';
 import { theme } from '@/styles/theme';
-import { IssueStatus } from '@/app/(with-sidebar)/issues/_types';
+import { IssueStatus } from '@/issues/types';
 
 export const NodeContainer = styled.div<{ status: IssueStatus }>`
   display: flex;

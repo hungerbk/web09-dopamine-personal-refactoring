@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '@/lib/api/category';
-import type { Category, Position } from '@/app/(with-sidebar)/issues/_types';
+import type { Category, Position } from '@/issues/types';
 
 interface UICategory {
   id: string;
