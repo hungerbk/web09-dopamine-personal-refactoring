@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { ProjectList } from '@/app/projects/_components/project-list/project-list';
+import { ProjectList } from '@/projects/components/project-list/project-list';
 import { authOptions } from '@/lib/auth';
 import { getProjectListForUser } from '@/lib/services/project.service';
 

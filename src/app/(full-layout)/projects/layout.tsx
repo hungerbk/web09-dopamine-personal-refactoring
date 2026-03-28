@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import ProjectLayoutClient from './_components/project-layout-client';
+import ProjectLayoutClient from '@/projects/components/project-layout-client';
 
 export const metadata: Metadata = {
   title: 'Murphy',

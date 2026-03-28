@@ -1,7 +1,7 @@
 'use client';
 
-import { ProjectCard } from '@/app/projects/_components/project-card/project-card';
-import type { ProjectListItem } from '@/app/projects/_types';
+import { ProjectCard } from '@/projects/components/project-card/project-card';
+import type { ProjectListItem } from '@/projects/types';
 import * as S from './project-list.styles';
 
 interface ProjectListProps {
