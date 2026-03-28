@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { User } from 'next-auth';
-import TextField from '@/app/mypage/_components/text-field/text-field';
+import TextField from '@/mypage/components/text-field/text-field';
 import * as S from './profile-info.styles';
 import { useUserMutation } from '@/hooks/user/use-user-mutation';
 import toast from 'react-hot-toast';

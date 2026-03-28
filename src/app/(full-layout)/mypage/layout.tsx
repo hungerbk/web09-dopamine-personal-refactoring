@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import MypageLayoutClient from './_components/mypage-layout-client';
+import MypageLayoutClient from '@/mypage/components/mypage-layout-client';
 
 export const metadata: Metadata = {
   title: 'Murphy',

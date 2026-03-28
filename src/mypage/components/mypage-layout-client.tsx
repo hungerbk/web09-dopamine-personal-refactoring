@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import MypageHeader from '@/app/mypage/_components/header/mypage-header';
+import MypageHeader from '@/mypage/components/mypage-header/mypage-header';
 import { theme } from '@/styles/theme';
 
 const LayoutContainer = styled.div`
