@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import SocialLogin from '@/components/social-login/social-login';
 import { useInvitationMutations } from '@/hooks';
-import * as S from './pags.styles';
+import * as S from './invitation-container.styles';
 
 interface InvitationInfoResponse {
   isValid: boolean;

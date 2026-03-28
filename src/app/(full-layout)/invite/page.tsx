@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { InvitationService } from '@/lib/services/invitation.service';
-import { InvitationContainer } from './invitation-container';
+import { InvitationContainer } from '@/invite/components/invitation-container';
 
 export const metadata: Metadata = {
   title: 'Murphy | 프로젝트 초대',
