@@ -3,8 +3,8 @@
 import { useTopicQuery } from '@/hooks/topics';
 import { useTopicEvents } from '@/hooks/topics/use-topic-events';
 import { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
-import IssueNodeSkeletonGrid from '../_components/issue-node-skeleton-grid/issue-node-skeleton-grid';
-import TopicCanvas from '../_components/topic-canvas/topic-canvas';
+import IssueNodeSkeletonGrid from '@/topics/components/issue-node-skeleton-grid/issue-node-skeleton-grid';
+import TopicCanvas from '@/topics/components/topic-canvas/topic-canvas';
 
 interface TopicPageClientProps {
   topicId: string;
