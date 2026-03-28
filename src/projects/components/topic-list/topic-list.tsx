@@ -1,10 +1,10 @@
 'use client';
 
-import Card, { CardSkeleton } from '@/app/(with-sidebar)/projects/_components/card/card';
-import EmptyTopicState from '@/app/(with-sidebar)/projects/_components/empty-topic-state/empty-topic-state';
+import Card, { CardSkeleton } from '@/projects/components/card/card';
+import EmptyTopicState from '@/projects/components/empty-topic-state/empty-topic-state';
 import { useProjectQuery } from '@/hooks/projects';
 import type { ProjectwithTopic } from '@/app/projects/_types';
-import * as S from '@/app/(with-sidebar)/projects/[projectId]/page.styles';
+import * as S from '@/projects/components/project-detail-page.styles';
 
 interface TopicListProps {
   projectId: string;

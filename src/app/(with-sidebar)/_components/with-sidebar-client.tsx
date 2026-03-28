@@ -15,8 +15,8 @@ import {
   SIDEBAR_WIDTH,
 } from '@/constants/sidebar';
 import { theme } from '@/styles/theme';
-import ProjectHeader from '../projects/_components/header/header';
-import ProjectSidebar from '../projects/_components/sidebar/project-sidebar';
+import ProjectHeader from '@/projects/components/header/header';
+import ProjectSidebar from '@/projects/components/sidebar/project-sidebar';
 
 const LayoutContainer = styled.div`
   display: flex;

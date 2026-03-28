@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import * as S from '@/app/(with-sidebar)/projects/[projectId]/page.styles';
-import ProjectModal from '@/app/(with-sidebar)/projects/_components/project-modal/project-modal';
+import * as S from '@/projects/components/project-detail-page.styles';
+import ProjectModal from '@/projects/components/project-modal/project-modal';
 import { useModalStore } from '@/components/modal/use-modal-store';
 
 interface EditProjectProps {
