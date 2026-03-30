@@ -8,6 +8,7 @@ import { Providers } from '@/providers/query-provider';
 import ThemeProvider from '@/providers/theme-provider';
 import EmotionRegistry from '@/styles/EmotionRegistry';
 import GlobalStyle from '@/styles/globalStyles';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://murphy.co.kr'),
