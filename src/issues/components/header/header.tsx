@@ -7,7 +7,6 @@ import { ISSUE_STATUS } from '@/constants/issue';
 import EditIssueButton from '../edit-issue-button/edit-issue-button';
 import ProgressBar from '../progress-bar/progress-bar';
 import HeaderButton from './header-button';
-import * as S from './header.styles';
 import { useHeader } from './use-header';
 
 const Header = () => {
@@ -65,17 +64,17 @@ const Header = () => {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
+    <div className="grid h-[64px] min-w-[1200px] grid-cols-[1fr_2fr_1.2fr] items-center border-b border-gray-200 bg-white px-4">
+      <div className="flex items-center justify-self-start gap-3 text-large font-semibold text-black">
         <button onClick={handleGoback}>
-          <S.ButtonsWrapper>
+          <div className="flex items-center">
             <Image
               src={topicId ? '/leftArrow.svg' : '/home.svg'}
               alt={topicId ? '뒤로가기' : '홈으로'}
               width={18}
               height={18}
             />
-          </S.ButtonsWrapper>
+          </div>
         </button>
         {issue?.title}
         {isEditButtonVisible && (
@@ -84,11 +83,11 @@ const Header = () => {
             currentTitle={issue?.title}
           />
         )}
-      </S.LeftSection>
-      <S.CenterSection>
+      </div>
+      <div className="w-[clamp(10rem,100%,40rem)] justify-self-center">
         <ProgressBar />
-      </S.CenterSection>
-      <S.RightSection>
+      </div>
+      <div className="flex items-center justify-self-end gap-2">
         {isVisible && (
           <>
             <HeaderButton
@@ -112,8 +111,8 @@ const Header = () => {
           alt="공유하기"
           onClick={handleCopyURL}
         />
-      </S.RightSection>
-    </S.HeaderContainer>
+      </div>
+    </div>
   );
 };
 

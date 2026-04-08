@@ -1,5 +1,6 @@
 import type { MouseEvent } from 'react';
-import * as S from './filter-panel.styles';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 
 export type FilterKey = 'most-liked' | 'need-discussion' | 'none';
 
@@ -7,6 +8,18 @@ interface FilterPanelProps {
   value: FilterKey;
   onChange: (value: FilterKey) => void;
 }
+
+const filterButtonVariants = cva(
+  'rounded-large p-2.5 text-small shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-transform duration-100 hover:-translate-y-[1px]',
+  {
+    variants: {
+      selected: {
+        true: 'border-2 border-blue-400 bg-blue-100 text-blue-800',
+        false: 'border border-blue-400 bg-white text-blue-600',
+      },
+    },
+  },
+);
 
 export default function FilterPanel({ value, onChange }: FilterPanelProps) {
   const toggleFilter = (nextFilter: 'most-liked' | 'need-discussion') => {
@@ -24,23 +37,23 @@ export default function FilterPanel({ value, onChange }: FilterPanelProps) {
   };
 
   return (
-    <S.FilterPanel>
-      <S.Btn
+    <div className="fixed left-[300px] top-[100px] z-sticky flex items-center gap-4">
+      <button
         type="button"
         data-filter="most-liked"
-        $selected={value === 'most-liked'}
+        className={cn(filterButtonVariants({ selected: value === 'most-liked' }))}
         onClick={handleClick}
       >
         찬반순
-      </S.Btn>
-      <S.Btn
+      </button>
+      <button
         type="button"
         data-filter="need-discussion"
-        $selected={value === 'need-discussion'}
+        className={cn(filterButtonVariants({ selected: value === 'need-discussion' }))}
         onClick={handleClick}
       >
         논의 필요
-      </S.Btn>
-    </S.FilterPanel>
+      </button>
+    </div>
   );
 }
