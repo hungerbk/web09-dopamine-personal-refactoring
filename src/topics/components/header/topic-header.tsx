@@ -7,10 +7,53 @@ import { useParams, useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
 import { useTopicDetailQuery } from '@/hooks/topics';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as HS from '@/issues/components/header/header.styles';
 import CreateIssueButton from '../create-issue-button/create-issue-button';
 import EditTopicButton from '../edit-topic-button/edit-topic-button';
-import * as S from './topic-header.styles';
+import { cn } from '@/lib/utils/cn';
+
+function HeaderContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('h-[64px] px-4 bg-white flex items-center justify-between border-b border-gray-200', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function LeftSection({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('gap-3 flex text-large font-semibold text-black items-center', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function RightSection({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('gap-2 flex items-center justify-self-end mr-2', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function Divider({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div className={cn('h-4 w-px bg-gray-200 mx-1', className)} {...props} />;
+}
+
+function Profile({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex gap-3 font-semibold items-center cursor-pointer min-w-[92px]', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function ButtonsWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex items-center', className)} {...props}>
+      {children}
+    </div>
+  );
+}
 
 export default function TopicHeader() {
   const params = useParams();
@@ -30,20 +73,20 @@ export default function TopicHeader() {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
+    <HeaderContainer>
+      <LeftSection>
         <Link href={`/projects/${topic?.projectId || ''}`}>
-          <HS.ButtonsWrapper>
+          <ButtonsWrapper>
             <Image
               src="/leftArrow.svg"
               alt="뒤로가기"
               width={18}
               height={18}
             />
-          </HS.ButtonsWrapper>
+          </ButtonsWrapper>
         </Link>
 
-        <S.Divider />
+        <Divider />
 
         {showLoading ? (
           <TitleSkeleton width="180px" />
@@ -56,11 +99,11 @@ export default function TopicHeader() {
             />
           </>
         )}
-      </S.LeftSection>
-      <S.RightSection>
+      </LeftSection>
+      <RightSection>
         <CreateIssueButton />
-        <S.Divider />
-        <S.Profile onClick={handleProfileClick}>
+        <Divider />
+        <Profile onClick={handleProfileClick}>
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -80,8 +123,8 @@ export default function TopicHeader() {
               )}
             </>
           )}
-        </S.Profile>
-      </S.RightSection>
-    </S.HeaderContainer>
+        </Profile>
+      </RightSection>
+    </HeaderContainer>
   );
 }
