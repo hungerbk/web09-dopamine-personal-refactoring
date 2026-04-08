@@ -2,7 +2,7 @@
 
 import Sidebar from '@/components/sidebar/sidebar';
 import SidebarItem from '@/components/sidebar/sidebar-item';
-import * as S from '@/components/sidebar/sidebar.styles';
+import * as S from '@/components/sidebar/sidebar';
 import NewIssueButton from '@/issues/components/layout/new-issue-button';
 import { useTopicSidebar } from './use-topic-sidebar';
 

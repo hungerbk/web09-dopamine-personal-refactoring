@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { theme } from '@/styles/theme';
-
-export * from '@/components/modal/issue-create-modal/issue-create-modal.styles';
-
+export * from '@/components/modal/issue-create-modal/issue-create-modal';
 export const CancelButton = styled.button`
   height: 40px;
   padding: 0 18px;
