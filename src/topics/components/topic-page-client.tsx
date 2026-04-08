@@ -2,6 +2,7 @@
 
 import { useTopicQuery } from '@/hooks/topics';
 import { useTopicEvents } from '@/hooks/topics/use-topic-events';
+// TODO: 스타일 작업 커밋 이후, 별도 커밋에서 `import type`으로 분리
 import { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
 import IssueNodeSkeletonGrid from '@/topics/components/issue-node-skeleton-grid/issue-node-skeleton-grid';
 import TopicCanvas from '@/topics/components/topic-canvas/topic-canvas';

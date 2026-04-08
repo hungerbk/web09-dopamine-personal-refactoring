@@ -34,6 +34,7 @@ export default function TopicSidebar() {
                 key={issue.id}
                 title={issue.title}
                 href={`/issues/${issue.id}`}
+                // TODO: 스타일 작업 커밋 이후, 별도 커밋에서 `as any` 제거 및 타입 정리
                 status={issue.status as any}
               />
             ))}
