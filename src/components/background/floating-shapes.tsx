@@ -1,29 +1,32 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import styled from '@emotion/styled';
 import { motion, useAnimationFrame } from 'framer-motion';
+import { cn } from '@/lib/utils/cn';
 
 const SHAPE_SIZE = 80;
 const SHAPE_RADIUS = 24;
 
-const ShapesContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-`;
+function ShapesContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn('absolute w-full h-full top-0 left-0 pointer-events-none', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
 
-const Shape = styled(motion.div)<{ color: string }>`
-  position: absolute;
-  width: ${SHAPE_SIZE}px;
-  height: ${SHAPE_SIZE}px;
-  border-radius: ${SHAPE_RADIUS}px;
-  background: ${({ color }) => color};
-  transition: background 0.3s ease;
-`;
+function Shape({ color, style, className, ...props }: React.ComponentProps<typeof motion.div> & { color: string }) {
+  return (
+    <motion.div
+      className={cn('absolute transition-[background] duration-300 ease', className)}
+      style={{ width: SHAPE_SIZE, height: SHAPE_SIZE, borderRadius: SHAPE_RADIUS, background: color, ...style }}
+      {...props}
+    />
+  );
+}
 
 const COLORS = {
   default: 'rgba(200, 200, 200, 0.2)',
