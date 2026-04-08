@@ -2,23 +2,6 @@
 
 import { ProjectCard } from '@/projects/components/project-card/project-card';
 import type { ProjectListItem } from '@/projects/types';
-import { cn } from '@/lib/utils/cn';
-
-export function Container({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('w-full flex flex-col gap-6', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-export function CardGrid({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6', className)} {...props}>
-      {children}
-    </div>
-  );
-}
 
 interface ProjectListProps {
   projects: ProjectListItem[];
@@ -26,8 +9,8 @@ interface ProjectListProps {
 
 export function ProjectList({ projects }: ProjectListProps) {
   return (
-    <Container>
-      <CardGrid>
+    <div className="flex w-full flex-col gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects?.map((project) => (
           <ProjectCard
             key={project.id}
@@ -39,7 +22,7 @@ export function ProjectList({ projects }: ProjectListProps) {
           />
         ))}
         <ProjectCard isCreateCard />
-      </CardGrid>
-    </Container>
+      </div>
+    </div>
   );
 }

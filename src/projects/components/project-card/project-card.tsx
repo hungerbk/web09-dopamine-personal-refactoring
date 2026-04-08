@@ -12,224 +12,6 @@ import { ProjectMember } from '@/projects/types';
 import ProjectCreateModal from '../project-create-modal/project-create-modal';
 import { cn } from '@/lib/utils/cn';
 
-function BaseCard({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'bg-white rounded-large p-6 cursor-pointer transition-all duration-200 ease-in-out min-h-[240px] hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Card({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <BaseCard
-      className={cn('flex flex-col justify-between gap-5 border border-gray-200 relative', className)}
-      {...props}
-    >
-      {children}
-    </BaseCard>
-  );
-}
-
-function CardHeader({
-  hasIcon,
-  children,
-  className,
-  ...props
-}: React.ComponentProps<'div'> & { hasIcon?: boolean }) {
-  return (
-    <div className={cn('flex flex-col gap-5', hasIcon ? 'pt-0' : 'pt-5', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function Icon({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'w-12 h-12 flex items-center justify-center bg-blue-50 rounded-medium',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Title({ children, className, ...props }: React.ComponentProps<'h3'>) {
-  return (
-    <h3 className={cn('text-large font-bold text-black m-0', className)} {...props}>
-      {children}
-    </h3>
-  );
-}
-
-function Info({ children, className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p className={cn('text-medium font-regular text-gray-400 m-0', className)} {...props}>
-      {children}
-    </p>
-  );
-}
-
-function CardFooter({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-5', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function Divider({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div className={cn('w-full h-px bg-gray-200', className)} {...props} />;
-}
-
-function CardBody({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-row items-center justify-between', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function MemberAvatars({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-row flex-nowrap items-center', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function MemberAvatar({ className, ...props }: React.ComponentProps<typeof Image>) {
-  return (
-    <Image
-      className={cn('rounded-full border-2 border-white [&:not(:first-of-type)]:-ml-2', className)}
-      {...props}
-    />
-  );
-}
-
-function RestCount({ children, className, ...props }: React.ComponentProps<'span'>) {
-  return (
-    <span className={cn('text-medium font-regular text-gray-400 ml-1', className)} {...props}>
-      {children}
-    </span>
-  );
-}
-
-function AddMember({ children, className, ...props }: React.ComponentProps<'button'>) {
-  return (
-    <button
-      className={cn(
-        'text-small font-bold text-green-600 bg-transparent border-none p-1 cursor-pointer text-left hover:text-green-700',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
-
-function CreateCard({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <BaseCard
-      className={cn(
-        'flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-200 min-h-[240px] hover:border-gray-400',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </BaseCard>
-  );
-}
-
-function CreateIcon({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('text-[40px] text-gray-300', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function CreateText({ children, className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p className={cn('text-medium text-gray-300 m-0 font-bold', className)} {...props}>
-      {children}
-    </p>
-  );
-}
-
-function MenuWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('absolute top-6 right-6 z-10', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function ActionButton({ children, className, ...props }: React.ComponentProps<'button'>) {
-  return (
-    <button
-      className={cn('cursor-pointer bg-transparent rounded-small p-1 flex hover:bg-gray-100 border-none', className)}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
-
-function MenuModal({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'absolute top-6 right-0 min-w-[120px] p-2 bg-white border border-gray-200 rounded-medium shadow-[0px_4px_12px_rgba(0,0,0,0.08)]',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-function MenuItem({ children, className, ...props }: React.ComponentProps<'button'>) {
-  return (
-    <button
-      className={cn(
-        'relative w-full py-2 px-2.5 bg-transparent border-none rounded-small text-left cursor-pointer text-red-600 hover:bg-gray-50 group',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
-
-function Tooltip({ children, className, ...props }: React.ComponentProps<'span'>) {
-  return (
-    <span
-      className={cn(
-        'absolute right-0 top-full mt-1.5 py-1.5 px-2 bg-gray-900 text-white rounded-small text-small whitespace-nowrap opacity-0 -translate-y-1 pointer-events-none transition-all duration-150 ease-in-out group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </span>
-  );
-}
-
 interface ProjectCardProps {
   id?: string;
   title?: string;
@@ -303,10 +85,13 @@ export function ProjectCard({
 
   if (isCreateCard) {
     return (
-      <CreateCard onClick={handleCreateClick}>
-        <CreateIcon>+</CreateIcon>
-        <CreateText>새 프로젝트 만들기</CreateText>
-      </CreateCard>
+      <div
+        onClick={handleCreateClick}
+        className="flex min-h-[240px] cursor-pointer flex-col items-center justify-center gap-2 rounded-large border-2 border-dashed border-gray-200 bg-white p-6 transition-all duration-200 ease-in-out hover:border-gray-400 hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+      >
+        <div className="text-[40px] text-gray-300">+</div>
+        <p className="m-0 text-medium font-bold text-gray-300">새 프로젝트 만들기</p>
+      </div>
     );
   }
 
@@ -361,11 +146,18 @@ export function ProjectCard({
   };
 
   return (
-    <Card onClick={handleGoProject}>
-      <MenuWrapper ref={menuRef}>
-        <ActionButton
+    <div
+      onClick={handleGoProject}
+      className="relative flex min-h-[240px] cursor-pointer flex-col justify-between gap-5 rounded-large border border-gray-200 bg-white p-6 transition-all duration-200 ease-in-out hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"
+    >
+      <div
+        ref={menuRef}
+        className="absolute right-6 top-6 z-10"
+      >
+        <button
           onClick={handleMenuToggle}
           type="button"
+          className="flex cursor-pointer rounded-small border-none bg-transparent p-1 hover:bg-gray-100"
         >
           <Image
             src="/hamburger.svg"
@@ -373,56 +165,70 @@ export function ProjectCard({
             width={20}
             height={20}
           />
-        </ActionButton>
+        </button>
         {isMenuOpen && (
-          <MenuModal onClick={(e) => e.stopPropagation()}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute right-0 top-6 min-w-[120px] rounded-medium border border-gray-200 bg-white p-2 shadow-[0px_4px_12px_rgba(0,0,0,0.08)]"
+          >
             {isOwner ? (
-              <MenuItem
+              <button
                 onClick={handleDeleteClick}
                 type="button"
+                className="group relative w-full cursor-pointer rounded-small border-none bg-transparent px-2.5 py-2 text-left text-red-600 hover:bg-gray-50"
               >
                 삭제
-                <Tooltip role="tooltip">삭제하면 복구할 수 없습니다</Tooltip>
-              </MenuItem>
+                <span
+                  role="tooltip"
+                  className="pointer-events-none absolute right-0 top-full mt-1.5 -translate-y-1 whitespace-nowrap rounded-small bg-gray-900 px-2 py-1.5 text-small text-white opacity-0 transition-all duration-150 ease-in-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100"
+                >
+                  삭제하면 복구할 수 없습니다
+                </span>
+              </button>
             ) : (
-              <MenuItem
+              <button
                 onClick={handleLeaveClick}
                 type="button"
+                className="group relative w-full cursor-pointer rounded-small border-none bg-transparent px-2.5 py-2 text-left text-red-600 hover:bg-gray-50"
               >
                 나가기
-              </MenuItem>
+              </button>
             )}
-          </MenuModal>
+          </div>
         )}
-      </MenuWrapper>
-      <CardHeader hasIcon={!!icon}>
-        {icon && <Icon>{icon}</Icon>}
-        <Title>{title}</Title>
-        <Info>멤버 {memberCount}명</Info>
-      </CardHeader>
-      <CardFooter>
-        <Divider />
-        <CardBody>
-          <MemberAvatars>
+      </div>
+      <div className={cn('flex flex-col gap-5', icon ? 'pt-0' : 'pt-5')}>
+        {icon && <div className="flex h-12 w-12 items-center justify-center rounded-medium bg-blue-50">{icon}</div>}
+        <h3 className="m-0 text-large font-bold text-black">{title}</h3>
+        <p className="m-0 text-medium font-regular text-gray-400">멤버 {memberCount}명</p>
+      </div>
+      <div className="flex flex-col gap-5">
+        <div className="h-px w-full bg-gray-200" />
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row flex-nowrap items-center">
             {members?.slice(0, MAX_VISIBLE_COUNT).map((member, index) => {
               if (!member.user) return null;
               return (
-                <MemberAvatar
+                <Image
                   key={member.user.id ?? `member-${index}`}
                   src={member.user.image ?? '/profile.svg'}
                   alt={`${member.user.displayName || '사용자'}의 프로필 이미지`}
                   width={32}
                   height={32}
+                  className="rounded-full border-2 border-white [&:not(:first-of-type)]:-ml-2"
                 />
               );
             })}
-            {restCount > 0 && <RestCount>+{restCount}</RestCount>}
-          </MemberAvatars>
-          <AddMember onClick={(e) => openInviteProjectModal(id!, title!, e)}>
+            {restCount > 0 && <span className="ml-1 text-medium font-regular text-gray-400">+{restCount}</span>}
+          </div>
+          <button
+            onClick={(e) => openInviteProjectModal(id!, title!, e)}
+            className="cursor-pointer border-none bg-transparent p-1 text-left text-small font-bold text-green-600 hover:text-green-700"
+          >
             + 초대하기
-          </AddMember>
-        </CardBody>
-      </CardFooter>
-    </Card>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -9,6 +9,8 @@ interface TopicListProps {
   initialTopics: ProjectwithTopic['topics'];
 }
 
+const TOPIC_SKELETON_COUNT = 3;
+
 export default function TopicList({ projectId, initialTopics }: TopicListProps) {
   const { data: projectData } = useProjectQuery(projectId);
   const topics = projectData?.topics ?? initialTopics;
@@ -17,9 +19,9 @@ export default function TopicList({ projectId, initialTopics }: TopicListProps) 
     <div className="relative flex flex-col gap-4">
       {topics.length === 0 ? (
         <>
-          <CardSkeleton />
-          <CardSkeleton />
-          <CardSkeleton />
+          {Array.from({ length: TOPIC_SKELETON_COUNT }).map((_, index) => (
+            <CardSkeleton key={`topic-skeleton-${index}`} />
+          ))}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-auto">
             <EmptyTopicState />
           </div>

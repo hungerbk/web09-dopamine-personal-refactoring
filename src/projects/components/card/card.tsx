@@ -5,21 +5,6 @@ import { useRouter } from 'next/navigation';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils/cn';
 
-const cardContainerVariants = cva(
-  'flex items-center justify-between transition-all duration-200 ease-in-out',
-  {
-    variants: {
-      variant: {
-        header: 'p-0 cursor-default',
-        item: 'border border-gray-200 rounded-large bg-white p-5 cursor-pointer hover:bg-yellow-50 hover:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] hover:-translate-y-0.5',
-      },
-    },
-    defaultVariants: {
-      variant: 'header',
-    },
-  }
-);
-
 interface CardProps extends VariantProps<typeof cardContainerVariants> {
   id: string;
   leftIcon: string;
@@ -29,6 +14,21 @@ interface CardProps extends VariantProps<typeof cardContainerVariants> {
   showArrow?: boolean;
   onClick?: () => void;
 }
+
+const cardContainerVariants = cva(
+  'flex items-center justify-between transition-all duration-200 ease-in-out',
+  {
+    variants: {
+      variant: {
+        header: 'cursor-default p-0',
+        item: 'cursor-pointer rounded-large border border-gray-200 bg-white p-5 hover:-translate-y-0.5 hover:bg-yellow-50 hover:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]',
+      },
+    },
+    defaultVariants: {
+      variant: 'header',
+    },
+  },
+);
 
 const Card = ({
   id,
@@ -46,10 +46,17 @@ const Card = ({
     router.push(`/topics/${id}`);
   };
 
+  const handleClick = () => {
+    onClick?.();
+    if (!onClick) {
+      goTopic();
+    }
+  };
+
   return (
     <div
       className={cn(cardContainerVariants({ variant }))}
-      onClick={goTopic}
+      onClick={handleClick}
     >
       <div className="flex items-center gap-4">
         <div 
