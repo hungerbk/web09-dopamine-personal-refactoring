@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useModalStore } from '@/components/modal/use-modal-store';
-import * as S from './close-issue-modal.styles';
 import { useCloseIssueModal } from './use-close-issue-modal';
 
 interface CloseIssueModalProps {
@@ -38,31 +37,39 @@ export default function CloseIssueModal({ issueId, isOwner = false }: CloseIssue
   }, [handleSubmit]);
 
   return (
-    <S.Container>
-      <S.InfoBox>
-        <S.Label>선택된 아이디어</S.Label>
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2 rounded-medium border border-gray-100 bg-gray-50 p-3.5">
+        <span className="text-small font-semibold text-gray-500">선택된 아이디어</span>
         {selectedIdea ? (
           <>
-            <S.Content>{selectedIdea.content || '내용 없음'}</S.Content>
-            <S.Meta>작성자: {selectedIdea.author}</S.Meta>
+            <div className="whitespace-pre-wrap font-semibold text-gray-900">
+              {selectedIdea.content || '내용 없음'}
+            </div>
+            <span className="text-small text-gray-500">작성자: {selectedIdea.author}</span>
           </>
         ) : (
-          <S.Empty>선택된 아이디어가 없습니다.</S.Empty>
+          <div className="text-small text-gray-500">선택된 아이디어가 없습니다.</div>
         )}
-      </S.InfoBox>
+      </div>
 
       <div>
-        <S.MemoLabel htmlFor="close-issue-memo">메모 (선택)</S.MemoLabel>
-        <S.MemoInputWrapper>
-          <S.MemoInput
+        <label
+          htmlFor="close-issue-memo"
+          className="text-small font-semibold text-gray-600"
+        >
+          메모 (선택)
+        </label>
+        <div className="flex items-center rounded-medium border border-gray-200 py-2">
+          <textarea
             id="close-issue-memo"
             value={memo}
             onChange={(event) => setMemo(event.target.value)}
             placeholder="메모를 입력해주세요."
             disabled={!isOwner}
+            className="h-full min-h-[120px] w-full resize-none border-none px-3 py-1 text-medium text-gray-900 outline-none"
           />
-        </S.MemoInputWrapper>
+        </div>
       </div>
-    </S.Container>
+    </div>
   );
 }
