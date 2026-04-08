@@ -1,5 +1,3 @@
-import { theme } from '@/styles/theme';
-
 interface SkeletonProps {
   width?: string;
   height?: string;
@@ -10,13 +8,11 @@ interface SkeletonProps {
 export const Skeleton = ({ width = '100%', height = '20px', borderRadius = '8px', style }: SkeletonProps) => {
   return (
     <div
+      className="bg-[length:400px_100%] bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50 animate-[skeleton-shimmer_1.4s_ease-in-out_infinite]"
       style={{
         width,
         height,
         borderRadius,
-        background: `linear-gradient(90deg, ${theme.colors.gray[50]} 0%, ${theme.colors.gray[100]} 50%, ${theme.colors.gray[50]} 100%)`,
-        backgroundSize: '400px 100%',
-        animation: 'skeleton-shimmer 1.4s ease-in-out infinite',
         ...style,
       }}
       role="status"
