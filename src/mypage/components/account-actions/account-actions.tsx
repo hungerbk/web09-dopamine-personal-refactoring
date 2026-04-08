@@ -1,14 +1,11 @@
 import { signOut } from 'next-auth/react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { useUserMutation } from '@/hooks/user/use-user-mutation';
 import { cn } from '@/lib/utils/cn';
 
-export function Container({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex justify-between gap-5 px-5', className)} {...props}>
-      {children}
-    </div>
-  );
+interface ActionButtonProps
+  extends React.ComponentProps<'button'> {
+  variant?: 'logout' | 'delete';
 }
 
 const actionButtonVariants = cva(
@@ -26,18 +23,6 @@ const actionButtonVariants = cva(
   }
 );
 
-interface ActionButtonProps
-  extends React.ComponentProps<'button'>,
-    VariantProps<typeof actionButtonVariants> {}
-
-export function ActionButton({ variant, className, children, ...props }: ActionButtonProps) {
-  return (
-    <button className={cn(actionButtonVariants({ variant, className }))} {...props}>
-      {children}
-    </button>
-  );
-}
-
 export default function AccountActions() {
   const { withdrawMutation } = useUserMutation();
 
@@ -53,7 +38,7 @@ export default function AccountActions() {
   };
 
   return (
-    <Container>
+    <div className="flex justify-between gap-5 px-5">
       <ActionButton
         variant="logout"
         onClick={handleLogout}
@@ -66,6 +51,14 @@ export default function AccountActions() {
       >
         회원탈퇴
       </ActionButton>
-    </Container>
+    </div>
+  );
+}
+
+export function ActionButton({ variant, className, children, ...props }: ActionButtonProps) {
+  return (
+    <button className={cn(actionButtonVariants({ variant, className }))} {...props}>
+      {children}
+    </button>
   );
 }

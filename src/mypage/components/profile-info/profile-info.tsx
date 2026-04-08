@@ -4,31 +4,6 @@ import { User } from 'next-auth';
 import TextField from '@/mypage/components/text-field/text-field';
 import { useUserMutation } from '@/hooks/user/use-user-mutation';
 import toast from 'react-hot-toast';
-import { cn } from '@/lib/utils/cn';
-
-export function FormContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('w-[450px] h-fit flex flex-col gap-5 bg-gray-50 p-5 rounded-medium', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-export function ProfileHeader({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('text-left flex items-center gap-2', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-export function Text({ children, className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p className={cn('text-medium font-bold text-black m-0', className)} {...props}>
-      {children}
-    </p>
-  );
-}
 
 interface ProfileInfoProps {
   user?: User & {
@@ -84,10 +59,10 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
   };
 
   return (
-    <FormContainer>
-      <ProfileHeader>
-        <Text>프로필 정보</Text>
-      </ProfileHeader>
+    <div className="h-fit w-[450px] rounded-medium bg-gray-50 p-5">
+      <div className="mb-5 flex items-center gap-2 text-left">
+        <p className="m-0 text-medium font-bold text-black">프로필 정보</p>
+      </div>
       <TextField
         label='보여질 이름'
         value={displayName}
@@ -113,6 +88,6 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
         value={user?.email || ''}
         readOnly
       />
-    </FormContainer>
+    </div>
   );
 }

@@ -5,99 +5,6 @@ import Image from 'next/image';
 import AccountActions from '../account-actions/account-actions';
 import LoginInfo from '../login-info/login-info';
 import ProfileInfo from '../profile-info/profile-info';
-import { cn } from '@/lib/utils/cn';
-
-export function CardContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'w-[512px] bg-white rounded-large overflow-hidden shadow-[0px_4px_40px_0px_rgba(0,0,0,0.05)] flex flex-col pb-[25px]',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-export function TopSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'bg-green-700 h-[130px] relative flex justify-center items-end mb-[60px]',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-export function ProfileImageWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'absolute -bottom-[50px] w-[100px] h-[100px] rounded-full bg-white p-1 flex justify-center items-center shadow-[0px_4px_10px_rgba(0,0,0,0.05)]',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-export function ProfileImage({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn(
-        'w-full h-full rounded-full bg-gray-100 flex justify-center items-center font-bold text-large text-gray-500 overflow-hidden [&>img]:w-full [&>img]:h-full [&>img]:object-cover',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-export function InfoSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('text-center mb-5', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-export function Name({ children, className, ...props }: React.ComponentProps<'h2'>) {
-  return (
-    <h2 className={cn('text-xl font-bold text-black mb-[5px]', className)} {...props}>
-      {children}
-    </h2>
-  );
-}
-
-export function Email({ children, className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p className={cn('text-medium font-regular text-gray-400', className)} {...props}>
-      {children}
-    </p>
-  );
-}
-
-export function ContentSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('px-[33px] flex flex-col gap-5', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-export function Divider({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div className={cn('h-[1px] bg-gray-100 my-[10px]', className)} {...props} />;
-}
 
 export default function MypageCard() {
   const { data: session } = useSession();
@@ -105,10 +12,10 @@ export default function MypageCard() {
   const profileImage = user?.image;
 
   return (
-    <CardContainer>
-      <TopSection>
-        <ProfileImageWrapper>
-          <ProfileImage>
+    <div className="flex w-[512px] flex-col overflow-hidden rounded-large bg-white pb-[25px] shadow-[0px_4px_40px_0px_rgba(0,0,0,0.05)]">
+      <div className="relative mb-[60px] flex h-[130px] items-end justify-center bg-green-700">
+        <div className="absolute -bottom-[50px] flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white p-1 shadow-[0px_4px_10px_rgba(0,0,0,0.05)]">
+          <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-gray-100 text-large font-bold text-gray-500 [&>img]:h-full [&>img]:w-full [&>img]:object-cover">
             {profileImage ? (
               <Image
                 src={profileImage}
@@ -119,18 +26,18 @@ export default function MypageCard() {
             ) : (
               'ME'
             )}
-          </ProfileImage>
-        </ProfileImageWrapper>
-      </TopSection>
-      <InfoSection>
-        <Name>{user?.name || '사용자'}</Name>
-        <Email>@{user?.email?.split('@')[0] || 'username'}</Email>
-      </InfoSection>
-      <ContentSection>
+          </div>
+        </div>
+      </div>
+      <div className="mb-5 text-center">
+        <h2 className="mb-[5px] text-xl font-bold text-black">{user?.name || '사용자'}</h2>
+        <p className="text-medium font-regular text-gray-400">@{user?.email?.split('@')[0] || 'username'}</p>
+      </div>
+      <div className="flex flex-col gap-5 px-[33px]">
         <ProfileInfo user={user} />
         <LoginInfo />
         <AccountActions />
-      </ContentSection>
-    </CardContainer>
+      </div>
+    </div>
   );
 }
