@@ -1,25 +1,24 @@
 'use client';
 
 import { ReactNode } from 'react';
-import styled from '@emotion/styled';
 import MypageHeader from '@/mypage/components/mypage-header/mypage-header';
-import { theme } from '@/styles/theme';
+import { cn } from '@/lib/utils/cn';
 
-const LayoutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: ${theme.colors.gray[50]};
-`;
+export function LayoutContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex flex-col h-screen bg-gray-50', className)} {...props}>
+      {children}
+    </div>
+  );
+}
 
-const BodyContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
-  scrollbar-width: none;
-`;
+export function BodyContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex flex-1 justify-center items-center overflow-y-auto scrollbar-hide', className)} {...props}>
+      {children}
+    </div>
+  );
+}
 
 export default function MypageLayoutClient({ children }: { children: ReactNode }) {
   return (
