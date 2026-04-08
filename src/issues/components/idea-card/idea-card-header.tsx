@@ -2,9 +2,9 @@
 
 import type { KeyboardEventHandler, MouseEventHandler, RefObject } from 'react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils/cn';
 import { ISSUE_STATUS } from '@/constants/issue';
 import type { IssueStatus } from '@/issues/types';
-import * as S from './idea-card.styles';
 
 interface IdeaCardHeaderProps {
   id: string;
@@ -47,9 +47,9 @@ export default function IdeaCardHeader({
 }: IdeaCardHeaderProps) {
   const commentCount = initialCommentCount;
   return (
-    <S.Header>
+    <div className="relative flex w-full flex-col gap-3">
       {isEditing ? (
-        <S.EditableInput
+        <textarea
           data-testid="idea-input"
           aria-label="idea-input"
           ref={textareaRef}
@@ -61,23 +61,35 @@ export default function IdeaCardHeader({
           onMouseDown={(e) => e.stopPropagation()}
           autoFocus
           placeholder="아이디어를 입력해주세요."
+          className="min-h-xl w-full resize-none overflow-hidden border-none bg-transparent p-0 text-large font-bold leading-[1.4] tracking-[0] text-gray-900 outline-none placeholder:font-bold placeholder:text-gray-900 placeholder:opacity-40"
         />
       ) : (
-        <S.Content
+        <pre
           data-testid="idea-content"
           aria-label="idea-content"
+          className="min-h-xl whitespace-pre-wrap break-words text-large font-bold leading-[1.4] text-gray-900"
         >
           {displayContent}
-        </S.Content>
+        </pre>
       )}
-      <S.Meta>
-        <S.AuthorPill isCurrentUser={isCurrentUser}>{author}</S.AuthorPill>
+      <div className="mt-2.5 flex h-[42px] w-full items-center justify-between">
+        <span
+          className={cn(
+            'rounded-large px-[14px] py-2 text-small font-semibold',
+            isCurrentUser ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400',
+          )}
+        >
+          {author}
+        </span>
         {isVoteButtonVisible ? (
-          <S.IconButton
+          <button
             aria-label="comment"
             onClick={onCommentClick}
             data-no-canvas-close="true"
-            isCommentOpen={isCommentOpen}
+            className={cn(
+              'inline-flex h-[42px] min-w-[42px] items-center justify-center gap-1.5 rounded-medium bg-white px-2.5 text-gray-400 hover:bg-gray-100',
+              isCommentOpen ? 'border-none outline outline-2 outline-blue-400' : 'border border-gray-200',
+            )}
           >
             <Image
               src="/comment.svg"
@@ -85,16 +97,28 @@ export default function IdeaCardHeader({
               width={14}
               height={14}
             />
-            <S.CommentCount>{commentCount}</S.CommentCount>
-          </S.IconButton>
+            <span className="mt-px text-[12px] font-semibold leading-none text-gray-500">
+              {commentCount}
+            </span>
+          </button>
         ) : (
-          <>{isEditing ? <S.SubmitButton onClick={submitEdit}>제출</S.SubmitButton> : null}</>
+          <>
+            {isEditing ? (
+              <button
+                onClick={submitEdit}
+                className="ml-auto h-10 w-[60px] rounded-small border border-green-600 bg-transparent text-medium tracking-[1px] text-green-600 hover:bg-green-100"
+              >
+                제출
+              </button>
+            ) : null}
+          </>
         )}
-      </S.Meta>
+      </div>
       {issueStatus === ISSUE_STATUS.BRAINSTORMING && isCurrentUser && (
-        <S.DeleteButton
+        <button
           aria-label="delete"
           onClick={onDelete}
+          className="absolute right-[-28px] top-[-28px] flex h-[30px] w-[30px] items-center justify-center border-none bg-transparent"
         >
           <Image
             src="/close.svg"
@@ -102,8 +126,8 @@ export default function IdeaCardHeader({
             width={14}
             height={14}
           />
-        </S.DeleteButton>
+        </button>
       )}
-    </S.Header>
+    </div>
   );
 }
