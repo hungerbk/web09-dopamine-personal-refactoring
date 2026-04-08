@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RenderHookOptions, RenderOptions, render, renderHook } from '@testing-library/react';
 import { AuthProvider } from '@/providers/auth-provider';
-import ThemeProvider from '@/providers/theme-provider';
 
 // 1. 전역 래퍼 (RootLayout 구조 반영)
 const createWrapper = () => {
@@ -16,7 +15,7 @@ const createWrapper = () => {
   return ({ children }: { children: React.ReactNode }) => (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
       </QueryClientProvider>
     </AuthProvider>
   );

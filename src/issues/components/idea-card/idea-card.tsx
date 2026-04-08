@@ -212,13 +212,6 @@ export default function IdeaCard(props: IdeaCardProps) {
     <article
       ref={combinedRef}
       data-idea-card={props.id}
-      issueStatus={issueStatus}
-      status={status}
-      isDragging={isDragging}
-      isEditing={isEditing}
-      inCategory={inCategory}
-      isCommentOpen={isCommentOpen}
-      isHotIdea={props.isHotIdea}
       onClick={handleCardClick}
       onPointerDown={handlePointerDown}
       {...attributes}
