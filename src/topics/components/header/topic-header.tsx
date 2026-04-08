@@ -9,51 +9,6 @@ import { useTopicDetailQuery } from '@/hooks/topics';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 import CreateIssueButton from '../create-issue-button/create-issue-button';
 import EditTopicButton from '../edit-topic-button/edit-topic-button';
-import { cn } from '@/lib/utils/cn';
-
-function HeaderContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('h-[64px] px-4 bg-white flex items-center justify-between border-b border-gray-200', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function LeftSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('gap-3 flex text-large font-semibold text-black items-center', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function RightSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('gap-2 flex items-center justify-self-end mr-2', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function Divider({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div className={cn('h-4 w-px bg-gray-200 mx-1', className)} {...props} />;
-}
-
-function Profile({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex gap-3 font-semibold items-center cursor-pointer min-w-[92px]', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function ButtonsWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex items-center', className)} {...props}>
-      {children}
-    </div>
-  );
-}
 
 export default function TopicHeader() {
   const params = useParams();
@@ -73,20 +28,20 @@ export default function TopicHeader() {
   };
 
   return (
-    <HeaderContainer>
-      <LeftSection>
+    <div className="h-[64px] border-b border-gray-200 bg-white px-4 flex items-center justify-between">
+      <div className="flex items-center gap-3 text-large font-semibold text-black">
         <Link href={`/projects/${topic?.projectId || ''}`}>
-          <ButtonsWrapper>
+          <div className="flex items-center">
             <Image
               src="/leftArrow.svg"
               alt="뒤로가기"
               width={18}
               height={18}
             />
-          </ButtonsWrapper>
+          </div>
         </Link>
 
-        <Divider />
+        <div className="mx-1 h-4 w-px bg-gray-200" />
 
         {showLoading ? (
           <TitleSkeleton width="180px" />
@@ -99,11 +54,15 @@ export default function TopicHeader() {
             />
           </>
         )}
-      </LeftSection>
-      <RightSection>
+      </div>
+      <div className="mr-2 flex items-center gap-2 justify-self-end">
         <CreateIssueButton />
-        <Divider />
-        <Profile onClick={handleProfileClick}>
+        <div className="mx-1 h-4 w-px bg-gray-200" />
+        <button
+          type="button"
+          onClick={handleProfileClick}
+          className="flex min-w-[92px] items-center gap-3 font-semibold"
+        >
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -118,13 +77,13 @@ export default function TopicHeader() {
                   alt="프로필"
                   width={38}
                   height={38}
-                  style={{ borderRadius: '50%' }}
+                  className="rounded-full"
                 />
               )}
             </>
           )}
-        </Profile>
-      </RightSection>
-    </HeaderContainer>
+        </button>
+      </div>
+    </div>
   );
 }
