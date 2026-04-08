@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import * as S from '@/issues/components/edit-issue-button/edit-issue-button.styles';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import EditTopicModal, { EditTopicProps } from '../edit-topic-modal/edit-topic-modal';
 
@@ -23,11 +22,12 @@ export default function EditTopicButton({ topicId, currentTitle }: EditTopicProp
   };
 
   return (
-    <S.Button
+    <button
       onClick={handleEditClick}
       aria-label="Edit"
       role="button"
       tabIndex={0}
+      className="flex flex-col items-center opacity-70 hover:opacity-50"
     >
       <Image
         src="/edit.svg"
@@ -35,6 +35,6 @@ export default function EditTopicButton({ topicId, currentTitle }: EditTopicProp
         width={14}
         height={14}
       />
-    </S.Button>
+    </button>
   );
 }

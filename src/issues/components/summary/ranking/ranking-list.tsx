@@ -2,54 +2,66 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 import type { CategoryRanking, RankedIdeaDto } from '@/issues/types';
-import * as PS from '../summary-page.styles';
 import CategorizedListClient from './categorized-list';
 import NormalList from './normal-list';
-import * as S from './ranking-list.styles';
 
 interface RankingListProps {
   normalRankings: RankedIdeaDto[];
   categorizedRankings: CategoryRanking[];
 };
 
+const tabButtonVariants = cva(
+  'min-h-8 w-[77px] rounded-medium text-small font-bold leading-5',
+  {
+    variants: {
+      selected: {
+        true: 'bg-white text-black shadow-[0_1px_2px_0px_#0000000D]',
+        false: 'bg-transparent text-gray-400',
+      },
+    },
+  },
+);
+
 export default function RankingList({ normalRankings, categorizedRankings }: RankingListProps) {
   const [isCategorized, setIsCategorized] = useState(false);
 
   return (
-    <S.Card>
-      <S.Header>
-        <S.HeaderLeft>
+    <div className="flex w-full flex-col gap-4 overflow-hidden">
+      <div className="flex items-center justify-between px-1">
+        <div className="flex items-center gap-2">
           <Image
             src="/trophy.svg"
             alt="트로피 아이콘"
             width={20}
             height={20}
           />
-          <PS.HeaderTitle>투표 결과 순위</PS.HeaderTitle>
-        </S.HeaderLeft>
-        <S.BtnContainer>
-          <S.Btn
-            selected={!isCategorized}
+          <span className="text-[20px] font-semibold text-black">투표 결과 순위</span>
+        </div>
+        <div className="flex items-center justify-center rounded-medium bg-gray-200">
+          <button
             onClick={() => setIsCategorized(false)}
+            className={cn(tabButtonVariants({ selected: !isCategorized }))}
           >
             전체 순위
-          </S.Btn>
-          <S.Btn
-            selected={isCategorized}
+          </button>
+          <button
             onClick={() => setIsCategorized(true)}
+            className={cn(tabButtonVariants({ selected: isCategorized }))}
           >
             카테고리별
-          </S.Btn>
-        </S.BtnContainer>
-      </S.Header>
-      <PS.ComponentBox>
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col rounded-medium border border-gray-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.03)]">
         {isCategorized ? (
           <CategorizedListClient categorizedRankings={categorizedRankings} />
         ) : (
           <NormalList normalRankings={normalRankings} />
         )}
-      </PS.ComponentBox>
-    </S.Card>
+      </div>
+    </div>
   );
 }
