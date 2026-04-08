@@ -1,6 +1,5 @@
 import { useConnection } from '@xyflow/react';
 import { EDGE_STYLE } from '@/constants/topic';
-import { theme } from '@/styles/theme';
 
 interface IssueConnectionLineProps {
   fromX: number;
@@ -29,7 +28,7 @@ export default function IssueConnectionLine({ fromX, fromY, toX, toY }: IssueCon
       <circle
         cx={toX}
         cy={toY}
-        fill={theme.colors.white}
+        fill="#fff"
         r={3}
         stroke={EDGE_STYLE.stroke}
         strokeWidth={STROKE_WIDTH}

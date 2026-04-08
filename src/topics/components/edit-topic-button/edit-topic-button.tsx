@@ -25,8 +25,6 @@ export default function EditTopicButton({ topicId, currentTitle }: EditTopicProp
     <button
       onClick={handleEditClick}
       aria-label="Edit"
-      role="button"
-      tabIndex={0}
       className="flex flex-col items-center opacity-70 hover:opacity-50"
     >
       <Image

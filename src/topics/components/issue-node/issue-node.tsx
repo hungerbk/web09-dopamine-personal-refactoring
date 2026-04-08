@@ -69,14 +69,11 @@ function TopicNode({ id, data }: NodeProps<Node<TopicNodeData>>) {
   return (
     <div
       className={cn(
-        'flex flex-col p-5 gap-3 text-black rounded-large cursor-pointer w-[250px] h-fit box-border shadow-md',
+        'flex h-fit w-[250px] cursor-pointer flex-col gap-3 rounded-large p-5 text-black shadow-md transition-opacity duration-200 ease-in-out',
+        dimmed ? 'opacity-30' : 'opacity-100',
         getNodeStatusClasses(status)
       )}
       onClick={handleClick}
-      style={{
-        opacity: dimmed ? 0.3 : 1,
-        transition: 'opacity 0.2s ease-in-out',
-      }}
     >
       <div className="flex justify-end mb-2">
         <div className={cn('rounded-large px-3 py-1 text-small font-bold', getBadgeStatusClasses(status))}>

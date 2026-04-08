@@ -2,19 +2,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { BaseEdge, EdgeProps, EdgeToolbar, getBezierPath, useViewport } from '@xyflow/react';
 import { EDGE_STYLE } from '@/constants/topic';
-import { theme } from '@/styles/theme';
-
-const DELETE_BUTTON_STYLE = {
-  width: 20,
-  height: 20,
-  borderRadius: '50%',
-  border: `1px solid ${theme.colors.gray[300]}`,
-  background: theme.colors.white,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-} as const;
 
 const BUTTON_VISIABLE_ZOOM_LEVEL = 0.65;
 const STROKE_WIDTH = 1.5;
@@ -63,7 +50,7 @@ export default function IssueEdge({
         fill="none"
         stroke="transparent"
         strokeWidth={28}
-        style={{ cursor: 'pointer' }}
+        className="cursor-pointer"
       />
       {/* 실제 보이는 엣지 */}
       <BaseEdge
@@ -78,7 +65,7 @@ export default function IssueEdge({
       <circle
         cx={sourceX}
         cy={sourceY}
-        fill={theme.colors.white}
+        fill="#fff"
         r={3}
         stroke={EDGE_STYLE.stroke}
         strokeWidth={STROKE_WIDTH}
@@ -91,8 +78,9 @@ export default function IssueEdge({
         isVisible={(isHovered || selected) && zoom >= BUTTON_VISIABLE_ZOOM_LEVEL}
       >
         <button
-          style={DELETE_BUTTON_STYLE}
+          type="button"
           onClick={handleDelete}
+          className="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border border-gray-300 bg-white"
         >
           <Image
             src="/close.svg"
