@@ -11,7 +11,7 @@ import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skelet
 import { useProjectQuery } from '@/hooks/projects';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 
-const ProjectHeader = () => {
+export default function ProjectHeader() {
   const params = useParams<{ id: string }>();
   const projectId = params.id;
   const router = useRouter();
@@ -31,21 +31,20 @@ const ProjectHeader = () => {
   };
 
   return (
-    <div className="h-[64px] px-4 bg-white flex justify-between items-center border-b border-gray-200">
-      <div className="gap-3 flex text-large font-semibold text-black items-center justify-self-start">
-        <Link href={'/project'}>
+    <div className="flex h-[64px] items-center justify-between border-b border-gray-200 bg-white px-4">
+      <div className="flex items-center justify-self-start gap-3 text-large font-semibold text-black">
+        <Link href="/project">
           <Image
             src="/leftArrow.svg"
             alt="뒤로 가기"
             width={18}
             height={18}
-            style={{ cursor: 'pointer' }}
           />
         </Link>
         <div className="h-4 w-px bg-gray-200 mx-1" />
         {showLoading ? <TitleSkeleton width="200px" /> : projectData?.title}
       </div>
-      <div className="gap-2 flex items-center justify-self-end mr-2">
+      <div className="mr-2 flex items-center justify-self-end gap-2">
         <HeaderButton
           imageSrc="/people.svg"
           alt="팀원 초대"
@@ -53,8 +52,9 @@ const ProjectHeader = () => {
           onClick={(e) => openInviteProjectModal(projectId, projectData?.title || '', e)}
         />
         <div className="h-4 w-px bg-gray-200 mx-1" />
-        <div 
-          className="flex gap-3 font-semibold items-center cursor-pointer min-w-[92px]"
+        <button
+          type="button"
+          className="flex min-w-[92px] items-center gap-3 font-semibold"
           onClick={handleProfileClick}
         >
           {showSessionLoading ? (
@@ -71,15 +71,13 @@ const ProjectHeader = () => {
                   alt="프로필"
                   width={38}
                   height={38}
-                  style={{ borderRadius: '50%' }}
+                  className="rounded-full"
                 />
               )}
             </>
           )}
-        </div>
+        </button>
       </div>
     </div>
   );
-};
-
-export default ProjectHeader;
+}

@@ -6,9 +6,6 @@ import { getProjectWithTopicsForUser } from '@/lib/services/project.service';
 import CreateTopicButton from './create-topic-button/create-topic-button';
 import EditProjectButton from './edit-project-button/edit-project-button';
 import TopicList from './topic-list/topic-list';
-interface ProjectDetailPageProps {
-  projectId: string;
-}
 
 export default async function ProjectDetailPage({ projectId }: { projectId: string }) {
   const session = await getServerSession(authOptions);

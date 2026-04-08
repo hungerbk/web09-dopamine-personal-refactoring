@@ -2,29 +2,12 @@
 
 import { ReactNode } from 'react';
 import ProjectHeader from '@/projects/components/project-header/project-header';
-import { cn } from '@/lib/utils/cn';
-
-function LayoutContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-10 h-screen pt-8 px-[80px]', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function ContentArea({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-1 overflow-y-auto max-w-[1200px] self-center w-full', className)} {...props}>
-      {children}
-    </div>
-  );
-}
 
 export default function ProjectLayoutClient({ children }: { children: ReactNode }) {
   return (
-    <LayoutContainer>
+    <div className="flex h-screen flex-col gap-10 px-[80px] pt-8">
       <ProjectHeader />
-      <ContentArea>{children}</ContentArea>
-    </LayoutContainer>
+      <div className="flex w-full max-w-[1200px] flex-1 self-center overflow-y-auto">{children}</div>
+    </div>
   );
 }

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 
-const ProjectHeader = () => {
+export default function ProjectHeader() {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   const userImage = session?.user?.image;
@@ -19,24 +19,25 @@ const ProjectHeader = () => {
   };
 
   return (
-    <div className="h-[56px] w-full max-w-[1200px] bg-white flex items-center justify-between self-center">
-      <div className="flex gap-3 items-center">
-        <Link href={'/'}>
-          <div className="flex items-center">
-            <Image
-              src="/home.svg"
-              alt="홈으로 가기"
-              width={18}
-              height={18}
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
+    <div className="flex h-[56px] w-full max-w-[1200px] items-center justify-between self-center bg-white">
+      <div className="flex items-center gap-3">
+        <Link
+          href="/"
+          className="flex items-center"
+        >
+          <Image
+            src="/home.svg"
+            alt="홈으로 가기"
+            width={18}
+            height={18}
+          />
         </Link>
         <h1 className="text-xxl font-bold text-black m-0">내 프로젝트</h1>
       </div>
-      <div className="flex gap-3 items-center">
-        <div 
-          className="flex gap-3 font-semibold items-center cursor-pointer"
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          className="flex items-center gap-3 font-semibold"
           onClick={handleProfileClick}
         >
           {showSessionLoading ? (
@@ -53,15 +54,13 @@ const ProjectHeader = () => {
                   alt="프로필"
                   width={38}
                   height={38}
-                  style={{ borderRadius: '50%' }}
+                  className="rounded-full"
                 />
               )}
             </>
           )}
-        </div>
+        </button>
       </div>
     </div>
   );
-};
-
-export default ProjectHeader;
+}

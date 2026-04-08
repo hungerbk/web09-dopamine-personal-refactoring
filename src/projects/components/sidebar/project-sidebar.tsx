@@ -10,43 +10,6 @@ import * as S from '@/components/sidebar/sidebar';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 import { useProjectSidebar } from './use-project-sidebar';
-import { cn } from '@/lib/utils/cn';
-
-function SidebarSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col h-full gap-4', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function TopicSectionWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex-[0.4] min-h-0 flex flex-col', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function MemberSectionWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex-[0.6] min-h-0 flex flex-col', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function ScrollableSection({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex-1 min-h-0 overflow-y-auto scrollbar-hide', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function Divider({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div className={cn('w-full h-px bg-gray-200', className)} {...props} />;
-}
 
 const ProjectSidebar = () => {
   const {
@@ -79,10 +42,10 @@ const ProjectSidebar = () => {
         />
       }
     >
-      <SidebarSection>
-        <TopicSectionWrapper>
+      <div className="flex h-full flex-col gap-4">
+        <div className="flex min-h-0 flex-[0.4] flex-col">
           <S.SidebarTitle>TOPIC LIST</S.SidebarTitle>
-          <ScrollableSection>
+          <div className="scrollbar-hide flex min-h-0 flex-1 overflow-y-auto">
             <S.SidebarList>
               {showLoading ? (
                 <>
@@ -111,12 +74,12 @@ const ProjectSidebar = () => {
                 </div>
               )}
             </S.SidebarList>
-          </ScrollableSection>
-        </TopicSectionWrapper>
+          </div>
+        </div>
 
-        <Divider />
+        <div className="h-px w-full bg-gray-200" />
 
-        <MemberSectionWrapper>
+        <div className="flex min-h-0 flex-[0.6] flex-col">
           <S.SidebarTitle>
             MEMBER LIST
             <button
@@ -132,7 +95,7 @@ const ProjectSidebar = () => {
               />
             </button>
           </S.SidebarTitle>
-          <ScrollableSection>
+          <div className="scrollbar-hide flex min-h-0 flex-1 overflow-y-auto">
             <S.SidebarList>
               {showLoading ? (
                 <>
@@ -176,11 +139,12 @@ const ProjectSidebar = () => {
                 </div>
               )}
             </S.SidebarList>
-          </ScrollableSection>
-        </MemberSectionWrapper>
-      </SidebarSection>
+          </div>
+        </div>
+      </div>
     </Sidebar>
   );
 };
 
 export default ProjectSidebar;
+
