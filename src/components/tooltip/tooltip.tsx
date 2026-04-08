@@ -3,7 +3,6 @@
 import { useRef } from 'react';
 import { arrow, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/react';
 import { createPortal } from 'react-dom';
-import * as S from './tooltip.styles';
 import { useTooltipStore } from './use-tooltip-store';
 
 export default function Tooltip() {
@@ -40,20 +39,22 @@ export default function Tooltip() {
   if (!isOpen || !targetNode || !targetNode.isConnected) return null;
 
   return createPortal(
-    <S.Container
+    <div
       ref={refs.setFloating}
       style={floatingStyles}
+      className="pointer-events-none z-popover rounded-medium bg-yellow-100 p-3 text-small font-medium text-gray-800"
     >
       {text}
-      <S.Arrow
+      <div
         ref={arrowRef}
         style={{
           left: arrowX != null ? `${arrowX}px` : '',
           top: arrowY != null ? `${arrowY}px` : '',
           [staticSide]: '-5px',
         }}
+        className="absolute h-3 w-3 rotate-45 bg-yellow-100"
       />
-    </S.Container>,
+    </div>,
     document.body,
   );
 }

@@ -7,7 +7,6 @@ import Background from '@/components/background/background';
 import CreateIssueModal from '@/components/modal/issue-create-modal/issue-create-modal';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import SocialLogin from '../social-login/social-login';
-import * as S from './home-page.styles';
 
 interface HomePageProps {
   session: Session | null;
@@ -37,12 +36,12 @@ export default function HomePage({ session }: HomePageProps) {
     return (
       <>
         {session ? (
-          <S.StartButton
-            background="#3B82F6"
+          <button
             onClick={handleGoToProject}
+            className="h-[60px] w-[200px] rounded-[16px] bg-blue-500 text-[24px] font-semibold text-white"
           >
             프로젝트로 이동
-          </S.StartButton>
+          </button>
         ) : (
           <SocialLogin />
         )}
@@ -53,17 +52,19 @@ export default function HomePage({ session }: HomePageProps) {
   return (
     <>
       <Background />
-      <S.Container>
-        <S.LogoContainer>
-          <S.Logo>M</S.Logo>
-          <S.Text>Murphy</S.Text>
-        </S.LogoContainer>
-        <S.TitleContainer>
-          <S.Title>
-            발산은 <S.Highlight color="#3B82F6">자유롭게</S.Highlight>,
-          </S.Title>
-          <S.Title>
-            수렴은 <S.Highlight color="#00A94F">확실하게</S.Highlight>
+      <div className="flex h-full min-w-[650px] w-full flex-col items-center justify-center gap-6">
+        <div className="flex flex-row items-center justify-center gap-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-gradient-to-br from-green-600 to-emerald-600 text-[20px] font-bold text-white shadow-[0_10px_15px_-3px_#bbf7d0,0_4px_6px_-4px_#bbf7d0]">
+            M
+          </div>
+          <p className="text-[24px] font-bold leading-8">Murphy</p>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <h1 className="whitespace-nowrap text-[90px] font-extrabold leading-[96px]">
+            발산은 <span className="text-blue-500">자유롭게</span>,
+          </h1>
+          <h1 className="whitespace-nowrap text-[90px] font-extrabold leading-[96px]">
+            수렴은 <span className="text-green-600">확실하게</span>
             <Image
               src={'/check.svg'}
               alt="check"
@@ -71,26 +72,26 @@ export default function HomePage({ session }: HomePageProps) {
               height={35}
               style={{ position: 'relative', top: -50 }}
             />
-          </S.Title>
-        </S.TitleContainer>
-        <S.SubTitleContainer>
-          <S.Text>
+          </h1>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2 text-gray-600">
+          <p className="text-[24px] font-bold leading-8">
             아이디어 브레인스토밍부터 의사결정까지,{' '}
-            <S.Highlight
-              color="#000000"
-              background="#F0FDF4"
-            >
-              Murphy
-            </S.Highlight>
+            <span className="bg-green-50 text-black">Murphy</span>
             가 가장 스마트한
-          </S.Text>
-          <S.Text>길을 안내합니다.</S.Text>
-        </S.SubTitleContainer>
-        <S.ButtonContainer>
+          </p>
+          <p className="text-[24px] font-bold leading-8">길을 안내합니다.</p>
+        </div>
+        <div className="mt-[10px] flex flex-col items-center justify-center gap-10">
           {renderProjectOrSocialLogin()}
-          <S.StartButton onClick={handleStart}>빠르게 시작하기</S.StartButton>
-        </S.ButtonContainer>
-      </S.Container>
+          <button
+            onClick={handleStart}
+            className="h-[60px] w-[200px] rounded-[16px] bg-green-600 text-[24px] font-semibold text-white"
+          >
+            빠르게 시작하기
+          </button>
+        </div>
+      </div>
     </>
   );
 }
