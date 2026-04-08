@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getWordClouds } from '@/lib/api/report';
 import { theme } from '@/styles/theme';
-import * as PS from '../summary-page.styles';
-import * as S from './word-cloud.styles';
 
 const WORD_CLOUD_GREEN_PALETTE = [
   theme.colors.wordcloud[100],
@@ -101,14 +99,14 @@ export default function WordCloudSection() {
   }, [words]);
 
   return (
-    <S.Container>
-      <PS.HeaderTitle>워드 클라우드</PS.HeaderTitle>
+    <div className="flex flex-col gap-4 p-[30px]">
+      <span className="text-[20px] font-semibold text-black">워드 클라우드</span>
 
-      <S.WordCloudBox>
+      <div className="relative flex h-[240px] w-full items-center justify-center overflow-hidden rounded-medium bg-gray-100">
         {isLoading ? (
-          <S.LoadingText>워드클라우드 로딩 중...</S.LoadingText>
+          <div className="text-medium text-gray-500">워드클라우드 로딩 중...</div>
         ) : words.length === 0 ? (
-          <S.EmptyText>워드클라우드 데이터가 없습니다.</S.EmptyText>
+          <div className="text-medium text-gray-500">워드클라우드 데이터가 없습니다.</div>
         ) : (
           <canvas
             ref={canvasRef}
@@ -120,7 +118,7 @@ export default function WordCloudSection() {
             }}
           />
         )}
-      </S.WordCloudBox>
-    </S.Container>
+      </div>
+    </div>
   );
 }
