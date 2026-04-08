@@ -10,7 +10,6 @@ import { useInviteProjectModal } from '@/components/modal/invite-project-modal/u
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
 import { useProjectQuery } from '@/hooks/projects';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as S from './header.styles';
 
 const ProjectHeader = () => {
   const params = useParams<{ id: string }>();
@@ -32,8 +31,8 @@ const ProjectHeader = () => {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
+    <div className="h-[64px] px-4 bg-white flex justify-between items-center border-b border-gray-200">
+      <div className="gap-3 flex text-large font-semibold text-black items-center justify-self-start">
         <Link href={'/project'}>
           <Image
             src="/leftArrow.svg"
@@ -43,18 +42,21 @@ const ProjectHeader = () => {
             style={{ cursor: 'pointer' }}
           />
         </Link>
-        <S.Divider />
+        <div className="h-4 w-px bg-gray-200 mx-1" />
         {showLoading ? <TitleSkeleton width="200px" /> : projectData?.title}
-      </S.LeftSection>
-      <S.RightSection>
+      </div>
+      <div className="gap-2 flex items-center justify-self-end mr-2">
         <HeaderButton
           imageSrc="/people.svg"
           alt="팀원 초대"
           text="팀원 초대"
           onClick={(e) => openInviteProjectModal(projectId, projectData?.title || '', e)}
         />
-        <S.Divider />
-        <S.Profile onClick={handleProfileClick}>
+        <div className="h-4 w-px bg-gray-200 mx-1" />
+        <div 
+          className="flex gap-3 font-semibold items-center cursor-pointer min-w-[92px]"
+          onClick={handleProfileClick}
+        >
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -74,9 +76,9 @@ const ProjectHeader = () => {
               )}
             </>
           )}
-        </S.Profile>
-      </S.RightSection>
-    </S.HeaderContainer>
+        </div>
+      </div>
+    </div>
   );
 };
 
