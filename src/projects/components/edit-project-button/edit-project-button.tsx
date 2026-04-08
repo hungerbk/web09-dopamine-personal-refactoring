@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import * as S from '@/projects/components/project-detail-page.styles';
 import ProjectModal from '@/projects/components/project-modal/project-modal';
 import { useModalStore } from '@/components/modal/use-modal-store';
 
@@ -34,7 +33,8 @@ export default function EditProject({
   };
 
   return (
-    <S.EditIconWrapper
+    <div
+      className="top-3 right-3 flex items-center justify-center cursor-pointer hover:opacity-70"
       onClick={handleEditClick}
       aria-label="Edit"
       role="button"
@@ -46,6 +46,6 @@ export default function EditProject({
         width={16}
         height={16}
       />
-    </S.EditIconWrapper>
+    </div>
   );
 }

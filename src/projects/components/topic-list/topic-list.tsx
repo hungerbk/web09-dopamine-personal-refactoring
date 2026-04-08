@@ -4,8 +4,6 @@ import Card, { CardSkeleton } from '@/projects/components/card/card';
 import EmptyTopicState from '@/projects/components/empty-topic-state/empty-topic-state';
 import { useProjectQuery } from '@/hooks/projects';
 import type { ProjectwithTopic } from '@/projects/types';
-import * as S from '@/projects/components/project-detail-page.styles';
-
 interface TopicListProps {
   projectId: string;
   initialTopics: ProjectwithTopic['topics'];
@@ -16,15 +14,15 @@ export default function TopicList({ projectId, initialTopics }: TopicListProps) 
   const topics = projectData?.topics ?? initialTopics;
 
   return (
-    <S.TopicCardsContainer>
+    <div className="relative flex flex-col gap-4">
       {topics.length === 0 ? (
         <>
           <CardSkeleton />
           <CardSkeleton />
           <CardSkeleton />
-          <S.EmptyTopicOverlay>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-auto">
             <EmptyTopicState />
-          </S.EmptyTopicOverlay>
+          </div>
         </>
       ) : (
         topics.map((topic) => (
@@ -39,6 +37,6 @@ export default function TopicList({ projectId, initialTopics }: TopicListProps) 
           />
         ))
       )}
-    </S.TopicCardsContainer>
+    </div>
   );
 }

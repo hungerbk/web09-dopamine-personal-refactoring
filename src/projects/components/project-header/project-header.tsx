@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as HS from '@/issues/components/header/header.styles';
-import * as S from './project-header.styles';
 
 const ProjectHeader = () => {
   const { data: session, status: sessionStatus } = useSession();
@@ -21,10 +19,10 @@ const ProjectHeader = () => {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
+    <div className="h-[56px] w-full max-w-[1200px] bg-white flex items-center justify-between self-center">
+      <div className="flex gap-3 items-center">
         <Link href={'/'}>
-          <HS.ButtonsWrapper>
+          <div className="flex items-center">
             <Image
               src="/home.svg"
               alt="홈으로 가기"
@@ -32,12 +30,15 @@ const ProjectHeader = () => {
               height={18}
               style={{ cursor: 'pointer' }}
             />
-          </HS.ButtonsWrapper>
+          </div>
         </Link>
-        <S.Title>내 프로젝트</S.Title>
-      </S.LeftSection>
-      <S.RightSection>
-        <S.Profile onClick={handleProfileClick}>
+        <h1 className="text-xxl font-bold text-black m-0">내 프로젝트</h1>
+      </div>
+      <div className="flex gap-3 items-center">
+        <div 
+          className="flex gap-3 font-semibold items-center cursor-pointer"
+          onClick={handleProfileClick}
+        >
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -57,9 +58,9 @@ const ProjectHeader = () => {
               )}
             </>
           )}
-        </S.Profile>
-      </S.RightSection>
-    </S.HeaderContainer>
+        </div>
+      </div>
+    </div>
   );
 };
 
