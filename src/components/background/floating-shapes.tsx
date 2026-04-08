@@ -2,31 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useAnimationFrame } from 'framer-motion';
-import { cn } from '@/lib/utils/cn';
 
 const SHAPE_SIZE = 80;
 const SHAPE_RADIUS = 24;
-
-function ShapesContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('absolute w-full h-full top-0 left-0 pointer-events-none', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
-
-function Shape({ color, style, className, ...props }: React.ComponentProps<typeof motion.div> & { color: string }) {
-  return (
-    <motion.div
-      className={cn('absolute transition-[background] duration-300 ease', className)}
-      style={{ width: SHAPE_SIZE, height: SHAPE_SIZE, borderRadius: SHAPE_RADIUS, background: color, ...style }}
-      {...props}
-    />
-  );
-}
 
 const COLORS = {
   default: 'rgba(200, 200, 200, 0.2)',
@@ -131,21 +109,25 @@ export default function FloatingShapes() {
   });
 
   return (
-    <ShapesContainer>
+    <div className="pointer-events-none absolute left-0 top-0 h-full w-full">
       {shapes.map((shape) => (
-        <Shape
+        <motion.div
           key={shape.id}
-          color={getColorByPosition(
-            shape.x + SHAPE_SIZE / 2,
-            shape.y + SHAPE_SIZE / 2,
-            viewportRef.current,
-          )}
+          className="absolute transition-[background] duration-300 ease"
           style={{
+            width: SHAPE_SIZE,
+            height: SHAPE_SIZE,
+            borderRadius: SHAPE_RADIUS,
+            background: getColorByPosition(
+              shape.x + SHAPE_SIZE / 2,
+              shape.y + SHAPE_SIZE / 2,
+              viewportRef.current,
+            ),
             left: shape.x,
             top: shape.y,
           }}
         />
       ))}
-    </ShapesContainer>
+    </div>
   );
 }
