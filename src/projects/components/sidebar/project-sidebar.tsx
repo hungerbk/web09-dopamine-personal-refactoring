@@ -9,8 +9,44 @@ import SidebarItem from '@/components/sidebar/sidebar-item';
 import * as S from '@/components/sidebar/sidebar';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as ProjectS from './projcet-sidebar.styles';
 import { useProjectSidebar } from './use-project-sidebar';
+import { cn } from '@/lib/utils/cn';
+
+function SidebarSection({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex flex-col h-full gap-4', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function TopicSectionWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex-[0.4] min-h-0 flex flex-col', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function MemberSectionWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex-[0.6] min-h-0 flex flex-col', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function ScrollableSection({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex-1 min-h-0 overflow-y-auto scrollbar-hide', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function Divider({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div className={cn('w-full h-px bg-gray-200', className)} {...props} />;
+}
 
 const ProjectSidebar = () => {
   const {
@@ -43,10 +79,10 @@ const ProjectSidebar = () => {
         />
       }
     >
-      <ProjectS.SidebarSection>
-        <ProjectS.TopicSectionWrapper>
+      <SidebarSection>
+        <TopicSectionWrapper>
           <S.SidebarTitle>TOPIC LIST</S.SidebarTitle>
-          <ProjectS.ScrollableSection>
+          <ScrollableSection>
             <S.SidebarList>
               {showLoading ? (
                 <>
@@ -75,12 +111,12 @@ const ProjectSidebar = () => {
                 </div>
               )}
             </S.SidebarList>
-          </ProjectS.ScrollableSection>
-        </ProjectS.TopicSectionWrapper>
+          </ScrollableSection>
+        </TopicSectionWrapper>
 
-        <ProjectS.Divider />
+        <Divider />
 
-        <ProjectS.MemberSectionWrapper>
+        <MemberSectionWrapper>
           <S.SidebarTitle>
             MEMBER LIST
             <button
@@ -96,7 +132,7 @@ const ProjectSidebar = () => {
               />
             </button>
           </S.SidebarTitle>
-          <ProjectS.ScrollableSection>
+          <ScrollableSection>
             <S.SidebarList>
               {showLoading ? (
                 <>
@@ -140,9 +176,9 @@ const ProjectSidebar = () => {
                 </div>
               )}
             </S.SidebarList>
-          </ProjectS.ScrollableSection>
-        </ProjectS.MemberSectionWrapper>
-      </ProjectS.SidebarSection>
+          </ScrollableSection>
+        </MemberSectionWrapper>
+      </SidebarSection>
     </Sidebar>
   );
 };
