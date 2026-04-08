@@ -9,7 +9,7 @@ import {
   FormInputWrapper,
   FormSubmitButton,
   FormTextarea,
-} from '@/components/modal/modal-form.styles';
+} from '@/components/modal/modal-form';
 import { theme } from '@/styles/theme';
 
 type Variant = 'topic' | 'project';
