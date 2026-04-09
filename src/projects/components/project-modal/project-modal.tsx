@@ -8,100 +8,14 @@ import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from '@/constants/project';
 import { useUpdateProjectMutation } from '@/hooks/projects';
 import { isProjectTitleTooLong } from '@/lib/utils/project-title';
-import { cn } from '@/lib/utils/cn';
-
-function Container({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-[30px]', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InfoContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-[10px]', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InputWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-2', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InputTitle({ children, className, ...props }: React.ComponentProps<'label'>) {
-  return (
-    <label className={cn('text-medium font-semibold text-gray-900', className)} {...props}>
-      {children}
-    </label>
-  );
-}
-
-function InputRow({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('relative', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function Input({ className, ...props }: React.ComponentProps<'input'>) {
-  return (
-    <input
-      className={cn(
-        'w-full border border-gray-300 rounded-medium text-medium text-gray-900 box-border bg-white',
-        'focus:outline-none focus:border-green-600',
-        'disabled:bg-gray-50 disabled:cursor-not-allowed',
-        'placeholder:text-gray-400',
-        'py-3 pr-11 pl-2',
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
-  return (
-    <textarea
-      className={cn(
-        'w-full border border-gray-300 rounded-medium text-medium text-gray-900 box-border',
-        'focus:outline-none focus:border-green-600',
-        'py-3 pr-11 pl-2',
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function InputDescription({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('text-medium text-red-500', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function CharCount({ children, className, isOverLimit, ...props }: React.ComponentProps<'span'> & { isOverLimit?: boolean }) {
-  return (
-    <span
-      className={cn(
-        'absolute right-2.5 top-1/2 -translate-y-1/2 text-small font-semibold pointer-events-none',
-        isOverLimit ? 'text-red-500' : 'text-gray-600',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </span>
-  );
-}
+import {
+  FormCharCount,
+  FormInput,
+  FormInputRow,
+  FormInputTitle,
+  FormInputWrapper,
+  FormTextarea,
+} from '@/components/modal/modal-form';
 
 interface ProjectModalProps {
   projectId: string;
@@ -151,16 +65,7 @@ export default function ProjectModal({
         },
       },
     );
-  }, [
-    title,
-    description,
-    currentTitle,
-    currentDescription,
-    projectId,
-    updateProject,
-    closeModal,
-    router,
-  ]);
+  }, [title, description, currentTitle, currentDescription, projectId, updateProject, closeModal, router]);
 
   useEffect(() => {
     if (isOpen) {
@@ -178,46 +83,48 @@ export default function ProjectModal({
 
   return (
     <>
-      <Container>
-        <InfoContainer>
-          <InputWrapper>
-            <InputTitle>프로젝트 제목</InputTitle>
-            <InputRow>
-              <Input
+      <div className="flex flex-col gap-[30px]">
+        <div className="flex flex-col gap-[10px]">
+          <FormInputWrapper>
+            <FormInputTitle>프로젝트 제목</FormInputTitle>
+            <FormInputRow>
+              <FormInput
+                className="pr-11"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder={currentTitle ?? '프로젝트 제목을 입력해주세요.'}
               />
-              <CharCount isOverLimit={isTitleOverLimit}>
+              <FormCharCount isOverLimit={isTitleOverLimit}>
                 {titleLength}/{MAX_TITLE_LENGTH}
-              </CharCount>
-            </InputRow>
+              </FormCharCount>
+            </FormInputRow>
             {(isTitleOverLimit || isTitleLessLimit) && (
-              <InputDescription>
+              <p className="text-medium text-red-500">
                 * 프로젝트 제목은 1~{MAX_TITLE_LENGTH}자 이내로 입력해주세요.
-              </InputDescription>
+              </p>
             )}
-          </InputWrapper>
-          <InputWrapper>
-            <InputTitle>프로젝트 설명</InputTitle>
-            <InputRow>
-              <Textarea
+          </FormInputWrapper>
+          <FormInputWrapper>
+            <FormInputTitle>프로젝트 설명</FormInputTitle>
+            <FormInputRow>
+              <FormTextarea
+                className="pr-11"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder={currentDescription ?? '프로젝트 설명을 입력해주세요.'}
               />
-              <CharCount isOverLimit={isDescriptionOverLimit}>
+              <FormCharCount isOverLimit={isDescriptionOverLimit} className="top-4 translate-y-0">
                 {descriptionLength}/{MAX_DESCRIPTION_LENGTH}
-              </CharCount>
-            </InputRow>
+              </FormCharCount>
+            </FormInputRow>
             {isDescriptionOverLimit && (
-              <InputDescription>
+              <p className="text-medium text-red-500">
                 * 프로젝트 설명은 {MAX_DESCRIPTION_LENGTH}자 이내로 입력해주세요.
-              </InputDescription>
+              </p>
             )}
-          </InputWrapper>
-        </InfoContainer>
-      </Container>
+          </FormInputWrapper>
+        </div>
+      </div>
       {isUpdating && <LoadingOverlay message="변경사항을 저장중입니다." />}
     </>
   );

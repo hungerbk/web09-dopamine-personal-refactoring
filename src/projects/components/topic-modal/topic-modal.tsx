@@ -6,74 +6,13 @@ import toast from 'react-hot-toast';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_TOPIC_TITLE_LENGTH } from '@/constants/topic';
 import { useCreateTopicMutation } from '@/hooks/topics';
-import { cn } from '@/lib/utils/cn';
-
-function Container({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-5 min-w-[400px]', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InfoContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-4', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InputWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('flex flex-col gap-2', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InputTitle({ children, className, ...props }: React.ComponentProps<'label'>) {
-  return (
-    <label className={cn('text-medium font-semibold text-gray-900', className)} {...props}>
-      {children}
-    </label>
-  );
-}
-
-function Input({ children, className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div className={cn('relative flex items-center', className)} {...props}>
-      {children}
-    </div>
-  );
-}
-
-function InputField({ className, ...props }: React.ComponentProps<'input'>) {
-  return (
-    <input
-      className={cn(
-        'w-full py-3 px-4 pr-16 border border-gray-200 rounded-medium text-medium text-gray-900 bg-white outline-none transition-colors duration-200 focus:border-green-600 disabled:bg-gray-50 disabled:cursor-not-allowed placeholder:text-gray-400',
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-function CharCount({ children, className, isOverLimit, ...props }: React.ComponentProps<'span'> & { isOverLimit?: boolean }) {
-  return (
-    <span
-      className={cn(
-        'absolute right-4 text-small',
-        isOverLimit ? 'text-red-500' : 'text-gray-400',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </span>
-  );
-}
+import {
+  FormCharCount,
+  FormInput,
+  FormInputRow,
+  FormInputTitle,
+  FormInputWrapper,
+} from '@/components/modal/modal-form';
 
 interface TopicModalProps {
   projectId?: string;
@@ -88,7 +27,6 @@ export default function TopicModal({ projectId }: TopicModalProps) {
   const topicNameRef = useRef(topicName);
   const { mutate, isPending } = useCreateTopicMutation();
 
-  // topicName의 최신 값을 ref에 동기화
   useEffect(() => {
     topicNameRef.current = topicName;
   }, [topicName]);
@@ -142,12 +80,13 @@ export default function TopicModal({ projectId }: TopicModalProps) {
   }, [isOpen, handleSubmit]);
 
   return (
-    <Container>
-      <InfoContainer>
-        <InputWrapper>
-          <InputTitle>토픽 제목</InputTitle>
-          <Input>
-            <InputField
+    <div className="flex flex-col gap-5 min-w-[400px]">
+      <div className="flex flex-col gap-4">
+        <FormInputWrapper>
+          <FormInputTitle>토픽 제목</FormInputTitle>
+          <FormInputRow>
+            <FormInput
+              className="pr-11"
               value={topicName}
               onChange={onChangeTitle}
               placeholder={`제목을 입력하세요. (${MAX_TOPIC_TITLE_LENGTH}자 이내)`}
@@ -155,12 +94,12 @@ export default function TopicModal({ projectId }: TopicModalProps) {
               autoFocus
               disabled={isPending}
             />
-            <CharCount isOverLimit={topicName.length > MAX_TOPIC_TITLE_LENGTH}>
+            <FormCharCount isOverLimit={topicName.length > MAX_TOPIC_TITLE_LENGTH}>
               {topicName.length}/{MAX_TOPIC_TITLE_LENGTH}
-            </CharCount>
-          </Input>
-        </InputWrapper>
-      </InfoContainer>
-    </Container>
+            </FormCharCount>
+          </FormInputRow>
+        </FormInputWrapper>
+      </div>
+    </div>
   );
 }

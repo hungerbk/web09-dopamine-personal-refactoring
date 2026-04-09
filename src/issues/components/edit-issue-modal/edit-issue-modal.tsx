@@ -2,11 +2,17 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { cn } from '@/lib/utils/cn';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_ISSUE_TITLE_LENGTH } from '@/constants/issue';
 import { useDeleteIssueMutation, useUpdateIssueTitleMutation } from '@/hooks';
 import { useSseConnectionStore } from '../../store/use-sse-connection-store';
+import {
+  FormCharCount,
+  FormInput,
+  FormInputRow,
+  FormInputTitle,
+  FormInputWrapper,
+} from '@/components/modal/modal-form';
 
 export interface EditIssueProps {
   issueId: string;
@@ -82,30 +88,25 @@ export default function EditIssueModal({ issueId, currentTitle }: EditIssueProps
   };
 
   return (
-    <div className="flex min-w-[400px] flex-col gap-5">
+    <div className="flex flex-col gap-5 min-w-[400px]">
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <label className="text-medium font-semibold text-gray-900">이슈 제목</label>
-          <div className="relative w-full">
-            <input
+        <FormInputWrapper>
+          <FormInputTitle>이슈 제목</FormInputTitle>
+          <FormInputRow>
+            <FormInput
+              className="pr-11"
               value={title}
               onChange={onChangeTitle}
               placeholder={`제목을 입력하세요 (${MAX_ISSUE_TITLE_LENGTH}자 이내)`}
               maxLength={MAX_ISSUE_TITLE_LENGTH}
               autoFocus
               disabled={isPending}
-              className="w-full rounded-medium border border-gray-200 bg-white px-4 py-3 pr-11 text-medium text-gray-900 placeholder:text-gray-400 focus:border-green-600 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-50"
             />
-            <span
-              className={cn(
-                'pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-small font-semibold',
-                title.length > MAX_ISSUE_TITLE_LENGTH ? 'text-red-500' : 'text-gray-600',
-              )}
-            >
+            <FormCharCount isOverLimit={title.length > MAX_ISSUE_TITLE_LENGTH}>
               {title.length}/{MAX_ISSUE_TITLE_LENGTH}
-            </span>
-          </div>
-        </div>
+            </FormCharCount>
+          </FormInputRow>
+        </FormInputWrapper>
         <button
           onClick={handleDelete}
           className="inline-flex w-[60px] flex-col items-center text-red-500 hover:opacity-70"
