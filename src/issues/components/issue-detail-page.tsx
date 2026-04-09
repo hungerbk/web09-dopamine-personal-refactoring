@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { notFound, useParams, usePathname, useRouter } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -35,11 +35,8 @@ import { useCommentWindowStore } from '../store/use-comment-window-store';
 import { useSseConnectionStore } from '../store/use-sse-connection-store';
 
 const IssueDetailPage = () => {
-  const params = useParams<{ id: string; issueId?: string }>();
-  const pathname = usePathname();
-  const issueIdFromPath = pathname?.split('/issues/')[1]?.split('/')[0] ?? '';
-  const issueId =
-    params.issueId ?? (Array.isArray(params.id) ? params.id[0] : (params.id ?? issueIdFromPath));
+  const params = useParams<{ issueId: string }>();
+  const issueId = params.issueId;
   const router = useRouter();
   const queryClient = useQueryClient();
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);

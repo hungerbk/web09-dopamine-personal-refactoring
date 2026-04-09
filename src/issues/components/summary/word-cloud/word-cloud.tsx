@@ -22,8 +22,8 @@ function wordToVariation(word: string): number {
 }
 
 export default function WordCloudSection() {
-  const params = useParams<{ id: string }>();
-  const issueId = params.id || '';
+  const params = useParams<{ issueId: string }>();
+  const issueId = params.issueId || '';
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isLoading, setIsLoading] = useState(true);

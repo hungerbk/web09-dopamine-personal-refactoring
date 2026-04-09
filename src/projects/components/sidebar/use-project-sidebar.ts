@@ -6,8 +6,8 @@ import { useProjectQuery } from '@/hooks/projects';
 import { matchSearch } from '@/lib/utils/search';
 
 export const useProjectSidebar = () => {
-  const params = useParams();
-  const projectId = params.id as string;
+  const params = useParams<{ projectId: string }>();
+  const projectId = params.projectId;
 
   const { data: projectData, refetch, isFetching, isLoading } = useProjectQuery(projectId);
   const topics = projectData?.topics || [];

@@ -7,42 +7,19 @@ datasource db {
   relationMode = "prisma"
 }
 
-// Enums
-enum IssueStatus {
-  BRAINSTORMING
-  CATEGORIZE
-  VOTE
-  SELECT
-  CLOSE
-}
-
-enum VoteType {
-  AGREE
-  DISAGREE
-}
-
-enum IssueRole {
-  OWNER
-  MEMBER
-}
-
-// Models
 model User {
-  id            String    @id @default(uuid()) @db.Char(36)
-  name          String?   @db.VarChar(30)
-  email         String?   @unique @db.VarChar(255)
-  emailVerified DateTime? @map("email_verified")
-  image         String?   @map("avatar_url") @db.VarChar(2048)
-  displayName   String?   @map("display_name") @db.VarChar(30)
-  provider      String?   @db.VarChar(30)
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  deletedAt     DateTime? @map("deleted_at")
-
-  accounts Account[]
-  sessions Session[]
-
-  // Relations
+  id             String          @id @default(uuid()) @db.Char(36)
+  email          String?         @unique @db.VarChar(255)
+  name           String?         @db.VarChar(30)
+  displayName    String?         @map("display_name") @db.VarChar(30)
+  provider       String?         @db.VarChar(30)
+  image          String?         @map("avatar_url") @db.VarChar(2048)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  deletedAt      DateTime?       @map("deleted_at")
+  emailVerified  DateTime?       @map("email_verified")
+  accounts       Account[]
+  sessions       Session[]
   ownedProjects  Project[]
   projectMembers ProjectMember[]
   issueMembers   IssueMember[]
@@ -62,13 +39,12 @@ model Account {
   refresh_token            String? @db.Text
   access_token             String? @db.Text
   expires_at               Int?
-  refresh_token_expires_in Int?
   token_type               String?
   scope                    String?
   id_token                 String? @db.Text
   session_state            String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token_expires_in Int?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -96,16 +72,14 @@ model VerificationToken {
 }
 
 model Project {
-  id          String    @id @default(uuid()) @db.Char(36)
-  ownerId     String?   @map("owner_id") @db.Char(36)
-  title       String    @db.VarChar(255)
-  description String?   @db.Text
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  deletedAt   DateTime? @map("deleted_at")
-
-  // Relations
-  owner          User?           @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  id             String              @id @default(uuid()) @db.Char(36)
+  ownerId        String?             @map("owner_id") @db.Char(36)
+  title          String              @db.VarChar(255)
+  description    String?             @db.Text
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+  deletedAt      DateTime?           @map("deleted_at")
+  owner          User?               @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   projectMembers ProjectMember[]
   topics         Topic[]
   invitations    ProjectInvitation[]
@@ -121,10 +95,8 @@ model ProjectMember {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-
-  // Relations
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@unique([projectId, userId, deletedAt])
   @@index([userId])
@@ -133,26 +105,22 @@ model ProjectMember {
 }
 
 model ProjectInvitation {
-  id            String   @id @default(uuid())
-  token         String   @unique 
-  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId     String
-
-  expiresAt     DateTime
-  createdAt     DateTime @default(now())
-  
-  invitees     ProjectInvitee[]    
+  id        String           @id @default(uuid())
+  token     String           @unique
+  projectId String
+  expiresAt DateTime
+  createdAt DateTime         @default(now())
+  project   Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  invitees  ProjectInvitee[]
 
   @@map("project_invitaions")
 }
 
 model ProjectInvitee {
   id           String            @id @default(uuid())
-  
-  email        String            
+  email        String
   isAccepted   Boolean           @default(false)
-  acceptedAt   DateTime?         
-  
+  acceptedAt   DateTime?
   invitationId String
   invitation   ProjectInvitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
 
@@ -168,34 +136,30 @@ model Topic {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-
-  // Relations
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  issues  Issue[]
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  issues    Issue[]
 
   @@index([projectId])
   @@map("topics")
 }
 
 model Issue {
-  id        String      @id @default(uuid()) @db.Char(36)
-  topicId   String?     @map("topic_id") @db.Char(36)
-  title     String      @db.VarChar(255)
-  status    IssueStatus @default(BRAINSTORMING)
-  closedAt  DateTime?   @map("closed_at")
-  createdAt DateTime    @default(now()) @map("created_at")
-  updatedAt DateTime    @updatedAt @map("updated_at")
-  deletedAt DateTime?   @map("deleted_at")
-
-  // Relations
-  topic                 Topic?            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  issueMembers          IssueMember[]
-  connectionsAsSource   IssueConnection[] @relation("SourceIssue")
-  connectionsAsTarget   IssueConnection[] @relation("TargetIssue")
-  categories            Category[]
-  ideas                 Idea[]
-  reports               Report[]
-  issueNode             IssueNode?
+  id                  String            @id @default(uuid()) @db.Char(36)
+  topicId             String?           @map("topic_id") @db.Char(36)
+  title               String            @db.VarChar(255)
+  status              IssueStatus       @default(BRAINSTORMING)
+  closedAt            DateTime?         @map("closed_at")
+  createdAt           DateTime          @default(now()) @map("created_at")
+  updatedAt           DateTime          @updatedAt @map("updated_at")
+  deletedAt           DateTime?         @map("deleted_at")
+  topic               Topic?            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  issueMembers        IssueMember[]
+  connectionsAsSource IssueConnection[] @relation("SourceIssue")
+  connectionsAsTarget IssueConnection[] @relation("TargetIssue")
+  categories          Category[]
+  ideas               Idea[]
+  reports             Report[]
+  issueNode           IssueNode?
 
   @@index([topicId])
   @@index([status])
@@ -206,17 +170,15 @@ model IssueMember {
   id        String    @id @default(uuid()) @db.Char(36)
   issueId   String    @map("issue_id") @db.Char(36)
   userId    String    @map("user_id") @db.Char(36)
-  nickname  String    @db.VarChar(30)
   role      IssueRole @default(MEMBER)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
+  nickname  String    @db.VarChar(30)
+  issue     Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Relations
-  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([issueId, userId]) // 유저 중복 방지
+  @@unique([issueId, userId])
   @@index([userId])
   @@index([issueId])
   @@map("issue_members")
@@ -230,27 +192,23 @@ model IssueNode {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-
-  // Relations
-  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  issue     Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
 
   @@index([issueId])
   @@map("issue_nodes")
 }
 
 model IssueConnection {
-  id             String    @id @default(uuid()) @db.Char(36)
-  sourceIssueId  String    @map("source_issue_id") @db.Char(36)
-  targetIssueId  String    @map("target_issue_id") @db.Char(36)
-  sourceHandle   String?   @map("source_handle") @db.VarChar(20)
-  targetHandle   String?   @map("target_handle") @db.VarChar(20)
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
-  deletedAt      DateTime? @map("deleted_at")
-
-  // Relations
-  sourceIssue Issue @relation("SourceIssue", fields: [sourceIssueId], references: [id], onDelete: Cascade)
-  targetIssue Issue @relation("TargetIssue", fields: [targetIssueId], references: [id], onDelete: Cascade)
+  id            String    @id @default(uuid()) @db.Char(36)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+  sourceHandle  String?   @map("source_handle") @db.VarChar(20)
+  targetHandle  String?   @map("target_handle") @db.VarChar(20)
+  sourceIssueId String    @map("source_issue_id") @db.Char(36)
+  targetIssueId String    @map("target_issue_id") @db.Char(36)
+  sourceIssue   Issue     @relation("SourceIssue", fields: [sourceIssueId], references: [id], onDelete: Cascade)
+  targetIssue   Issue     @relation("TargetIssue", fields: [targetIssueId], references: [id], onDelete: Cascade)
 
   @@unique([sourceIssueId, targetIssueId, deletedAt])
   @@index([targetIssueId])
@@ -268,10 +226,8 @@ model Category {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-
-  // Relations
-  issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  ideas Idea[]
+  issue     Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  ideas     Idea[]
 
   @@index([issueId])
   @@map("categories")
@@ -285,20 +241,18 @@ model Idea {
   content       String    @db.Text
   positionX     Float?    @map("position_x") @db.Float
   positionY     Float?    @map("position_y") @db.Float
-  agreeCount    Int       @default(0)
-  disagreeCount Int       @default(0)
-  isSelected    Boolean   @default(false) @map("is_selected")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")
-
-  // Relations
-  issue    Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
-  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  comments Comment[]
-  votes    Vote[]
-  reports  Report[]
+  agreeCount    Int       @default(0)
+  disagreeCount Int       @default(0)
+  isSelected    Boolean   @default(false) @map("is_selected")
+  issue         Issue     @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  category      Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  comments      Comment[]
+  votes         Vote[]
+  reports       Report[]
 
   @@index([issueId])
   @@index([userId])
@@ -314,10 +268,8 @@ model Comment {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-
-  // Relations
-  idea Idea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  idea      Idea      @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  user      User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([ideaId])
   @@index([userId])
@@ -333,10 +285,8 @@ model Vote {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
   isActive  Boolean?  @default(true)
-
-  // Relations
-  idea Idea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  idea      Idea      @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  user      User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@unique([ideaId, userId, isActive])
   @@index([ideaId])
@@ -345,18 +295,16 @@ model Vote {
 }
 
 model Report {
-  id             String    @id @default(uuid()) @db.Char(36)
-  issueId        String    @map("issue_id") @db.Char(36)
-  selectedIdeaId String?   @map("selected_idea_id") @db.Char(36)
-  memo           String?   @db.Text
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime  @updatedAt @map("updated_at")
-  deletedAt      DateTime? @map("deleted_at")
-
-  // Relations
-  issue        Issue       @relation(fields: [issueId], references: [id], onDelete: Cascade)
-  selectedIdea Idea?       @relation(fields: [selectedIdeaId], references: [id], onDelete: SetNull)
-  wordClouds   WordCloud[]
+  id             String      @id @default(uuid()) @db.Char(36)
+  issueId        String      @map("issue_id") @db.Char(36)
+  selectedIdeaId String?     @map("selected_idea_id") @db.Char(36)
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+  deletedAt      DateTime?   @map("deleted_at")
+  memo           String?     @db.Text
+  issue          Issue       @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  selectedIdea   Idea?       @relation(fields: [selectedIdeaId], references: [id], onDelete: SetNull)
+  wordClouds     WordCloud[]
 
   @@index([issueId])
   @@index([selectedIdeaId])
@@ -367,15 +315,31 @@ model WordCloud {
   id        String    @id @default(uuid()) @db.Char(36)
   reportId  String    @map("report_id") @db.Char(36)
   word      String    @db.VarChar(255)
-  count     Int?      @db.Int
+  count     Int?
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
-
-  // Relations
-  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  report    Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
 
   @@unique([reportId, word, deletedAt])
   @@index([reportId])
   @@map("word_clouds")
+}
+
+enum IssueStatus {
+  BRAINSTORMING
+  CATEGORIZE
+  VOTE
+  SELECT
+  CLOSE
+}
+
+enum VoteType {
+  AGREE
+  DISAGREE
+}
+
+enum IssueRole {
+  OWNER
+  MEMBER
 }

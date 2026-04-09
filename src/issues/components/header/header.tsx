@@ -10,8 +10,8 @@ import HeaderButton from './header-button';
 import { useHeader } from './use-header';
 
 const Header = () => {
-  const params = useParams<{ id: string }>();
-  const issueId = params.id || 'default';
+  const params = useParams<{ issueId: string }>();
+  const issueId = params.issueId;
 
   const {
     issue,

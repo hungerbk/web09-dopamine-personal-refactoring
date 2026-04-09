@@ -1,6 +1,6 @@
 import { useParams } from 'next/navigation';
 
 export const useIssueId = () => {
-  const params = useParams();
-  return params.id as string;
+  const params = useParams<{ issueId: string }>();
+  return params.issueId;
 };

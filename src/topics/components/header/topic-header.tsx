@@ -11,8 +11,8 @@ import CreateIssueButton from '../create-issue-button/create-issue-button';
 import EditTopicButton from '../edit-topic-button/edit-topic-button';
 
 export default function TopicHeader() {
-  const params = useParams();
-  const topicId = params.id as string;
+  const params = useParams<{ topicId: string }>();
+  const topicId = params.topicId;
   const router = useRouter();
 
   const { data: session, status: sessionStatus } = useSession();

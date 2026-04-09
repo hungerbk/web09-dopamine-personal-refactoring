@@ -12,8 +12,8 @@ import { useProjectQuery } from '@/hooks/projects';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
 
 export default function ProjectHeader() {
-  const params = useParams<{ id: string }>();
-  const projectId = params.id;
+  const params = useParams<{ projectId: string }>();
+  const projectId = params.projectId;
   const router = useRouter();
 
   const { data: session, status: sessionStatus } = useSession();
