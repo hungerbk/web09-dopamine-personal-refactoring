@@ -3,14 +3,14 @@ import { useIssueQuery } from '@/hooks/issues';
 
 // 토픽 ID 가져오기
 export const useTopicId = () => {
-  const params = useParams();
+  const params = useParams<{ topicId?: string; issueId?: string }>();
   const pathname = usePathname();
 
   const isTopicPage = pathname?.startsWith('/topic');
-  const topicIdFromUrl = isTopicPage ? (params.id as string) : null;
+  const topicIdFromUrl = isTopicPage ? (params.topicId as string) : null;
 
   // 이슈 페이지에서만 이슈 데이터에서 topicId 가져오기
-  const issueId = !isTopicPage ? (params.id as string) : '';
+  const issueId = !isTopicPage ? (params.issueId as string) : '';
   const { data: issue } = useIssueQuery(issueId, !isTopicPage);
   const topicIdFromIssue = issue?.topicId;
 
