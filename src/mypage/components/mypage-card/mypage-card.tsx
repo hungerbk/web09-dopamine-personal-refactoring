@@ -30,7 +30,7 @@ export default function MypageCard() {
         </div>
       </div>
       <div className="mb-5 text-center">
-        <h2 className="mb-[5px] text-xl font-bold text-black">{user?.name || '사용자'}</h2>
+        <h2 className="mb-[5px] text-xxl font-bold text-black">{user?.name || '사용자'}</h2>
         <p className="text-medium font-regular text-gray-400">@{user?.email?.split('@')[0] || 'username'}</p>
       </div>
       <div className="flex flex-col gap-5 px-[33px]">

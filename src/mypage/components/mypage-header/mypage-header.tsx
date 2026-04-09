@@ -24,7 +24,7 @@ export default function MypageHeader() {
         />
         <span className="text-medium font-bold text-gray-400">돌아가기</span>
       </button>
-      <h1 className="m-0 text-center text-xl font-bold text-black">내 프로필</h1>
+      <h1 className="m-0 text-center text-xxl font-bold text-black">내 프로필</h1>
     </div>
   );
 }

@@ -78,7 +78,7 @@ export function ErrorPage({ fullScreen = true, title, message }: ErrorPageProps)
           </div>
 
           <div className="mb-8 text-center">
-            <h2 className="mb-3 text-xl font-bold text-green-700">{title || '앗! 문제가 발생했어요'}</h2>
+            <h2 className="mb-3 text-xxl font-bold text-green-700">{title || '앗! 문제가 발생했어요'}</h2>
             <p className="text-medium leading-[1.625] text-green-800">
               {message || '알 수 없는 에러가 발생했습니다.'}
               <br />

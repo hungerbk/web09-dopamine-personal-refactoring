@@ -33,7 +33,7 @@ export function InvitationContainer({ data, code }: InvitationContainerProps) {
             </IconCircle> */}
           </div>
           <div className="mb-8 text-center">
-            <h2 className="m-0 mb-3 text-xl font-bold text-green-700">프로젝트 초대</h2>
+            <h2 className="m-0 mb-3 text-xxl font-bold text-green-700">프로젝트 초대</h2>
             <p className="m-0 text-medium leading-[1.625] text-green-800">
               <strong className="font-semibold">{data?.ownerName}</strong>님의{' '}
               <strong className="font-semibold">{data?.projectTitle}</strong> 프로젝트에 초대합니다.

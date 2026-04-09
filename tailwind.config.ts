@@ -22,8 +22,8 @@ const config: Config = {
         small: '8px',
       },
       fontSize: {
-        xl: '28px',
-        xxl: '22.5px',
+        xxl: '28px',
+        xl: '22.5px',
         large: '18px',
         medium: '14px',
         small: '12px',

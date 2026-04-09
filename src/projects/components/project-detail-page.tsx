@@ -52,7 +52,7 @@ export default async function ProjectDetailPage({ projectId }: { projectId: stri
               height={32}
             />
             <div className="flex flex-col gap-2">
-              <div className="text-xl font-bold text-gray-900">{title}</div>
+              <div className="text-xxl font-bold text-gray-900">{title}</div>
               <div className="text-small font-medium text-gray-600">{description}</div>
             </div>
           </div>
