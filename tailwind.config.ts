@@ -29,9 +29,6 @@ const config: Config = {
         small: '12px',
         xs: '10px',
       },
-      minHeight: {
-        xl: '28px',
-      },
       fontWeight: {
         regular: '400',
         medium: '500',

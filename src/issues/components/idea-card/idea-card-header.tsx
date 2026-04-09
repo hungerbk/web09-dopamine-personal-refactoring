@@ -2,9 +2,9 @@
 
 import type { KeyboardEventHandler, MouseEventHandler, RefObject } from 'react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils/cn';
 import { ISSUE_STATUS } from '@/constants/issue';
 import type { IssueStatus } from '@/issues/types';
+import { cn } from '@/lib/utils/cn';
 
 interface IdeaCardHeaderProps {
   id: string;
@@ -61,13 +61,13 @@ export default function IdeaCardHeader({
           onMouseDown={(e) => e.stopPropagation()}
           autoFocus
           placeholder="아이디어를 입력해주세요."
-          className="min-h-xl w-full resize-none overflow-hidden border-none bg-transparent p-0 text-large font-bold leading-[1.4] tracking-[0] text-gray-900 outline-none placeholder:font-bold placeholder:text-gray-900 placeholder:opacity-40"
+          className="min-h-7 w-full resize-none overflow-hidden border-none bg-transparent p-0 text-large font-bold leading-[1.4] tracking-[0] text-gray-900 outline-none placeholder:font-bold placeholder:text-gray-900 placeholder:opacity-40"
         />
       ) : (
         <pre
           data-testid="idea-content"
           aria-label="idea-content"
-          className="min-h-xl whitespace-pre-wrap break-words text-large font-bold leading-[1.4] text-gray-900"
+          className="min-h-7 whitespace-pre-wrap break-words text-large font-bold leading-[1.4] text-gray-900"
         >
           {displayContent}
         </pre>
@@ -88,7 +88,9 @@ export default function IdeaCardHeader({
             data-no-canvas-close="true"
             className={cn(
               'inline-flex h-[42px] min-w-[42px] items-center justify-center gap-1.5 rounded-medium bg-white px-2.5 text-gray-400 hover:bg-gray-100',
-              isCommentOpen ? 'border-none outline outline-2 outline-blue-400' : 'border border-gray-200',
+              isCommentOpen
+                ? 'border-none outline outline-2 outline-blue-400'
+                : 'border border-gray-200',
             )}
           >
             <Image
