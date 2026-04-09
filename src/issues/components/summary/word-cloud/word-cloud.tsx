@@ -4,15 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getWordClouds } from '@/lib/api/report';
 
-// tailwind.config.ts의 wordcloud 색상 팔레트와 동기화 유지
-const WORD_CLOUD_GREEN_PALETTE = [
-  '#98c9a3',
-  '#8cb369',
-  '#248277',
-  '#55a630',
-  '#4c956c',
-  '#2c6e49',
-];
+const WORD_CLOUD_GREEN_PALETTE = ['#98c9a3', '#8cb369', '#248277', '#55a630', '#4c956c', '#2c6e49'];
 
 // 단어 문자열로 결정론적 0~1 값 생성 (같은 단어는 항상 같은 값)
 function wordToVariation(word: string): number {
