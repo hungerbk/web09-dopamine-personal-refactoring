@@ -15,16 +15,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        wordcloud: {
-          100: '#98c9a3',
-          200: '#8cb369',
-          300: '#248277',
-          400: '#55a630',
-          500: '#4c956c',
-          600: '#2c6e49',
-        },
-      },
       borderRadius: {
         half: '50%',
         large: '16px',
@@ -32,15 +22,12 @@ const config: Config = {
         small: '8px',
       },
       fontSize: {
-        xl: '28px',
-        xxl: '22.5px',
+        xxl: '28px',
+        xl: '22.5px',
         large: '18px',
         medium: '14px',
         small: '12px',
         xs: '10px',
-      },
-      minHeight: {
-        xl: '28px',
       },
       fontWeight: {
         regular: '400',

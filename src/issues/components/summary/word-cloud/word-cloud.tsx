@@ -3,16 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getWordClouds } from '@/lib/api/report';
-import { theme } from '@/styles/theme';
 
-const WORD_CLOUD_GREEN_PALETTE = [
-  theme.colors.wordcloud[100],
-  theme.colors.wordcloud[200],
-  theme.colors.wordcloud[300],
-  theme.colors.wordcloud[400],
-  theme.colors.wordcloud[500],
-  theme.colors.wordcloud[600],
-];
+const WORD_CLOUD_GREEN_PALETTE = ['#98c9a3', '#8cb369', '#248277', '#55a630', '#4c956c', '#2c6e49'];
 
 // 단어 문자열로 결정론적 0~1 값 생성 (같은 단어는 항상 같은 값)
 function wordToVariation(word: string): number {
@@ -90,7 +82,8 @@ export default function WordCloudSection() {
           );
           return WORD_CLOUD_GREEN_PALETTE[index];
         },
-        backgroundColor: theme.colors.gray[50],
+        //TODO: 테일윈드 gray-50과 일치 > 수정할 수 있는 방법 찾아보기. 라이브러리 사용으로 인해서 하단에 인라인 속성을 추가해도 적용되지 않음(로딩 중에 떴다가 변경됨)
+        backgroundColor: '#f9fafb',
         rotateRatio: 0.25,
         rotationSteps: 2,
         shuffle: true,

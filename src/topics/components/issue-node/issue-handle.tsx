@@ -1,6 +1,5 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { Handle, Position } from '@xyflow/react';
-import { theme } from '@/styles/theme';
 import { IssueStatus } from '@/issues/types';
 import './issue-handle.css';
 
@@ -12,44 +11,31 @@ interface IssueHandleProps {
   isConnectable?: boolean;
 }
 
-const DEFAULT_HANDLE_STYLE = {
+const HANDLE_BASE_STYLE = {
   width: 10,
   height: 10,
   borderRadius: 16,
   border: 'none',
-  background: '#b1b1b7',
   opacity: 0,
   transition: 'opacity 0.2s',
 };
 
-function colorSelector(status: IssueStatus) {
-  switch (status) {
-    case 'BRAINSTORMING':
-      return theme.colors.yellow[500];
-    case 'CATEGORIZE':
-      return theme.colors.blue[500];
-    case 'VOTE':
-      return theme.colors.red[500];
-    case 'SELECT':
-      return theme.colors.green[500];
-    case 'CLOSE':
-      return theme.colors.gray[500];
-    default:
-      return theme.colors.gray[500];
-  }
-}
+const STATUS_HANDLE_BG: Record<IssueStatus, string> = {
+  BRAINSTORMING: 'bg-yellow-500',
+  CATEGORIZE: 'bg-blue-500',
+  VOTE: 'bg-red-500',
+  SELECT: 'bg-green-500',
+  CLOSE: 'bg-gray-500',
+};
 
 function IssueHandle({ type, position, id, status, isConnectable = true }: IssueHandleProps) {
-  const color = colorSelector(status);
-  // TODO: 스타일 코드 정리 단계 이후 useMemo 삭제
-  const handleStyle = useMemo(() => ({ ...DEFAULT_HANDLE_STYLE, background: color }), [color]);
-
   return (
     <Handle
       type={type}
       position={position}
       id={id}
-      style={handleStyle}
+      style={HANDLE_BASE_STYLE}
+      className={STATUS_HANDLE_BG[status]}
       isConnectable={isConnectable}
     />
   );

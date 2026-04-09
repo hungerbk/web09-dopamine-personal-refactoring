@@ -24,7 +24,7 @@ export function InvitationContainer({ data, code }: InvitationContainerProps) {
   const { joinProject } = useInvitationMutations(data.projectId);
 
   return (
-    <div className="fixed inset-0 z-[400] flex h-full w-full items-center justify-center bg-gray-50 p-4">
+    <div className="fixed inset-0 z-modal flex h-full w-full items-center justify-center bg-gray-50 p-4">
       <div className="relative">
         <div className="relative w-[380px] rounded-large bg-green-100 p-8 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
           <div className="mb-6 flex justify-center">
@@ -33,7 +33,7 @@ export function InvitationContainer({ data, code }: InvitationContainerProps) {
             </IconCircle> */}
           </div>
           <div className="mb-8 text-center">
-            <h2 className="m-0 mb-3 text-xl font-bold text-green-700">프로젝트 초대</h2>
+            <h2 className="m-0 mb-3 text-xxl font-bold text-green-700">프로젝트 초대</h2>
             <p className="m-0 text-medium leading-[1.625] text-green-800">
               <strong className="font-semibold">{data?.ownerName}</strong>님의{' '}
               <strong className="font-semibold">{data?.projectTitle}</strong> 프로젝트에 초대합니다.
@@ -58,7 +58,7 @@ export function InvitationContainer({ data, code }: InvitationContainerProps) {
             )}
           </div>
         </div>
-        <div className="absolute inset-0 z-[-1] translate-y-1 rotate-[0.5deg] bg-green-600 opacity-20 blur-[4px]" />
+        <div className="absolute inset-0 z-hide translate-y-1 rotate-[0.5deg] bg-green-600 opacity-20 blur-[4px]" />
       </div>
     </div>
   );

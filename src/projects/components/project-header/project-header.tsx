@@ -32,7 +32,7 @@ export default function ProjectHeader() {
             height={18}
           />
         </Link>
-        <h1 className="text-xxl font-bold text-black m-0">내 프로젝트</h1>
+        <h1 className="text-xl font-bold text-black m-0">내 프로젝트</h1>
       </div>
       <div className="flex items-center gap-3">
         <button
