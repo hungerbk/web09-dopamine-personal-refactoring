@@ -82,6 +82,7 @@ export default function WordCloudSection() {
           );
           return WORD_CLOUD_GREEN_PALETTE[index];
         },
+        //TODO: 테일윈드 gray-50과 일치 > 수정할 수 있는 방법 찾아보기. 라이브러리 사용으로 인해서 하단에 인라인 속성을 추가해도 적용되지 않음(로딩 중에 떴다가 변경됨)
         backgroundColor: '#f9fafb',
         rotateRatio: 0.25,
         rotationSteps: 2,
