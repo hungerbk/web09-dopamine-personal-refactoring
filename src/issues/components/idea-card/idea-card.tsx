@@ -7,8 +7,8 @@ import { CSS } from '@dnd-kit/utilities';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils/cn';
 import { ISSUE_STATUS } from '@/constants/issue';
+import { Z_INDEX } from '@/constants/z-index';
 import { useSelectedIdeaMutation } from '@/hooks/issues';
-import { theme } from '@/styles/theme';
 import { useIssueData, useIssueIdentity } from '../../hooks';
 import { useCommentWindowStore } from '../../store/use-comment-window-store';
 import { useIdeaCardStackStore } from '../../store/use-idea-card-stack-store';
@@ -199,7 +199,7 @@ export default function IdeaCard(props: IdeaCardProps) {
         top: props.position.y,
         cursor: isDragging ? 'grabbing' : 'grab',
         userSelect: 'none' as const,
-        zIndex: isDragging ? theme.zIndex.selected : zIndex,
+        zIndex: isDragging ? Z_INDEX.selected : zIndex,
         // dnd-kit transform 적용 (Canvas scale과 호환됨!)
         transform: CSS.Transform.toString(transform),
         opacity: isDragging ? 0 : undefined,

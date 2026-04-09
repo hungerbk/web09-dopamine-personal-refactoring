@@ -2,7 +2,7 @@
 
 import type { IssueStatus, Position } from '@/issues/types';
 import { cn } from '@/lib/utils/cn';
-import { theme } from '@/styles/theme';
+import { Z_INDEX } from '@/constants/z-index';
 import { useCanvasContext } from '../canvas/canvas-context';
 import CategoryCardHeader from './category-card-header';
 import { useCategoryCard } from './use-category-card';
@@ -73,7 +73,7 @@ export default function CategoryCard({
 
   const cardStyle = {
     ...dndCardStyle,
-    zIndex: hasActiveComment ? theme.zIndex.important : (dndCardStyle.zIndex ?? 0),
+    zIndex: hasActiveComment ? Z_INDEX.important : (dndCardStyle.zIndex ?? 0),
   };
 
   return (
