@@ -3,15 +3,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { getWordClouds } from '@/lib/api/report';
-import { theme } from '@/styles/theme';
 
+// tailwind.config.ts의 wordcloud 색상 팔레트와 동기화 유지
 const WORD_CLOUD_GREEN_PALETTE = [
-  theme.colors.wordcloud[100],
-  theme.colors.wordcloud[200],
-  theme.colors.wordcloud[300],
-  theme.colors.wordcloud[400],
-  theme.colors.wordcloud[500],
-  theme.colors.wordcloud[600],
+  '#98c9a3',
+  '#8cb369',
+  '#248277',
+  '#55a630',
+  '#4c956c',
+  '#2c6e49',
 ];
 
 // 단어 문자열로 결정론적 0~1 값 생성 (같은 단어는 항상 같은 값)
@@ -90,7 +90,7 @@ export default function WordCloudSection() {
           );
           return WORD_CLOUD_GREEN_PALETTE[index];
         },
-        backgroundColor: theme.colors.gray[50],
+        backgroundColor: '#f9fafb',
         rotateRatio: 0.25,
         rotationSteps: 2,
         shuffle: true,

@@ -15,16 +15,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: {
-        wordcloud: {
-          100: '#98c9a3',
-          200: '#8cb369',
-          300: '#248277',
-          400: '#55a630',
-          500: '#4c956c',
-          600: '#2c6e49',
-        },
-      },
       borderRadius: {
         half: '50%',
         large: '16px',
