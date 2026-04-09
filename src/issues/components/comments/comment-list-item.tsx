@@ -1,14 +1,30 @@
 'use client';
 
 import { useCallback } from 'react';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 import type { Comment } from '@/lib/api/comment';
 import { getCommentMeta } from '@/lib/utils/comment';
 import { useCommentListContext } from './comment-list-context';
-import * as S from './comment-window.styles';
 
 interface CommentListItemProps {
   comment: Comment;
 }
+
+const actionButtonVariants = cva(
+  'px-1 py-0.5 text-[12px] font-normal text-gray-400 transition-colors duration-150 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default: '',
+        danger: 'hover:text-red-600',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  },
+);
 
 export default function CommentListItem({ comment }: CommentListItemProps) {
   const {
@@ -49,17 +65,20 @@ export default function CommentListItem({ comment }: CommentListItemProps) {
   const handleExpandClick = useCallback(() => handleExpand(comment.id), [comment.id, handleExpand]);
 
   return (
-    <S.CommentItem>
-      <S.CommentMeasure ref={registerCommentMeasure(comment.id)}>
+    <div className="relative border-b border-gray-100 px-[14px] py-[14px] last:border-b-0">
+      <div
+        ref={registerCommentMeasure(comment.id)}
+        className="pointer-events-none invisible absolute left-0 top-0 h-auto w-full overflow-visible whitespace-pre-wrap break-words text-[15px] leading-[1.6]"
+      >
         {comment.content}
-      </S.CommentMeasure>
-      <S.CommentHeader>
-        <S.CommentMeta>{getCommentMeta(comment)}</S.CommentMeta>
+      </div>
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <div className="text-small font-medium text-gray-500">{getCommentMeta(comment)}</div>
         {canShowActions && (
-          <S.CommentActions>
+          <div className="inline-flex items-center gap-2">
             {isEditing && (
               <>
-                <S.Btn
+                <button
                   type="button"
                   onClick={handleEditSave}
                   disabled={
@@ -67,66 +86,74 @@ export default function CommentListItem({ comment }: CommentListItemProps) {
                     mutatingCommentId === comment.id ||
                     editingValue.trim().length === 0
                   }
+                  className={cn(actionButtonVariants({ variant: 'default' }))}
                 >
                   {getSaveButtonContent(comment.id)}
-                </S.Btn>
-                <S.Btn
+                </button>
+                <button
                   type="button"
                   onClick={handleEditCancel}
                   disabled={isMutating}
+                  className={cn(actionButtonVariants({ variant: 'default' }))}
                 >
                   취소
-                </S.Btn>
+                </button>
               </>
             )}
             {!isEditing && (
               <>
-                <S.Btn
+                <button
                   type="button"
                   onClick={handleEditStartClick}
                   disabled={isMutating}
+                  className={cn(actionButtonVariants({ variant: 'default' }))}
                 >
                   수정
-                </S.Btn>
-                <S.Btn
+                </button>
+                <button
                   type="button"
                   onClick={handleDeleteClick}
                   disabled={isMutating}
-                  $variant="danger"
+                  className={cn(actionButtonVariants({ variant: 'danger' }))}
                 >
                   {getDeleteButtonContent(comment.id)}
-                </S.Btn>
+                </button>
               </>
             )}
-          </S.CommentActions>
+          </div>
         )}
-      </S.CommentHeader>
+      </div>
       {isEditing && (
-        <S.EditInput
+        <textarea
           value={editingValue}
           onChange={(event) => setEditingValue(event.target.value)}
           onKeyDown={handleEditKeyDown}
           disabled={isMutating || mutatingCommentId === comment.id}
+          className="min-h-[84px] w-full resize-y rounded-small border border-gray-200 px-3 py-2.5 text-medium focus:border-blue-400 focus:outline-2 focus:outline-blue-200"
         />
       )}
       {!isEditing && (
         <>
-          <S.CommentBody
+          <div
             ref={registerCommentBody(comment.id)}
-            $isClamped={!isExpanded}
+            className={cn(
+              'max-w-full whitespace-pre-wrap break-words text-[15px] leading-[1.6] text-gray-900',
+              !isExpanded && 'line-clamp-2',
+            )}
           >
             {comment.content}
-          </S.CommentBody>
+          </div>
           {shouldShowReadMore(isExpanded, canExpand) && (
-            <S.ReadMoreButton
+            <button
               type="button"
               onClick={handleExpandClick}
+              className="mt-2 p-0 text-small text-blue-600 hover:underline"
             >
               더보기
-            </S.ReadMoreButton>
+            </button>
           )}
         </>
       )}
-    </S.CommentItem>
+    </div>
   );
 }

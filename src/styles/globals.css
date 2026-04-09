@@ -1,6 +1,8 @@
-import { css } from '@emotion/react';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-export const reset = css`
+@layer base {
   html,
   body,
   div,
@@ -97,10 +99,6 @@ export const reset = css`
     display: block;
   }
 
-  body {
-    line-height: 1;
-  }
-
   ol,
   ul {
     list-style: none;
@@ -111,10 +109,10 @@ export const reset = css`
     quotes: none;
   }
 
-  blockquote:before,
-  blockquote:after,
-  q:before,
-  q:after {
+  blockquote::before,
+  blockquote::after,
+  q::before,
+  q::after {
     content: '';
     content: none;
   }
@@ -123,4 +121,58 @@ export const reset = css`
     border-collapse: collapse;
     border-spacing: 0;
   }
-`;
+
+  * {
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  body {
+    @apply bg-white text-black;
+    font-family:
+      'Pretendard',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Apple SD Gothic Neo',
+      'Noto Sans KR',
+      system-ui,
+      sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    line-height: 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  textarea:focus {
+    outline: none;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  button:disabled {
+    cursor: default;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}

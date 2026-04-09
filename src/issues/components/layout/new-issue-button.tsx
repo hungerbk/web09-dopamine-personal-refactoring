@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import CreateIssueModal from '@/topics/components/create-issue-modal/create-issue-modal';
-import * as S from './new-issue-button.styles';
 
 export default function NewIssueButton() {
   const { openModal } = useModalStore();
@@ -18,13 +17,16 @@ export default function NewIssueButton() {
   };
 
   return (
-    <S.StyledNewIssueButton onClick={handleClick}>
+    <button
+      onClick={handleClick}
+      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-none bg-green-600 shadow-[0_4px_4px_-1px_rgba(0,0,0,0.2)]"
+    >
       <Image
         src="/white-add.svg"
         alt="플러스 아이콘"
         width={18}
         height={18}
       />
-    </S.StyledNewIssueButton>
+    </button>
   );
 }

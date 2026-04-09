@@ -11,7 +11,6 @@ import CategoryCard from './categories/category-card';
 import CommentWindow from './comments/comment-window';
 import FilterPanel from './filter-panel/filter-panel';
 import IdeaCard from './idea-card/idea-card';
-import { Wrapper } from './idea-card/idea-card.styles';
 import { useCanvasStore } from '../store/use-canvas-store';
 import { ErrorPage } from '@/components/error/error';
 import LoadingOverlay from '@/components/loading-overlay/loading-overlay';
@@ -319,7 +318,10 @@ const IssueDetailPage = () => {
                     const isCommentOpen = activeCommentId === idea.id;
 
                     return (
-                      <Wrapper key={idea.id}>
+                      <div
+                        key={idea.id}
+                        className="relative"
+                      >
                         <IdeaCard
                           {...idea}
                           author={idea.author}
@@ -343,7 +345,7 @@ const IssueDetailPage = () => {
                             onClose={closeComment}
                           />
                         )}
-                      </Wrapper>
+                      </div>
                     );
                   })}
                 </CategoryCard>

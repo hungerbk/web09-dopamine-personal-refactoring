@@ -25,6 +25,7 @@ export default async function TopicDetailPage({ topicId }: TopicDetailPageProps)
   try {
     await topicService.checkTopicAccess(topicId, session.user.id);
   } catch (error) {
+    // TODO: 스타일 작업 커밋 이후, 별도 커밋에서 catch 파라미터 미사용 정리
     redirect('/');
   }
 

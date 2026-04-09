@@ -41,15 +41,15 @@ function colorSelector(status: IssueStatus) {
 
 function IssueHandle({ type, position, id, status, isConnectable = true }: IssueHandleProps) {
   const color = colorSelector(status);
-  const handleStyle = useMemo(() => {
-    return { ...DEFAULT_HANDLE_STYLE, background: color };
-  }, [color]);
+  // TODO: 스타일 코드 정리 단계 이후 useMemo 삭제
+  const handleStyle = useMemo(() => ({ ...DEFAULT_HANDLE_STYLE, background: color }), [color]);
+
   return (
     <Handle
       type={type}
       position={position}
       id={id}
-      style={{ ...DEFAULT_HANDLE_STYLE, background: color }}
+      style={handleStyle}
       isConnectable={isConnectable}
     />
   );

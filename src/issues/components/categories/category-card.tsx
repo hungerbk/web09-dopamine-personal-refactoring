@@ -1,10 +1,10 @@
 'use client';
 
 import type { IssueStatus, Position } from '@/issues/types';
+import { cn } from '@/lib/utils/cn';
 import { theme } from '@/styles/theme';
 import { useCanvasContext } from '../canvas/canvas-context';
 import CategoryCardHeader from './category-card-header';
-import { ChildrenWrapper, StyledCategoryCard } from './category-card.styles';
 import { useCategoryCard } from './use-category-card';
 import { useCategoryDnd } from './use-category-dnd';
 
@@ -77,12 +77,17 @@ export default function CategoryCard({
   };
 
   return (
-    <StyledCategoryCard
+    <section
       ref={setDroppableRef}
       data-category-id={id}
-      isMuted={isMuted}
       aria-label={`${curTitle} 카테고리`}
       style={cardStyle}
+      className={cn(
+        'flex min-h-[200px] min-w-[33em] max-w-[33em] flex-col items-center gap-[25px] rounded-[24px] border-2 border-dashed p-4',
+        isMuted
+          ? 'border-[#e5e7eb] bg-[#fafafa]'
+          : 'border-[#7fc196] bg-[#d4eddc]',
+      )}
     >
       <CategoryCardHeader
         status={status}
@@ -101,7 +106,11 @@ export default function CategoryCard({
         }}
         onClick={handleClick}
       />
-      {children && <ChildrenWrapper>{children}</ChildrenWrapper>}
-    </StyledCategoryCard>
+      {children && (
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-[25px]">
+          {children}
+        </div>
+      )}
+    </section>
   );
 }

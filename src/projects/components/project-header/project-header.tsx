@@ -6,10 +6,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as HS from '@/issues/components/header/header.styles';
-import * as S from './project-header.styles';
 
-const ProjectHeader = () => {
+export default function ProjectHeader() {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   const userImage = session?.user?.image;
@@ -21,23 +19,27 @@ const ProjectHeader = () => {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
-        <Link href={'/'}>
-          <HS.ButtonsWrapper>
-            <Image
-              src="/home.svg"
-              alt="홈으로 가기"
-              width={18}
-              height={18}
-              style={{ cursor: 'pointer' }}
-            />
-          </HS.ButtonsWrapper>
+    <div className="flex h-[56px] w-full max-w-[1200px] items-center justify-between self-center bg-white">
+      <div className="flex items-center gap-3">
+        <Link
+          href="/"
+          className="flex items-center"
+        >
+          <Image
+            src="/home.svg"
+            alt="홈으로 가기"
+            width={18}
+            height={18}
+          />
         </Link>
-        <S.Title>내 프로젝트</S.Title>
-      </S.LeftSection>
-      <S.RightSection>
-        <S.Profile onClick={handleProfileClick}>
+        <h1 className="text-xxl font-bold text-black m-0">내 프로젝트</h1>
+      </div>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          className="flex items-center gap-3 font-semibold"
+          onClick={handleProfileClick}
+        >
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -52,15 +54,13 @@ const ProjectHeader = () => {
                   alt="프로필"
                   width={38}
                   height={38}
-                  style={{ borderRadius: '50%' }}
+                  className="rounded-full"
                 />
               )}
             </>
           )}
-        </S.Profile>
-      </S.RightSection>
-    </S.HeaderContainer>
+        </button>
+      </div>
+    </div>
   );
-};
-
-export default ProjectHeader;
+}

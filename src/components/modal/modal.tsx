@@ -2,8 +2,100 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import * as S from './modal.styles';
+import { cn } from '@/lib/utils/cn';
 import { useModalStore } from './use-modal-store';
+
+function Overlay({ children, className, onClick, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn('fixed inset-0 bg-slate-900/35 grid place-items-center z-backdrop p-4', className)}
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Dialog({ children, className, onClick, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn('bg-white rounded-medium shadow-[0_20px_60px_rgba(0,0,0,0.2)] w-[min(560px,100%)] max-h-[90vh] overflow-hidden flex flex-col', className)}
+      role="dialog"
+      aria-modal="true"
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Header({ children, className, ...props }: React.ComponentProps<'header'>) {
+  return (
+    <header
+      className={cn('flex items-center justify-between py-4 px-[18px] border-b border-gray-100 font-bold text-black', className)}
+      {...props}
+    >
+      {children}
+    </header>
+  );
+}
+
+function Body({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn('p-[18px] text-medium text-gray-700 leading-[1.6] overflow-auto whitespace-pre-wrap', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Footer({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      className={cn('flex justify-end gap-3 p-3', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+function CancelButton({ children, className, ...props }: React.ComponentProps<'button'>) {
+  return (
+    <button
+      className={cn('h-10 min-w-[70px] px-[18px] border border-gray-400 rounded-medium text-gray-700 font-bold cursor-pointer hover:bg-gray-100', className)}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+function SubmitButton({ children, className, ...props }: React.ComponentProps<'button'>) {
+  return (
+    <button
+      className={cn('h-10 min-w-[70px] px-[18px] border-none rounded-medium bg-green-600 text-white font-semibold cursor-pointer hover:not-disabled:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed', className)}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+function CloseButton({ children, className, ...props }: React.ComponentProps<'button'>) {
+  return (
+    <button
+      className={cn('border-none bg-transparent text-[20px] cursor-pointer text-gray-500 leading-none p-1 hover:text-black', className)}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
 export default function Modal() {
   const {
@@ -87,49 +179,47 @@ export default function Modal() {
   if (!isOpen || !content) return null;
 
   return createPortal(
-    <S.Overlay onClick={closeOnOverlayClick ? closeModal : undefined}>
-      <S.Dialog
-        role="dialog"
-        aria-modal="true"
-        onClick={(event) => event.stopPropagation()}
+    <Overlay onClick={closeOnOverlayClick ? closeModal : undefined}>
+      <Dialog
+        onClick={(event: React.MouseEvent) => event.stopPropagation()}
       >
         {title ? (
-          <S.Header>
+          <Header>
             <span>{title}</span>
             {hasCloseButton ? (
-              <S.CloseButton
+              <CloseButton
                 type="button"
                 aria-label="닫기"
                 onClick={closeModal}
               >
                 &times;
-              </S.CloseButton>
+              </CloseButton>
             ) : null}
-          </S.Header>
+          </Header>
         ) : null}
-        <S.Body>{content}</S.Body>
-        <S.Footer>
+        <Body>{content}</Body>
+        <Footer>
           {hasCloseButton && (
-            <S.CancelButton
+            <CancelButton
               type="button"
               onClick={() => closeModal()}
               disabled={isPending}
             >
               취소
-            </S.CancelButton>
+            </CancelButton>
           )}
           {(onSubmit || submitButtonText) && (
-            <S.SubmitButton
+            <SubmitButton
               type="button"
               onClick={handleSubmit}
               disabled={!onSubmit || isPending}
             >
               {isPending ? '처리 중...' : submitButtonText || '완료'}
-            </S.SubmitButton>
+            </SubmitButton>
           )}
-        </S.Footer>
-      </S.Dialog>
-    </S.Overlay>,
+        </Footer>
+      </Dialog>
+    </Overlay>,
     document.body,
   );
 }

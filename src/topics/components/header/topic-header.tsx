@@ -7,10 +7,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
 import { useTopicDetailQuery } from '@/hooks/topics';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as HS from '@/issues/components/header/header.styles';
 import CreateIssueButton from '../create-issue-button/create-issue-button';
 import EditTopicButton from '../edit-topic-button/edit-topic-button';
-import * as S from './topic-header.styles';
 
 export default function TopicHeader() {
   const params = useParams();
@@ -30,20 +28,20 @@ export default function TopicHeader() {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
+    <div className="h-[64px] border-b border-gray-200 bg-white px-4 flex items-center justify-between">
+      <div className="flex items-center gap-3 text-large font-semibold text-black">
         <Link href={`/projects/${topic?.projectId || ''}`}>
-          <HS.ButtonsWrapper>
+          <div className="flex items-center">
             <Image
               src="/leftArrow.svg"
               alt="뒤로가기"
               width={18}
               height={18}
             />
-          </HS.ButtonsWrapper>
+          </div>
         </Link>
 
-        <S.Divider />
+        <div className="mx-1 h-4 w-px bg-gray-200" />
 
         {showLoading ? (
           <TitleSkeleton width="180px" />
@@ -56,11 +54,15 @@ export default function TopicHeader() {
             />
           </>
         )}
-      </S.LeftSection>
-      <S.RightSection>
+      </div>
+      <div className="mr-2 flex items-center gap-2 justify-self-end">
         <CreateIssueButton />
-        <S.Divider />
-        <S.Profile onClick={handleProfileClick}>
+        <div className="mx-1 h-4 w-px bg-gray-200" />
+        <button
+          type="button"
+          onClick={handleProfileClick}
+          className="flex min-w-[92px] items-center gap-3 font-semibold"
+        >
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -75,13 +77,13 @@ export default function TopicHeader() {
                   alt="프로필"
                   width={38}
                   height={38}
-                  style={{ borderRadius: '50%' }}
+                  className="rounded-full"
                 />
               )}
             </>
           )}
-        </S.Profile>
-      </S.RightSection>
-    </S.HeaderContainer>
+        </button>
+      </div>
+    </div>
   );
 }

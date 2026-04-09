@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import * as S from './card.styles';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 
-interface CardProps {
+interface CardProps extends VariantProps<typeof cardContainerVariants> {
   id: string;
-  variant?: 'header' | 'item';
   leftIcon: string;
   title: string;
   subtitle?: string;
@@ -14,6 +14,21 @@ interface CardProps {
   showArrow?: boolean;
   onClick?: () => void;
 }
+
+const cardContainerVariants = cva(
+  'flex items-center justify-between transition-all duration-200 ease-in-out',
+  {
+    variants: {
+      variant: {
+        header: 'cursor-default p-0',
+        item: 'cursor-pointer rounded-large border border-gray-200 bg-white p-5 hover:-translate-y-0.5 hover:bg-yellow-50 hover:shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]',
+      },
+    },
+    defaultVariants: {
+      variant: 'header',
+    },
+  },
+);
 
 const Card = ({
   id,
@@ -31,36 +46,55 @@ const Card = ({
     router.push(`/topics/${id}`);
   };
 
+  const handleClick = () => {
+    onClick?.();
+    if (!onClick) {
+      goTopic();
+    }
+  };
+
   return (
-    <S.CardContainer
-      variant={variant}
-      onClick={goTopic}
+    <div
+      className={cn(cardContainerVariants({ variant }))}
+      onClick={handleClick}
     >
-      <S.LeftSection>
-        <S.IconWrapper variant={variant}>
+      <div className="flex items-center gap-4">
+        <div 
+          className={cn(
+            'flex items-center justify-center bg-green-50 rounded-small shrink-0',
+            variant === 'header' ? 'w-10 h-10' : 'w-12 h-12'
+          )}
+        >
           <Image
             src={leftIcon}
             alt="아이콘"
             width={variant === 'header' ? 20 : 24}
             height={variant === 'header' ? 20 : 24}
           />
-        </S.IconWrapper>
-        <S.ContentWrapper>
-          <S.Title variant={variant}>{title}</S.Title>
-          {subtitle && <S.Subtitle>{subtitle}</S.Subtitle>}
-        </S.ContentWrapper>
-      </S.LeftSection>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div 
+            className={cn(
+              'text-large font-bold m-0',
+              variant === 'header' ? 'text-gray-800' : 'text-gray-900'
+            )}
+          >
+            {title}
+          </div>
+          {subtitle && <span className="text-small font-medium text-gray-600">{subtitle}</span>}
+        </div>
+      </div>
       {(rightIcon || showArrow) && (
-        <S.RightSection>
+        <div className="ml-auto flex items-center text-gray-600 cursor-pointer hover:opacity-70">
           {showArrow ? (
-            <S.ArrowIcon>
+            <div className="rotate-180 flex items-center justify-center text-gray-400">
               <Image
                 src="/leftArrow.svg"
                 alt="이동"
                 width={20}
                 height={20}
               />
-            </S.ArrowIcon>
+            </div>
           ) : (
             rightIcon && (
               <Image
@@ -71,22 +105,26 @@ const Card = ({
               />
             )
           )}
-        </S.RightSection>
+        </div>
       )}
-    </S.CardContainer>
+    </div>
   );
 };
 
 export const CardSkeleton = () => {
   return (
-    <S.SkeletonCard role="status" aria-label="토픽 로딩 중">
-      <S.SkeletonIcon />
-      <S.SkeletonContent>
-        <S.SkeletonLine width="45%" />
-        <S.SkeletonLine width="30%" />
-      </S.SkeletonContent>
-      <S.SkeletonRight />
-    </S.SkeletonCard>
+    <div 
+      role="status" 
+      aria-label="토픽 로딩 중"
+      className="border border-dashed border-gray-200 bg-white rounded-large flex items-center gap-4 p-5 pointer-events-none"
+    >
+      <div className="w-12 h-12 rounded-small shrink-0 bg-gray-100 animate-pulse" />
+      <div className="flex flex-col gap-2 flex-1">
+        <div className="h-3.5 rounded-full bg-gray-100 animate-pulse w-[45%]" />
+        <div className="h-3.5 rounded-full bg-gray-100 animate-pulse w-[30%]" />
+      </div>
+      <div className="w-5 h-5 rounded-full shrink-0 bg-gray-100 animate-pulse" />
+    </div>
   );
 };
 

@@ -2,7 +2,6 @@
 
 import { ProjectCard } from '@/projects/components/project-card/project-card';
 import type { ProjectListItem } from '@/projects/types';
-import * as S from './project-list.styles';
 
 interface ProjectListProps {
   projects: ProjectListItem[];
@@ -10,8 +9,8 @@ interface ProjectListProps {
 
 export function ProjectList({ projects }: ProjectListProps) {
   return (
-    <S.Container>
-      <S.CardGrid>
+    <div className="flex w-full flex-col gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects?.map((project) => (
           <ProjectCard
             key={project.id}
@@ -23,7 +22,7 @@ export function ProjectList({ projects }: ProjectListProps) {
           />
         ))}
         <ProjectCard isCreateCard />
-      </S.CardGrid>
-    </S.Container>
+      </div>
+    </div>
   );
 }

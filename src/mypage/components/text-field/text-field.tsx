@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import * as S from './text-field.styles';
+import { cn } from '@/lib/utils/cn';
 
 interface TextFieldProps {
   label: string;
@@ -42,13 +42,18 @@ export default function TextField({
   };
 
   return (
-    <S.TextFieldContainer>
-      <S.Label className={!readOnly && isFocused ? 'active' : ''}>{label}</S.Label>
-      <S.InputWrapper
-        $isReadOnly={readOnly}
-        $isFocused={isFocused}
+    <div className="flex flex-col gap-1">
+      <label className={cn('text-small font-bold text-gray-400', !readOnly && isFocused && 'active')}>
+        {label}
+      </label>
+      <div
+        className={cn(
+          'flex items-center justify-between rounded-[8px] border p-[11px]',
+          readOnly ? 'border-gray-200 bg-gray-100' : 'bg-white',
+          !readOnly && (isFocused ? 'border-green-500' : 'border-gray-200'),
+        )}
       >
-        <S.Input
+        <input
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
           placeholder={placeholder}
@@ -58,18 +63,22 @@ export default function TextField({
           onFocus={() => setIsFocused(true)}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
+          className="w-full rounded-none border-none bg-transparent text-medium font-regular text-gray-900 outline-none disabled:cursor-not-allowed disabled:text-gray-500"
         />
         {icon && (
-          <S.IconWrapper 
-            className={!readOnly && isFocused ? 'active' : ''}
+          <div
+            className={cn(
+              'flex h-[14px] w-[14px] items-center justify-center text-gray-400',
+              !readOnly && isFocused && 'active text-green-500',
+            )}
             onClick={onIconClick}
             style={{ cursor: onIconClick ? 'pointer' : 'default' }}
           >
             {icon}
-          </S.IconWrapper>
+          </div>
         )}
-      </S.InputWrapper>
-      {description && <S.Description>{description}</S.Description>}
-    </S.TextFieldContainer>
+      </div>
+      {description && <p className="mt-1 text-small font-regular text-gray-400">{description}</p>}
+    </div>
   );
 }

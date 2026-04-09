@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import * as S from './sidebar-filter.styles';
+import { cn } from '@/lib/utils/cn';
 
 export type FilterType = 'issue' | 'member' | 'topic';
 
@@ -37,19 +37,34 @@ export default function SidebarFilter({ value, onChange, items = ['issue', 'memb
   };
 
   return (
-    <S.Container ref={filterRef}>
-      <S.Trigger onClick={() => setIsOpen(!isOpen)}>
+    <div
+      ref={filterRef}
+      className="relative"
+    >
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className='flex items-center gap-1 whitespace-nowrap bg-transparent p-1 text-small font-bold text-gray-600 hover:text-gray-800 after:mt-0.5 after:block after:h-0 after:w-0 after:border-l-[4px] after:border-l-transparent after:border-r-[4px] after:border-r-transparent after:border-t-[4px] after:border-t-current after:content-[""]'
+      >
         {LABEL_MAP[value]}
-      </S.Trigger>
+      </button>
       {isOpen && (
-        <S.Menu>
+        <ul className="absolute left-0 top-full z-10 mt-2 min-w-[80px] list-none rounded-[8px] border border-gray-200 bg-white p-1 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)]">
           {items.map((item) => (
-            <S.MenuItem key={item} isActive={value === item}>
+            <li
+              key={item}
+              className={cn(
+                'w-full',
+                '[&>button]:w-full [&>button]:whitespace-nowrap [&>button]:rounded-[4px] [&>button]:border-none [&>button]:px-3 [&>button]:py-2 [&>button]:text-left [&>button]:text-small [&>button]:cursor-pointer',
+                value === item
+                  ? '[&>button]:bg-gray-200 [&>button]:text-gray-900 hover:[&>button]:bg-gray-200'
+                  : '[&>button]:bg-transparent [&>button]:text-gray-600 hover:[&>button]:bg-gray-100 hover:[&>button]:text-gray-900',
+              )}
+            >
               <button onClick={() => handleSelect(item)}>{LABEL_MAP[item]}</button>
-            </S.MenuItem>
+            </li>
           ))}
-        </S.Menu>
+        </ul>
       )}
-    </S.Container>
+    </div>
   );
 }

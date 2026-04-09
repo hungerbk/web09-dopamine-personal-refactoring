@@ -10,9 +10,8 @@ import { useInviteProjectModal } from '@/components/modal/invite-project-modal/u
 import { CircleSkeleton, TextSkeleton, TitleSkeleton } from '@/components/skeleton/skeleton';
 import { useProjectQuery } from '@/hooks/projects';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as S from './header.styles';
 
-const ProjectHeader = () => {
+export default function ProjectHeader() {
   const params = useParams<{ id: string }>();
   const projectId = params.id;
   const router = useRouter();
@@ -32,29 +31,32 @@ const ProjectHeader = () => {
   };
 
   return (
-    <S.HeaderContainer>
-      <S.LeftSection>
-        <Link href={'/project'}>
+    <div className="flex h-[64px] items-center justify-between border-b border-gray-200 bg-white px-4">
+      <div className="flex items-center justify-self-start gap-3 text-large font-semibold text-black">
+        <Link href="/project">
           <Image
             src="/leftArrow.svg"
             alt="뒤로 가기"
             width={18}
             height={18}
-            style={{ cursor: 'pointer' }}
           />
         </Link>
-        <S.Divider />
+        <div className="h-4 w-px bg-gray-200 mx-1" />
         {showLoading ? <TitleSkeleton width="200px" /> : projectData?.title}
-      </S.LeftSection>
-      <S.RightSection>
+      </div>
+      <div className="mr-2 flex items-center justify-self-end gap-2">
         <HeaderButton
           imageSrc="/people.svg"
           alt="팀원 초대"
           text="팀원 초대"
           onClick={(e) => openInviteProjectModal(projectId, projectData?.title || '', e)}
         />
-        <S.Divider />
-        <S.Profile onClick={handleProfileClick}>
+        <div className="h-4 w-px bg-gray-200 mx-1" />
+        <button
+          type="button"
+          className="flex min-w-[92px] items-center gap-3 font-semibold"
+          onClick={handleProfileClick}
+        >
           {showSessionLoading ? (
             <>
               <TextSkeleton width="42px" />
@@ -69,15 +71,13 @@ const ProjectHeader = () => {
                   alt="프로필"
                   width={38}
                   height={38}
-                  style={{ borderRadius: '50%' }}
+                  className="rounded-full"
                 />
               )}
             </>
           )}
-        </S.Profile>
-      </S.RightSection>
-    </S.HeaderContainer>
+        </button>
+      </div>
+    </div>
   );
-};
-
-export default ProjectHeader;
+}

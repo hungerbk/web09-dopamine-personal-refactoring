@@ -2,7 +2,7 @@ import MemberSidebarItem from '@/components/sidebar/member-sidebar-item';
 import Sidebar from '@/components/sidebar/sidebar';
 import SidebarFilter from '@/components/sidebar/sidebar-filter';
 import SidebarItem from '@/components/sidebar/sidebar-item';
-import * as S from '@/components/sidebar/sidebar.styles';
+import * as S from '@/components/sidebar/sidebar';
 import IssueGraphLink from './issue-graph-link';
 import NewIssueButton from './new-issue-button';
 import { useIssueSidebar } from './use-issue-sidebar';

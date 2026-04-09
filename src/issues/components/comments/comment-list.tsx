@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef } from 'react';
 import { CommentListContext } from './comment-list-context';
 import CommentListItem from './comment-list-item';
 import { useCommentWindowContext } from './comment-window-context';
-import * as S from './comment-window.styles';
 
 export default function CommentList() {
   const commentListRef = useRef<HTMLDivElement>(null);
@@ -111,12 +110,15 @@ export default function CommentList() {
 
   return (
     <CommentListContext.Provider value={contextValue}>
-      <S.CommentSection>
-        <S.CommentList ref={commentListRef}>
+      <section className="flex min-h-0 flex-1 flex-col gap-3">
+        <div
+          ref={commentListRef}
+          className="scrollbar-hide flex flex-col gap-0 overflow-auto"
+        >
           {commentMetaMessage && (
-            <S.CommentItem>
-              <S.CommentMeta>{commentMetaMessage}</S.CommentMeta>
-            </S.CommentItem>
+            <div className="relative border-b border-gray-100 px-[14px] py-[14px] last:border-b-0">
+              <div className="text-small font-medium text-gray-500">{commentMetaMessage}</div>
+            </div>
           )}
 
           {!isLoading &&
@@ -129,8 +131,8 @@ export default function CommentList() {
             ))}
 
           <div ref={bottomRef} />
-        </S.CommentList>
-      </S.CommentSection>
+        </div>
+      </section>
     </CommentListContext.Provider>
   );
 }

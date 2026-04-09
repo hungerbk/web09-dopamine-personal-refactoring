@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import type { MouseEventHandler, PointerEventHandler } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils/cn';
 import { ISSUE_STATUS } from '@/constants/issue';
 import { useSelectedIdeaMutation } from '@/hooks/issues';
 import { theme } from '@/styles/theme';
@@ -14,7 +16,6 @@ import type { CardStatus, IdeaWithPosition, Position } from '@/issues/types';
 import IdeaCardBadge from './idea-card-badge';
 import IdeaCardFooter from './idea-card-footer';
 import IdeaCardHeader from './idea-card-header';
-import * as S from './idea-card.styles';
 import { useIdeaCard } from './use-idea-card';
 
 interface IdeaCardProps extends Omit<IdeaWithPosition, 'comments' | 'needDiscussion'> {
@@ -28,6 +29,50 @@ interface IdeaCardProps extends Omit<IdeaWithPosition, 'comments' | 'needDiscuss
   onPositionChange?: (id: string, position: Position) => void;
   disableAnimation?: boolean; // 드래그 중일 때는 애니메이션 비활성화
 }
+
+const ideaCardVariants = cva(
+  'relative min-w-[30em] max-w-[30em] rounded-medium px-[35px] pb-[30px] pt-[35px]',
+  {
+    variants: {
+      status: {
+        default: 'border border-gray-200 bg-white shadow-[0_4px_10px_rgba(31,41,55,0.06)]',
+        needDiscussion: 'border-2 border-red-600 bg-red-50',
+        mostLiked: 'border-2 border-blue-600 bg-blue-50',
+        selected: 'border-2 border-yellow-500 bg-yellow-50 shadow-[0_4px_10px_rgba(250,204,21,0.86)]',
+      },
+      isEditing: {
+        true: 'cursor-auto border border-gray-500',
+        false: '',
+      },
+      isHotIdea: {
+        true: 'border-2 border-red-500',
+        false: '',
+      },
+    },
+    compoundVariants: [
+      {
+        status: 'default',
+        isHotIdea: true,
+        className: 'bg-red-50 shadow-[0_8px_24px_rgba(220,38,38,0.3)]',
+      },
+      {
+        status: 'needDiscussion',
+        isHotIdea: true,
+        className: 'shadow-[0_8px_24px_rgba(220,38,38,0.3)]',
+      },
+      {
+        status: 'mostLiked',
+        isHotIdea: true,
+        className: 'shadow-[0_8px_24px_rgba(220,38,38,0.3)]',
+      },
+    ],
+    defaultVariants: {
+      status: 'default',
+      isEditing: false,
+      isHotIdea: false,
+    },
+  },
+);
 
 export default function IdeaCard(props: IdeaCardProps) {
   const issueId = props.issueId ?? '';
@@ -164,16 +209,9 @@ export default function IdeaCard(props: IdeaCardProps) {
       : {};
 
   return (
-    <S.Card
+    <article
       ref={combinedRef}
       data-idea-card={props.id}
-      issueStatus={issueStatus}
-      status={status}
-      isDragging={isDragging}
-      isEditing={isEditing}
-      inCategory={inCategory}
-      isCommentOpen={isCommentOpen}
-      isHotIdea={props.isHotIdea}
       onClick={handleCardClick}
       onPointerDown={handlePointerDown}
       {...attributes}
@@ -183,6 +221,14 @@ export default function IdeaCard(props: IdeaCardProps) {
           Object.entries(listeners || {}).filter(([key]) => key !== 'onPointerDown'),
         ))}
       style={cardStyle}
+      className={cn(
+        ideaCardVariants({
+          status: (status ?? 'default') as 'default' | 'needDiscussion' | 'mostLiked' | 'selected',
+          isEditing,
+          isHotIdea: !!props.isHotIdea,
+        }),
+        issueStatus && issueStatus !== ISSUE_STATUS.BRAINSTORMING && '!shadow-none',
+      )}
     >
       <IdeaCardBadge
         status={status}
@@ -217,6 +263,6 @@ export default function IdeaCard(props: IdeaCardProps) {
         onAgree={handleAgree}
         onDisagree={handleDisagree}
       />
-    </S.Card>
+    </article>
   );
 }

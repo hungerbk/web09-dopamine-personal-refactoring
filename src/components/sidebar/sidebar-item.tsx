@@ -1,6 +1,6 @@
 import { STATUS_LABEL } from '@/constants/issue';
 import { IssueStatus } from '@/issues/types';
-import * as S from './sidebar.styles';
+import * as S from './sidebar';
 
 interface SidebarItemProps {
   isTopic?: boolean;

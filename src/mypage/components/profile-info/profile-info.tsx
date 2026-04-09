@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { User } from 'next-auth';
 import TextField from '@/mypage/components/text-field/text-field';
-import * as S from './profile-info.styles';
 import { useUserMutation } from '@/hooks/user/use-user-mutation';
 import toast from 'react-hot-toast';
 
@@ -60,10 +59,10 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
   };
 
   return (
-    <S.FormContainer>
-      <S.ProfileHeader>
-        <S.Text>프로필 정보</S.Text>
-      </S.ProfileHeader>
+    <div className="h-fit w-[450px] rounded-medium bg-gray-50 p-5">
+      <div className="mb-5 flex items-center gap-2 text-left">
+        <p className="m-0 text-medium font-bold text-black">프로필 정보</p>
+      </div>
       <TextField
         label='보여질 이름'
         value={displayName}
@@ -89,6 +88,6 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
         value={user?.email || ''}
         readOnly
       />
-    </S.FormContainer>
+    </div>
   );
 }

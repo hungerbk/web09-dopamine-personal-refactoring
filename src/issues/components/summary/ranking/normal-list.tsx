@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils/cn';
 import { VOTE_TYPE } from '@/constants/issue';
 import type { RankedIdeaDto } from '@/issues/types';
-import * as DS from './dialog.styles';
-import * as S from './normal-list.styles';
 
 interface NormalListProps {
   normalRankings: RankedIdeaDto[];
@@ -32,22 +31,25 @@ export default function NormalList({ normalRankings }: NormalListProps) {
   return (
     <>
       {visibleItems.map((item, index) => (
-        <S.Item
+        <div
           key={item.id}
-          highlighted={item.rank === 1}
-          isTop={index === 0}
-          isSelected={item.isSelected}
+          className={cn(
+            'flex items-center justify-between gap-3 border-b border-gray-100 px-4 py-3.5 last:border-b-0',
+            index === 0 && 'rounded-t-medium',
+          )}
         >
-          <S.ItemLeft>
-            <S.RankBadge
-              highlighted={item.rank === 1}
-              isSelected={item.isSelected}
+          <div className="flex items-center gap-3">
+            <div
+              className={cn(
+                'grid h-8 min-w-8 place-items-center rounded-medium text-medium font-semibold',
+                item.rank === 1 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-400',
+              )}
             >
               {item.rank}
-            </S.RankBadge>
-            <S.Content>
-              <S.ContentWrapper>
-                <S.Title
+            </div>
+            <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <div
                   title={item.content}
                   role="button"
                   tabIndex={0}
@@ -58,59 +60,68 @@ export default function NormalList({ normalRankings }: NormalListProps) {
                       setDialogContent(item.content);
                     }
                   }}
+                  className="cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-medium font-medium leading-5 text-black"
                 >
                   {item.content}
-                </S.Title>
-                {item.isSelected && <S.SelectLabel>채택된 아이디어</S.SelectLabel>}
-              </S.ContentWrapper>
+                </div>
+                {item.isSelected && (
+                  <span className="rounded-large border border-yellow-500 bg-yellow-100 px-1.5 py-px text-xs font-semibold leading-none text-yellow-500">
+                    채택된 아이디어
+                  </span>
+                )}
+              </div>
 
-              <S.MetaRow>
-                <S.Author>
+              <div className="flex items-center gap-2 text-small font-normal leading-4 text-gray-400">
+                <span className="flex-wrap">
                   {item.user?.nickname || item.user?.displayName || item.user?.name || '익명'}
-                </S.Author>
-                <S.Divider />
+                </span>
+                <span className="h-1 w-1 rounded-full bg-gray-300" />
                 <span>{item.category?.title || '미분류'}</span>
-              </S.MetaRow>
-            </S.Content>
-          </S.ItemLeft>
-          <S.ItemRight>
-            <S.VoteInfoSection>
-              <S.VoteInfo type={VOTE_TYPE.AGREE}>
-                <S.VoteLabel>찬성</S.VoteLabel>
-                <S.VoteCount type={VOTE_TYPE.AGREE}>{item.agreeCount}</S.VoteCount>
-              </S.VoteInfo>
-              <S.VoteInfo type={VOTE_TYPE.DISAGREE}>
-                <S.VoteLabel>반대</S.VoteLabel>
-                <S.VoteCount type={VOTE_TYPE.DISAGREE}>{item.disagreeCount}</S.VoteCount>
-              </S.VoteInfo>
-            </S.VoteInfoSection>
-          </S.ItemRight>
-        </S.Item>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-1">
+            <span className="flex items-center justify-center gap-1 rounded-medium bg-green-50 px-2.5 py-1">
+              <span className="text-small text-gray-600">찬성</span>
+              <span className="text-medium font-semibold text-green-600">{item.agreeCount}</span>
+            </span>
+            <span className="flex items-center justify-center gap-1 rounded-medium bg-red-50 px-2.5 py-1">
+              <span className="text-small text-gray-600">반대</span>
+              <span className="text-medium font-semibold text-red-600">{item.disagreeCount}</span>
+            </span>
+          </div>
+        </div>
       ))}
-      <S.Footer>
+      <div className="flex justify-center border-t border-gray-100 bg-white py-3">
         {hasMore && (
-          <S.MoreButton
+          <button
             type="button"
             onClick={() => setShowAll((prev) => !prev)}
+            className="bg-white px-3 py-2 text-small font-semibold text-gray-500 transition-colors hover:bg-gray-50 hover:text-black"
           >
             {showAll ? '접기' : '더보기'}
-          </S.MoreButton>
+          </button>
         )}
-      </S.Footer>
+      </div>
       {dialogContent && (
-        <DS.DialogOverlay onClick={closeDialog}>
-          <DS.Dialog
+        <div
+          onClick={closeDialog}
+          className="fixed inset-0 z-backdrop grid place-items-center bg-[rgba(0,0,0,0.35)] p-4"
+        >
+          <div
             role="dialog"
             aria-modal="true"
             aria-label="아이디어 상세"
             onClick={(e) => e.stopPropagation()}
+            className="flex w-[min(520px,100%)] max-w-[520px] flex-col overflow-hidden rounded-medium bg-white shadow-[0_16px_40px_rgba(0,0,0,0.16)]"
           >
-            <DS.DialogHeader>
+            <header className="flex items-center justify-between border-b border-gray-100 px-4 py-3.5 font-bold text-black">
               <span>아이디어 상세</span>
-              <DS.DialogClose
+              <button
                 type="button"
                 aria-label="이슈 닫기"
                 onClick={closeDialog}
+                className="p-1 text-[18px] leading-none text-gray-500 hover:text-black"
               >
                 <Image
                   src="/close.svg"
@@ -118,11 +129,13 @@ export default function NormalList({ normalRankings }: NormalListProps) {
                   width={16}
                   height={16}
                 />
-              </DS.DialogClose>
-            </DS.DialogHeader>
-            <DS.DialogBody>{dialogContent}</DS.DialogBody>
-          </DS.Dialog>
-        </DS.DialogOverlay>
+              </button>
+            </header>
+            <div className="whitespace-pre-wrap px-4 py-4 text-medium leading-[1.6] text-gray-600">
+              {dialogContent}
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

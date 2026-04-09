@@ -8,7 +8,100 @@ import { useModalStore } from '@/components/modal/use-modal-store';
 import { MAX_DESCRIPTION_LENGTH, MAX_TITLE_LENGTH } from '@/constants/project';
 import { useUpdateProjectMutation } from '@/hooks/projects';
 import { isProjectTitleTooLong } from '@/lib/utils/project-title';
-import * as S from './project-modal.styles';
+import { cn } from '@/lib/utils/cn';
+
+function Container({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex flex-col gap-[30px]', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function InfoContainer({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex flex-col gap-[10px]', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function InputWrapper({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('flex flex-col gap-2', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function InputTitle({ children, className, ...props }: React.ComponentProps<'label'>) {
+  return (
+    <label className={cn('text-medium font-semibold text-gray-900', className)} {...props}>
+      {children}
+    </label>
+  );
+}
+
+function InputRow({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('relative', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function Input({ className, ...props }: React.ComponentProps<'input'>) {
+  return (
+    <input
+      className={cn(
+        'w-full border border-gray-300 rounded-medium text-medium text-gray-900 box-border bg-white',
+        'focus:outline-none focus:border-green-600',
+        'disabled:bg-gray-50 disabled:cursor-not-allowed',
+        'placeholder:text-gray-400',
+        'py-3 pr-11 pl-2',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
+  return (
+    <textarea
+      className={cn(
+        'w-full border border-gray-300 rounded-medium text-medium text-gray-900 box-border',
+        'focus:outline-none focus:border-green-600',
+        'py-3 pr-11 pl-2',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function InputDescription({ children, className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div className={cn('text-medium text-red-500', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
+function CharCount({ children, className, isOverLimit, ...props }: React.ComponentProps<'span'> & { isOverLimit?: boolean }) {
+  return (
+    <span
+      className={cn(
+        'absolute right-2.5 top-1/2 -translate-y-1/2 text-small font-semibold pointer-events-none',
+        isOverLimit ? 'text-red-500' : 'text-gray-600',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </span>
+  );
+}
 
 interface ProjectModalProps {
   projectId: string;
@@ -85,48 +178,46 @@ export default function ProjectModal({
 
   return (
     <>
-      <S.Container $variant="project">
-        <S.InfoContainer $variant="project">
-          <S.InputWrapper>
-            <S.InputTitle>프로젝트 제목</S.InputTitle>
-            <S.InputRow>
-              <S.Input
-                $variant="project"
+      <Container>
+        <InfoContainer>
+          <InputWrapper>
+            <InputTitle>프로젝트 제목</InputTitle>
+            <InputRow>
+              <Input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder={currentTitle ?? '프로젝트 제목을 입력해주세요.'}
               />
-              <S.CharCount $isOverLimit={isTitleOverLimit}>
+              <CharCount isOverLimit={isTitleOverLimit}>
                 {titleLength}/{MAX_TITLE_LENGTH}
-              </S.CharCount>
-            </S.InputRow>
+              </CharCount>
+            </InputRow>
             {(isTitleOverLimit || isTitleLessLimit) && (
-              <S.InputDescription>
+              <InputDescription>
                 * 프로젝트 제목은 1~{MAX_TITLE_LENGTH}자 이내로 입력해주세요.
-              </S.InputDescription>
+              </InputDescription>
             )}
-          </S.InputWrapper>
-          <S.InputWrapper>
-            <S.InputTitle>프로젝트 설명</S.InputTitle>
-            <S.InputRow>
-              <S.Textarea
-                $variant="project"
+          </InputWrapper>
+          <InputWrapper>
+            <InputTitle>프로젝트 설명</InputTitle>
+            <InputRow>
+              <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder={currentDescription ?? '프로젝트 설명을 입력해주세요.'}
               />
-              <S.CharCount $isOverLimit={isDescriptionOverLimit}>
+              <CharCount isOverLimit={isDescriptionOverLimit}>
                 {descriptionLength}/{MAX_DESCRIPTION_LENGTH}
-              </S.CharCount>
-            </S.InputRow>
+              </CharCount>
+            </InputRow>
             {isDescriptionOverLimit && (
-              <S.InputDescription>
+              <InputDescription>
                 * 프로젝트 설명은 {MAX_DESCRIPTION_LENGTH}자 이내로 입력해주세요.
-              </S.InputDescription>
+              </InputDescription>
             )}
-          </S.InputWrapper>
-        </S.InfoContainer>
-      </S.Container>
+          </InputWrapper>
+        </InfoContainer>
+      </Container>
       {isUpdating && <LoadingOverlay message="변경사항을 저장중입니다." />}
     </>
   );

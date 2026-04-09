@@ -1,6 +1,5 @@
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import * as S from './social-login.styles';
 
 interface SocialLoginProps {
   callbackUrl?: string;
@@ -20,7 +19,7 @@ export default function SocialLogin({ callbackUrl = '/project', iconSize = 50 }:
     }
   };
   return (
-    <S.SocialLoginContainer>
+    <div className="mt-5 flex w-[300px] flex-row flex-nowrap items-center justify-between self-center">
       {SOCIAL_ICONS.map((icon) => (
         <Image
           key={icon.alt}
@@ -32,6 +31,6 @@ export default function SocialLogin({ callbackUrl = '/project', iconSize = 50 }:
           onClick={() => handleSocialLogin(icon.provider)}
         />
       ))}
-    </S.SocialLoginContainer>
+    </div>
   );
 }

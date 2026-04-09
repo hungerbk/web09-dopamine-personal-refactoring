@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import { StringifyOptions } from 'querystring';
 import { MEMBER_ROLE } from '@/constants/issue';
-import * as MemberS from './member-sidebar-item.styles';
-import * as S from './sidebar.styles';
+import { cn } from '@/lib/utils/cn';
+import * as S from './sidebar';
 import { useMemberNicknameEdit } from './use-member-nickname-edit';
 
 interface MemberSidebarItemProps {
@@ -52,8 +51,8 @@ export default function MemberSidebarItem({
 
   return (
     <S.SidebarListItem>
-      <MemberS.MemberItemButton>
-        <MemberS.NameContainer isConnected={isConnected}>
+      <div className="flex w-full flex-row flex-nowrap items-center justify-between border-none bg-white py-[10px] pl-6 pr-4 text-medium text-gray-700 no-underline hover:bg-gray-200">
+        <div className={cn('flex items-center justify-center gap-2', isConnected === false && 'text-gray-400')}>
           {isIssueOwner && (
             <Image
               src="/yellow-crown.svg"
@@ -73,13 +72,14 @@ export default function MemberSidebarItem({
           )}
 
           {isEditing ? (
-            <MemberS.EditInput
+            <input
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
               onClick={(e) => e.stopPropagation()}
               onKeyDown={handleKeyDown}
               onBlur={() => cancelEditing()}
               autoFocus
+              className="w-[120px] rounded-small border border-gray-300 px-2 py-1 text-medium focus:border-green-600 focus:outline-none"
             />
           ) : (
             <span>
@@ -87,24 +87,30 @@ export default function MemberSidebarItem({
             </span>
           )}
 
-          {!isIssuePage && isCurrentUser && <MemberS.CurrentUserLabel>me</MemberS.CurrentUserLabel>}
+          {!isIssuePage && isCurrentUser && (
+            <span className="flex items-center justify-center rounded-large border border-green-600 bg-green-100 px-2 py-[2px] text-xs font-semibold leading-none text-green-600">
+              me
+            </span>
+          )}
 
           {isCurrentUser && isIssuePage && (
-            <MemberS.ActionContainer>
+            <div className="ml-auto flex items-center gap-1">
               {isEditing ? (
                 <>
-                  <MemberS.IconButton
+                  <button
                     onClick={saveEditing}
                     onMouseDown={(e) => e.preventDefault()}
                     title="저장"
+                    className="flex items-center justify-center rounded-small border-none bg-transparent p-1 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
                   >
                     저장
-                  </MemberS.IconButton>
+                  </button>
                 </>
               ) : (
-                <MemberS.IconButton
+                <button
                   onClick={startEditing}
                   title="닉네임 수정"
+                  className="flex items-center justify-center rounded-small border-none bg-transparent p-1 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
                 >
                   <Image
                     src="/edit-gray.svg"
@@ -112,25 +118,27 @@ export default function MemberSidebarItem({
                     width={14}
                     height={14}
                   />
-                </MemberS.IconButton>
+                </button>
               )}
-            </MemberS.ActionContainer>
+            </div>
           )}
 
           {isProjectOwner && !isEditing && (
-            <MemberS.OwnerBadge>
+            <div className="flex items-center gap-1 rounded-small bg-yellow-100 px-2 py-[2px]">
               <Image
                 src="/yellow-crown.svg"
                 alt="팀장"
                 width={14}
                 height={14}
               />
-              <MemberS.OwnerText>팀장</MemberS.OwnerText>
-            </MemberS.OwnerBadge>
+              <span className="text-xs font-bold text-yellow-700">팀장</span>
+            </div>
           )}
-        </MemberS.NameContainer>
-        {isConnected !== undefined && <MemberS.StatusLabel isConnected={isConnected} />}
-      </MemberS.MemberItemButton>
+        </div>
+        {isConnected !== undefined && (
+          <div className={cn('h-2 w-2 rounded-full', isConnected ? 'bg-green-600' : 'bg-gray-400')} />
+        )}
+      </div>
     </S.SidebarListItem>
   );
 }

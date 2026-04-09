@@ -3,10 +3,9 @@
 import type React from 'react';
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils/cn';
 import { VOTE_TYPE } from '@/constants/issue';
 import type { CategoryRanking } from '@/issues/types';
-import * as S from './categorized-list.styles';
-import * as DS from './dialog.styles';
 
 interface CategorizedListProps {
   categorizedRankings: CategoryRanking[];
@@ -65,90 +64,114 @@ export default function CategorizedList({ categorizedRankings }: CategorizedList
   };
 
   return (
-    <S.Container>
+    <div className="relative flex gap-5 p-4">
       {columns.map((colCards, colIndex) => (
-        <S.ContainerCol key={`col-${colIndex}`}>
+        <div
+          key={`col-${colIndex}`}
+          className="flex flex-1 flex-col gap-5"
+        >
           {colCards.map(({ categoryId, categoryTitle, ideas }) => {
             const isExpanded = expandedCategories[categoryId] ?? false;
             const visibleIdeas = isExpanded ? ideas : ideas.slice(0, 3);
             const hasMore = ideas.length > 3;
 
             return (
-              <S.Card
+              <section
                 key={categoryId}
                 id={categoryId}
                 title={categoryTitle}
+                className="flex flex-col gap-[11px] rounded-medium border-2 border-gray-100 bg-gray-50 p-4"
               >
-                <S.Header>
-                  <S.HeaderLeft>
-                    <S.Title>{categoryTitle}</S.Title>
-                  </S.HeaderLeft>
-                </S.Header>
+                <header className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-medium font-bold text-green-600 before:mr-1 before:inline-block before:h-2 before:w-2 before:rounded-full before:bg-green-600 before:content-['']">
+                      {categoryTitle}
+                    </span>
+                  </div>
+                </header>
                 {visibleIdeas.map((item) => (
-                  <S.ItemWrapper
+                  <div
                     key={item.id}
-                    isSelected={item.isSelected}
+                    className={cn(
+                      'flex items-center justify-between gap-3 rounded-medium border p-2',
+                      item.isSelected
+                        ? 'border-yellow-200 bg-yellow-50'
+                        : 'border-gray-100 bg-white',
+                    )}
                   >
-                    <S.ItemLeft>
-                      <S.RankBadge
-                        highlighted={item.rank === 1}
-                        isSelected={item.isSelected}
+                    <div className="flex flex-1 items-center gap-3">
+                      <div
+                        className={cn(
+                          'grid h-5 min-w-5 place-items-center rounded-small text-small font-semibold',
+                          item.isSelected
+                            ? 'bg-yellow-400 text-white'
+                            : item.rank === 1
+                              ? 'bg-yellow-100 text-yellow-600'
+                              : 'bg-gray-100 text-gray-400',
+                        )}
                       >
                         {item.rank}
-                      </S.RankBadge>
-                      <S.ItemContent
+                      </div>
+                      <div
                         title={item.content}
                         role="button"
                         tabIndex={0}
                         data-content={item.content}
                         onClick={handleItemInteraction}
                         onKeyDown={handleItemInteraction}
+                        className="w-[200px] flex-1 cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-medium font-regular text-gray-500"
                       >
                         {item.content}
-                      </S.ItemContent>
-                    </S.ItemLeft>
-                    <S.VoteInfoSection>
-                      <S.VoteInfo type={VOTE_TYPE.AGREE}>
-                        <S.VoteLabel>찬성</S.VoteLabel>
-                        <S.VoteCount type={VOTE_TYPE.AGREE}>{item.agreeCount}</S.VoteCount>
-                      </S.VoteInfo>
-                      <S.VoteInfo type={VOTE_TYPE.DISAGREE}>
-                        <S.VoteLabel>반대</S.VoteLabel>
-                        <S.VoteCount type={VOTE_TYPE.DISAGREE}>{item.disagreeCount}</S.VoteCount>
-                      </S.VoteInfo>
-                    </S.VoteInfoSection>
-                  </S.ItemWrapper>
+                      </div>
+                    </div>
+                    <span className="flex items-center gap-1">
+                      <span className="flex flex-col items-center text-green-600">
+                        <span className="text-small font-normal text-gray-400">찬성</span>
+                        <span className="text-small font-normal">{item.agreeCount}</span>
+                      </span>
+                      <span className="flex flex-col items-center text-red-600">
+                        <span className="text-small font-normal text-gray-400">반대</span>
+                        <span className="text-small font-normal">{item.disagreeCount}</span>
+                      </span>
+                    </span>
+                  </div>
                 ))}
                 {hasMore && (
-                  <S.Footer>
-                    <S.MoreButton
+                  <div className="flex justify-center px-0 pb-1 pt-2.5">
+                    <button
                       type="button"
                       data-id={categoryId}
                       onClick={handleToggleCategory}
+                      className="text-small font-semibold text-gray-500 transition-colors hover:bg-gray-50 hover:text-black"
                     >
                       {isExpanded ? '접기' : '더보기'}
-                    </S.MoreButton>
-                  </S.Footer>
+                    </button>
+                  </div>
                 )}
-              </S.Card>
+              </section>
             );
           })}
-        </S.ContainerCol>
+        </div>
       ))}
       {dialogContent && (
-        <DS.DialogOverlay onClick={handleCloseDialog}>
-          <DS.Dialog
+        <div
+          onClick={handleCloseDialog}
+          className="fixed inset-0 z-backdrop grid place-items-center bg-[rgba(0,0,0,0.35)] p-4"
+        >
+          <div
             role="dialog"
             aria-modal="true"
             aria-label="아이디어 상세"
             onClick={handleContentsClick}
+            className="flex w-[min(520px,100%)] max-w-[520px] flex-col overflow-hidden rounded-medium bg-white shadow-[0_16px_40px_rgba(0,0,0,0.16)]"
           >
-            <DS.DialogHeader>
+            <header className="flex items-center justify-between border-b border-gray-100 px-4 py-3.5 font-bold text-black">
               <span>아이디어 상세</span>
-              <DS.DialogClose
+              <button
                 type="button"
                 aria-label="닫기"
                 onClick={handleCloseDialog}
+                className="p-1 text-[18px] leading-none text-gray-500 hover:text-black"
               >
                 <Image
                   src="/close.svg"
@@ -156,12 +179,14 @@ export default function CategorizedList({ categorizedRankings }: CategorizedList
                   width={16}
                   height={16}
                 />
-              </DS.DialogClose>
-            </DS.DialogHeader>
-            <DS.DialogBody>{dialogContent}</DS.DialogBody>
-          </DS.Dialog>
-        </DS.DialogOverlay>
+              </button>
+            </header>
+            <div className="whitespace-pre-wrap px-4 py-4 text-medium leading-[1.6] text-gray-600">
+              {dialogContent}
+            </div>
+          </div>
+        </div>
       )}
-    </S.Container>
+    </div>
   );
 }

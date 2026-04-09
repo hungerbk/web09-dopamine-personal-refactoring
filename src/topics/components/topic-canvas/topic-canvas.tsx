@@ -4,7 +4,6 @@ import { memo, useMemo } from 'react';
 import { MarkerType, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { EDGE_STYLE } from '@/constants/topic';
-import { theme } from '@/styles/theme';
 import { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
 import TopicEdge from '../issue-connection/Issue-edge';
 import TopicConnectionLine from '../issue-connection/issue-connection-line';
@@ -76,13 +75,7 @@ function TopicCanvas({ topicId, issues, nodes: issueNodes, connections }: TopicC
   );
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        flex: 1,
-        backgroundColor: theme.colors.gray[50],
-      }}
-    >
+    <div className="w-screen flex-1 bg-gray-50">
       <IssueHoverProvider value={hoverContextValue}>
         <ReactFlow
           nodes={nodes}

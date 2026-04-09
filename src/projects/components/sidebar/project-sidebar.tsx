@@ -6,11 +6,14 @@ import MemberSidebarItem from '@/components/sidebar/member-sidebar-item';
 import Sidebar from '@/components/sidebar/sidebar';
 import SidebarFilter from '@/components/sidebar/sidebar-filter';
 import SidebarItem from '@/components/sidebar/sidebar-item';
-import * as S from '@/components/sidebar/sidebar.styles';
+import * as S from '@/components/sidebar/sidebar';
 import { CircleSkeleton, TextSkeleton } from '@/components/skeleton/skeleton';
 import { useSmartLoading } from '@/hooks/use-smart-loading';
-import * as ProjectS from './projcet-sidebar.styles';
 import { useProjectSidebar } from './use-project-sidebar';
+
+const topicSkeletonItemClassName = 'px-4 py-2.5 pl-6';
+const memberSkeletonItemClassName = 'flex items-center gap-3 px-4 py-2.5 pl-6';
+const emptyTextClassName = 'px-4 text-sm text-gray-400';
 
 const ProjectSidebar = () => {
   const {
@@ -43,20 +46,20 @@ const ProjectSidebar = () => {
         />
       }
     >
-      <ProjectS.SidebarSection>
-        <ProjectS.TopicSectionWrapper>
+      <div className="flex h-full flex-col gap-4">
+        <div className="flex min-h-0 flex-[0.4] flex-col">
           <S.SidebarTitle>TOPIC LIST</S.SidebarTitle>
-          <ProjectS.ScrollableSection>
+          <div className="scrollbar-hide flex min-h-0 flex-1 overflow-y-auto">
             <S.SidebarList>
               {showLoading ? (
                 <>
-                  <div style={{ padding: '10px 16px 10px 24px' }}>
+                  <div className={topicSkeletonItemClassName}>
                     <TextSkeleton width="80%" />
                   </div>
-                  <div style={{ padding: '10px 16px 10px 24px' }}>
+                  <div className={topicSkeletonItemClassName}>
                     <TextSkeleton width="70%" />
                   </div>
-                  <div style={{ padding: '10px 16px 10px 24px' }}>
+                  <div className={topicSkeletonItemClassName}>
                     <TextSkeleton width="75%" />
                   </div>
                 </>
@@ -70,17 +73,17 @@ const ProjectSidebar = () => {
                   />
                 ))
               ) : (
-                <div style={{ padding: '16px', color: '#9ca3af', fontSize: '14px' }}>
+                <div className={emptyTextClassName}>
                   토픽이 없습니다
                 </div>
               )}
             </S.SidebarList>
-          </ProjectS.ScrollableSection>
-        </ProjectS.TopicSectionWrapper>
+          </div>
+        </div>
 
-        <ProjectS.Divider />
+        <div className="h-px w-full bg-gray-200" />
 
-        <ProjectS.MemberSectionWrapper>
+        <div className="flex min-h-0 flex-[0.6] flex-col">
           <S.SidebarTitle>
             MEMBER LIST
             <button
@@ -96,29 +99,15 @@ const ProjectSidebar = () => {
               />
             </button>
           </S.SidebarTitle>
-          <ProjectS.ScrollableSection>
+          <div className="scrollbar-hide flex min-h-0 flex-1 overflow-y-auto">
             <S.SidebarList>
               {showLoading ? (
                 <>
-                  <div
-                    style={{
-                      padding: '10px 16px 10px 24px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                    }}
-                  >
+                  <div className={memberSkeletonItemClassName}>
                     <CircleSkeleton size="24px" />
                     <TextSkeleton width="60%" />
                   </div>
-                  <div
-                    style={{
-                      padding: '10px 16px 10px 24px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                    }}
-                  >
+                  <div className={memberSkeletonItemClassName}>
                     <CircleSkeleton size="24px" />
                     <TextSkeleton width="55%" />
                   </div>
@@ -135,16 +124,17 @@ const ProjectSidebar = () => {
                   />
                 ))
               ) : (
-                <div style={{ padding: '16px', color: '#9ca3af', fontSize: '14px' }}>
+                <div className={emptyTextClassName}>
                   멤버가 없습니다
                 </div>
               )}
             </S.SidebarList>
-          </ProjectS.ScrollableSection>
-        </ProjectS.MemberSectionWrapper>
-      </ProjectS.SidebarSection>
+          </div>
+        </div>
+      </div>
     </Sidebar>
   );
 };
 
 export default ProjectSidebar;
+

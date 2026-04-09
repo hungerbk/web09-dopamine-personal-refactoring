@@ -1,8 +1,5 @@
 'use client';
 
-import * as PS from '../summary-page.styles';
-import * as S from './vote-result.styles';
-
 interface VoteResultProps {
   participants: number;
   totalVotes: number;
@@ -11,24 +8,24 @@ interface VoteResultProps {
 
 export default function VoteResult({ participants, totalVotes, maxCommentCount }: VoteResultProps) {
   return (
-    <S.Container>
-      <PS.HeaderTitle>투표 결과</PS.HeaderTitle>
-      <S.VoteBox>
-        <S.TableRow>
-          <S.OptionText>참여자</S.OptionText>
-          <S.VoteCountText>{participants}명</S.VoteCountText>
-        </S.TableRow>
-        <S.divider />
-        <S.TableRow>
-          <S.OptionText>총 투표수</S.OptionText>
-          <S.VoteCountText highlight>{totalVotes}표</S.VoteCountText>
-        </S.TableRow>
-        <S.divider />
-        <S.TableRow>
-          <S.OptionText>최다 댓글</S.OptionText>
-          <S.VoteCountText>{maxCommentCount}개</S.VoteCountText>
-        </S.TableRow>
-      </S.VoteBox>
-    </S.Container>
+    <div className="flex h-full flex-col gap-4 p-[30px]">
+      <span className="text-[20px] font-semibold text-black">투표 결과</span>
+      <div className="flex h-full w-full flex-col justify-center gap-2.5 rounded-medium py-5">
+        <div className="flex items-center justify-between px-5 py-4">
+          <span className="text-medium font-regular text-gray-700">참여자</span>
+          <span className="text-medium font-bold text-black">{participants}명</span>
+        </div>
+        <div className="h-px w-full bg-gray-200" />
+        <div className="flex items-center justify-between px-5 py-4">
+          <span className="text-medium font-regular text-gray-700">총 투표수</span>
+          <span className="text-medium font-bold text-green-600">{totalVotes}표</span>
+        </div>
+        <div className="h-px w-full bg-gray-200" />
+        <div className="flex items-center justify-between px-5 py-4">
+          <span className="text-medium font-regular text-gray-700">최다 댓글</span>
+          <span className="text-medium font-bold text-black">{maxCommentCount}개</span>
+        </div>
+      </div>
+    </div>
   );
 }

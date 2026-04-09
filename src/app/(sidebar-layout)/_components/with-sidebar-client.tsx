@@ -3,7 +3,6 @@
 import { ReactNode, useState } from 'react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import styled from '@emotion/styled';
 import IssueHeader from '@/issues/components/header/header';
 import IssueSidebar from '@/issues/components/layout/issue-sidebar';
 import TopicHeader from '@/topics/components/header/topic-header';
@@ -14,75 +13,8 @@ import {
   SIDEBAR_TOGGLE_WIDTH,
   SIDEBAR_WIDTH,
 } from '@/constants/sidebar';
-import { theme } from '@/styles/theme';
 import ProjectHeader from '@/projects/components/header/header';
 import ProjectSidebar from '@/projects/components/sidebar/project-sidebar';
-
-const LayoutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-`;
-
-const BodyContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-`;
-
-const SidebarWrapper = styled.div<{ $isOpen: boolean }>`
-  flex-shrink: 0;
-  width: ${({ $isOpen }) => ($isOpen ? `${SIDEBAR_WIDTH}px` : `0px`)};
-  height: 100%;
-  overflow: hidden;
-  background-color: transparent;
-  transition: width 0.2s ease;
-`;
-
-const SidebarToggle = styled.button<{ $isOpen: boolean }>`
-  position: absolute;
-  top: 50%;
-  left: ${({ $isOpen }) => ($isOpen ? `${SIDEBAR_WIDTH}px` : `0px`)};
-  transform: translateY(-50%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: ${SIDEBAR_TOGGLE_WIDTH}px;
-  height: ${SIDEBAR_TOGGLE_HEIGHT}px;
-
-  padding: 0;
-  border: none;
-  border-radius: 0 ${SIDEBAR_TOGGLE_BORDER_RADIUS}px ${SIDEBAR_TOGGLE_BORDER_RADIUS}px 0;
-
-  background-color: ${theme.colors.gray[200]};
-  color: ${theme.colors.gray[500]};
-  cursor: pointer;
-  z-index: 10;
-
-  border-left: 1px solid ${theme.colors.gray[300]};
-  box-shadow: 1px 0 2px rgba(0, 0, 0, 0.06);
-
-  transition: left 0.2s ease;
-
-  &:hover {
-    background-color: ${theme.colors.gray[200]};
-    color: ${theme.colors.gray[600]};
-  }
-`;
-
-const ContentArea = styled.div`
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-`;
-
-/* ================= component ================= */
 
 export default function WithSidebarClient({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -119,41 +51,44 @@ export default function WithSidebarClient({ children }: { children: ReactNode })
   const { header, sidebar } = getLayout();
 
   return (
-    <LayoutContainer>
+    <div className="flex flex-col h-screen">
       {header}
-      <BodyContainer>
+      <div className="relative flex flex-1 min-h-0 overflow-hidden">
         {sidebar ? (
           <>
-            <SidebarWrapper $isOpen={isSidebarOpen}>{sidebar}</SidebarWrapper>
-            <SidebarToggle
+            <div
+              className="shrink-0 h-full overflow-hidden bg-transparent transition-[width] duration-200 ease-out"
+              style={{ width: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px' }}
+            >
+              {sidebar}
+            </div>
+            <button
               type="button"
               aria-label={isSidebarOpen ? '사이드바 접기' : '사이드바 펼치기'}
-              $isOpen={isSidebarOpen}
+              className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center p-0 border-none bg-gray-200 text-gray-500 cursor-pointer z-10 border-l border-gray-300 shadow-[1px_0_2px_rgba(0,0,0,0.06)] transition-[left] duration-200 ease-out hover:bg-gray-200 hover:text-gray-600"
+              style={{
+                left: isSidebarOpen ? `${SIDEBAR_WIDTH}px` : '0px',
+                width: `${SIDEBAR_TOGGLE_WIDTH}px`,
+                height: `${SIDEBAR_TOGGLE_HEIGHT}px`,
+                borderRadius: `0 ${SIDEBAR_TOGGLE_BORDER_RADIUS}px ${SIDEBAR_TOGGLE_BORDER_RADIUS}px 0`,
+              }}
               onClick={() => setIsSidebarOpen((prev) => !prev)}
             >
-              {isSidebarOpen ? (
-                <Image
-                  src="/chevron-left.svg"
-                  alt=""
-                  width={6}
-                  height={10}
-                  aria-hidden
-                />
-              ) : (
-                <Image
-                  src="/chevron-right.svg"
-                  alt=""
-                  width={6}
-                  height={10}
-                  aria-hidden
-                />
-              )}
-            </SidebarToggle>
+              <Image
+                src={isSidebarOpen ? '/chevron-left.svg' : '/chevron-right.svg'}
+                alt=""
+                width={6}
+                height={10}
+                aria-hidden
+              />
+            </button>
           </>
         ) : null}
 
-        <ContentArea>{children}</ContentArea>
-      </BodyContainer>
-    </LayoutContainer>
+        <div className="flex flex-1 min-w-0 overflow-x-hidden overflow-y-auto">
+          {children}
+        </div>
+      </div>
+    </div>
   );
 }

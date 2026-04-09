@@ -5,9 +5,7 @@ import Modal from '@/components/modal/modal';
 import Tooltip from '@/components/tooltip/tooltip';
 import { AuthProvider } from '@/providers/auth-provider';
 import { Providers } from '@/providers/query-provider';
-import ThemeProvider from '@/providers/theme-provider';
-import EmotionRegistry from '@/styles/EmotionRegistry';
-import GlobalStyle from '@/styles/globalStyles';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://murphy.co.kr'),
@@ -24,19 +22,14 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <EmotionRegistry>
-          <AuthProvider>
-            <Providers>
-              <ThemeProvider>
-                <GlobalStyle />
-                <Tooltip />
-                <Toaster />
-                <Modal />
-                {children}
-              </ThemeProvider>
-            </Providers>
-          </AuthProvider>
-        </EmotionRegistry>
+        <AuthProvider>
+          <Providers>
+            <Tooltip />
+            <Toaster />
+            <Modal />
+            {children}
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

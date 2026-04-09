@@ -1,29 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import styled from '@emotion/styled';
 import { motion, useAnimationFrame } from 'framer-motion';
 
 const SHAPE_SIZE = 80;
 const SHAPE_RADIUS = 24;
-
-const ShapesContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-`;
-
-const Shape = styled(motion.div)<{ color: string }>`
-  position: absolute;
-  width: ${SHAPE_SIZE}px;
-  height: ${SHAPE_SIZE}px;
-  border-radius: ${SHAPE_RADIUS}px;
-  background: ${({ color }) => color};
-  transition: background 0.3s ease;
-`;
 
 const COLORS = {
   default: 'rgba(200, 200, 200, 0.2)',
@@ -128,21 +109,25 @@ export default function FloatingShapes() {
   });
 
   return (
-    <ShapesContainer>
+    <div className="pointer-events-none absolute left-0 top-0 h-full w-full">
       {shapes.map((shape) => (
-        <Shape
+        <motion.div
           key={shape.id}
-          color={getColorByPosition(
-            shape.x + SHAPE_SIZE / 2,
-            shape.y + SHAPE_SIZE / 2,
-            viewportRef.current,
-          )}
+          className="absolute transition-[background] duration-300 ease"
           style={{
+            width: SHAPE_SIZE,
+            height: SHAPE_SIZE,
+            borderRadius: SHAPE_RADIUS,
+            background: getColorByPosition(
+              shape.x + SHAPE_SIZE / 2,
+              shape.y + SHAPE_SIZE / 2,
+              viewportRef.current,
+            ),
             left: shape.x,
             top: shape.y,
           }}
         />
       ))}
-    </ShapesContainer>
+    </div>
   );
 }

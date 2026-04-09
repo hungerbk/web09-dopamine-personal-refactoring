@@ -1,15 +1,8 @@
 'use client';
 
 import {
-  Actions,
-  Btn,
-  DangerBtn,
-  Dot,
-  Header,
-  HeaderLeft,
-  Input,
-  Title,
-} from './category-card.styles';
+  cn
+} from '@/lib/utils/cn';
 import { IssueStatus } from '@/issues/types';
 import { ISSUE_STATUS } from '@/constants/issue';
 
@@ -43,15 +36,23 @@ export default function CategoryCardHeader({
   onClick,
 }: CategoryCardHeaderProps) {
   return (
-    <Header
-      isMuted={isMuted}
+    <header
       onMouseDown={onMouseDown}
       onClick={onClick}
+      className={cn(
+        'flex w-full items-center justify-between gap-3 text-[14px] font-semibold',
+        isMuted ? 'text-[#9a9a9a]' : 'text-[#222222]',
+      )}
     >
-      <HeaderLeft>
-        <Dot isMuted={isMuted} />
+      <div className="flex items-center gap-2">
+        <span
+          className={cn(
+            'h-2 w-2 rounded-full',
+            isMuted ? 'bg-[#c9c9c9]' : 'bg-[#00a94f]',
+          )}
+        />
         {isEditing ? (
-          <Input
+          <input
             value={draftTitle}
             onChange={(e) => onChangeTitle(e.target.value)}
             onBlur={() => onSubmitTitle(draftTitle)}
@@ -60,29 +61,36 @@ export default function CategoryCardHeader({
               if (e.key === 'Escape') onCancelEdit();
             }}
             autoFocus
+            className="rounded-[8px] border border-[#e5e7eb] px-2 py-1 text-[14px] text-[#111827]"
           />
         ) : (
-          <Title isMuted={isMuted}>{curTitle}</Title>
+          <span className={cn(isMuted ? 'text-[#9ca3af]' : 'text-[#00a94f]')}>{curTitle}</span>
         )}
-      </HeaderLeft>
+      </div>
       {!isEditing && status === ISSUE_STATUS.CATEGORIZE && (
-        <Actions>
-          <Btn
+        <div className="inline-flex gap-1.5">
+          <button
             onClick={onStartEdit}
-            isMuted={isMuted}
+            className={cn(
+              'items-center justify-center rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] px-2 py-1 text-[12px] font-semibold text-[#475569]',
+              isMuted ? 'hidden' : 'inline-flex',
+            )}
           >
             수정
-          </Btn>
+          </button>
           {onRemove && (
-            <DangerBtn
+            <button
               onClick={onRemove}
-              isMuted={isMuted}
+              className={cn(
+                'items-center justify-center rounded-[8px] border border-[#fbd6d0] bg-white px-2 py-1 text-[12px] font-semibold text-[#ef5944]',
+                isMuted ? 'hidden' : 'inline-flex',
+              )}
             >
               삭제
-            </DangerBtn>
+            </button>
           )}
-        </Actions>
+        </div>
       )}
-    </Header>
+    </header>
   );
 }

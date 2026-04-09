@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: murphy-mysql
+    container_name: murphy-refactoring-mysql
     restart: always
     ports:
       - '${DB_PORT}:3306'
@@ -20,7 +20,7 @@ services:
 
   redis:
     image: redis:7.0
-    container_name: local-redis
+    container_name: local-redis-refactoring
     restart: always
     ports:
       - '${REDIS_PORT}:6379'

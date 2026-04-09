@@ -1,32 +1,13 @@
 'use client';
 
 import { ReactNode } from 'react';
-import styled from '@emotion/styled';
 import ProjectHeader from '@/projects/components/project-header/project-header';
-
-const LayoutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  height: 100vh;
-  padding: 32px 80px 0 80px;
-`;
-
-const ContentArea = styled.div`
-  display: flex;
-  flex: 1;
-  overflow-y: auto;
-  max-width: 1200px;
-  align-self: center;
-  align-items: space-between;
-  width: 100%;
-`;
 
 export default function ProjectLayoutClient({ children }: { children: ReactNode }) {
   return (
-    <LayoutContainer>
+    <div className="flex h-screen flex-col gap-10 px-[80px] pt-8">
       <ProjectHeader />
-      <ContentArea>{children}</ContentArea>
-    </LayoutContainer>
+      <div className="flex w-full max-w-[1200px] flex-1 self-center overflow-y-auto">{children}</div>
+    </div>
   );
 }

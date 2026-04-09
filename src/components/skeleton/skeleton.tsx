@@ -1,32 +1,3 @@
-import styled from '@emotion/styled';
-import { css, keyframes } from '@emotion/react';
-import { theme } from '@/styles/theme';
-
-const shimmer = keyframes`
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: 200px 0;
-  }
-`;
-
-const skeletonBackground = css`
-  background: linear-gradient(
-    90deg,
-    ${theme.colors.gray[50]} 0%,
-    ${theme.colors.gray[100]} 50%,
-    ${theme.colors.gray[50]} 100%
-  );
-  background-size: 400px 100%;
-  animation: ${shimmer} 1.4s ease-in-out infinite;
-`;
-
-const SkeletonBase = styled.div`
-  ${skeletonBackground}
-  border-radius: 8px;
-`;
-
 interface SkeletonProps {
   width?: string;
   height?: string;
@@ -36,7 +7,8 @@ interface SkeletonProps {
 
 export const Skeleton = ({ width = '100%', height = '20px', borderRadius = '8px', style }: SkeletonProps) => {
   return (
-    <SkeletonBase
+    <div
+      className="bg-[length:400px_100%] bg-gradient-to-r from-gray-50 via-gray-100 to-gray-50 animate-[skeleton-shimmer_1.4s_ease-in-out_infinite]"
       style={{
         width,
         height,

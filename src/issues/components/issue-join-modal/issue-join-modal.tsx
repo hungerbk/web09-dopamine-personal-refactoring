@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { useModalStore } from '@/components/modal/use-modal-store';
-import * as S from './issue-join-modal.styles';
 import { useIssueJoinModal } from './use-issue-join-modal';
 
 interface IssueJoinModalProps {
@@ -26,21 +25,22 @@ export default function IssueJoinModal({ issueId }: IssueJoinModalProps) {
   }, [isOpen]);
 
   return (
-    <S.Container>
-      <S.InfoContainer>
-        <S.InputWrapper>
-          <S.InputTitle>표시될 닉네임</S.InputTitle>
-          <S.Input>
-            <S.InputField
+    <div className="flex min-w-[400px] flex-col gap-5">
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <label className="text-medium font-semibold text-gray-900">표시될 닉네임</label>
+          <div className="relative w-full">
+            <input
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="예) 생각하는 단무지"
               disabled={isLoading}
               autoFocus
+              className="w-full rounded-medium border border-gray-200 bg-white px-4 py-3 pr-11 text-medium text-gray-900 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:bg-gray-50 focus:border-green-600 focus:outline-none"
             />
-          </S.Input>
-        </S.InputWrapper>
-      </S.InfoContainer>
-    </S.Container>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
