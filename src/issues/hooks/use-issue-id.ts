@@ -2,5 +2,5 @@ import { useParams } from 'next/navigation';
 
 export const useIssueId = () => {
   const params = useParams();
-  return params.id as string;
+  return params.issueId as string;
 };
