@@ -80,7 +80,7 @@ interface TopicModalProps {
 }
 
 export default function TopicModal({ projectId }: TopicModalProps) {
-  const params = useParams();
+  const params = useParams<{ projectId?: string }>();
   const setIsPending = useModalStore((state) => state.setIsPending);
   const isOpen = useModalStore((state) => state.isOpen);
   const closeModal = useModalStore((state) => state.closeModal);
@@ -93,7 +93,7 @@ export default function TopicModal({ projectId }: TopicModalProps) {
     topicNameRef.current = topicName;
   }, [topicName]);
 
-  const resolvedProjectId = projectId ?? (params.id as string | undefined);
+  const resolvedProjectId = projectId ?? params.projectId;
 
   useEffect(() => {
     setIsPending(isPending);
