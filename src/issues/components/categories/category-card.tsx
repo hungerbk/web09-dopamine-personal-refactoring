@@ -73,7 +73,7 @@ export default function CategoryCard({
 
   const cardStyle = {
     ...dndCardStyle,
-    zIndex: hasActiveComment ? Z_INDEX.important : (dndCardStyle.zIndex ?? 0),
+    zIndex: hasActiveComment ? Z_INDEX.important : (dndCardStyle.zIndex ?? Z_INDEX.base),
   };
 
   return (
