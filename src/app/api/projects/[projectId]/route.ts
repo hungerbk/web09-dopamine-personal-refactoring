@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import * as projectRepository from '@/lib/repositories/project.repository';
 import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET(
   req: NextRequest,
@@ -20,8 +20,7 @@ export async function GET(
 
     return createSuccessResponse(project, 200);
   } catch (error) {
-    console.error('프로젝트 조회 실패:', error);
-    return createErrorResponse('PROJECT_FETCH_FAILED', 500);
+    return handleApiError(error, 'PROJECT_FETCH_FAILED');
   }
 }
 
@@ -38,7 +37,6 @@ export async function PATCH(
     const project = await projectRepository.updateProject(projectId, title, description);
     return createSuccessResponse(project, 200);
   } catch (error) {
-    console.error('프로젝트 수정 실패:', error);
-    return createErrorResponse('PROJECT_UPDATE_FAILED', 500);
+    return handleApiError(error, 'PROJECT_UPDATE_FAILED');
   }
 }

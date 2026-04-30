@@ -9,7 +9,7 @@ import {
   findIssueTextSourcesForWordCloud,
 } from '@/lib/repositories/word-cloud.repository';
 import { broadcast, broadcastToTopic } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { generateWordCloudData } from '@/lib/utils/word-cloud-processor';
 
 export async function PATCH(
@@ -91,7 +91,6 @@ export async function PATCH(
 
     return createSuccessResponse(updatedIssue);
   } catch (error) {
-    console.error('이슈 상태 변경 실패:', error);
-    return createErrorResponse('ISSUE_STATUS_UPDATE_FAILED', 500);
+    return handleApiError(error, 'ISSUE_STATUS_UPDATE_FAILED');
   }
 }

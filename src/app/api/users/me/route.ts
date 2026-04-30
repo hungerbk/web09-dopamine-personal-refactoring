@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { updateUserWithIssueMemberNickname } from '@/lib/repositories/user.repository';
-import { createSuccessResponse, createErrorResponse } from '@/lib/utils/api-helpers';
+import { createSuccessResponse, createErrorResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 
 export async function PATCH(request: Request) {
@@ -25,7 +25,6 @@ export async function PATCH(request: Request) {
 
     return createSuccessResponse(user);
   } catch (error) {
-    console.error('Update user error:', error);
-    return createErrorResponse('INTERNAL_SERVER_ERROR', 500);
+    return handleApiError(error, 'INTERNAL_SERVER_ERROR');
   }
 }

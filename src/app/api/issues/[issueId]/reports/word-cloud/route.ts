@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { findReportByIssueId } from '@/lib/repositories/report.repository';
 import { findWordCloudsByReportId } from '@/lib/repositories/word-cloud.repository';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 /**
  * 워드클라우드 데이터 조회
  */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ issueId: string }> }) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ issueId: string }> }) {
   try {
     const { issueId: id } = await params;
 
@@ -21,7 +21,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return createSuccessResponse({ wordClouds });
   } catch (error) {
-    console.error('워드클라우드 조회 실패:', error);
-    return createErrorResponse('WORD_CLOUD_FETCH_FAILED', 500);
+    return handleApiError(error, 'WORD_CLOUD_FETCH_FAILED');
   }
 }

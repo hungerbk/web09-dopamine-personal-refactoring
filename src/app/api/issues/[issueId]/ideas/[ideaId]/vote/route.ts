@@ -4,7 +4,7 @@ import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { authOptions } from '@/lib/auth';
 import { voteService } from '@/lib/services/vote.service';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { getUserIdFromRequest } from '@/lib/utils/cookie';
 
 export async function POST(
@@ -49,7 +49,6 @@ export async function POST(
 
     return createSuccessResponse(result);
   } catch (error) {
-    console.error('투표 실패:', error);
-    return createErrorResponse('VOTE_FAILED', 500);
+    return handleApiError(error, 'VOTE_FAILED');
   }
 }

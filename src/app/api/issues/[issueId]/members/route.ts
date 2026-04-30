@@ -5,11 +5,11 @@ import { authOptions } from '@/lib/auth';
 import { issueMemberRepository } from '@/lib/repositories/issue-member.repository';
 import { findIssueById } from '@/lib/repositories/issue.repository';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { setUserIdCookie } from '@/lib/utils/cookie';
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ issueId: string }> },
 ): Promise<NextResponse> {
   const { issueId: id } = await params;
@@ -31,8 +31,7 @@ export async function GET(
 
     return createSuccessResponse(response);
   } catch (error) {
-    console.error('이슈 조회 실패:', error);
-    return createErrorResponse('MEMBERS_FETCH_FAILED', 500);
+    return handleApiError(error, 'MEMBERS_FETCH_FAILED');
   }
 }
 
@@ -83,8 +82,7 @@ export async function POST(
     }
 
     return createSuccessResponse({ userId: result.userId }, 201);
-  } catch (error: unknown) {
-    console.error('이슈 참여 실패:', error);
-    return createErrorResponse('MEMBER_JOIN_FAILED', 500);
+  } catch (error) {
+    return handleApiError(error, 'MEMBER_JOIN_FAILED');
   }
 }

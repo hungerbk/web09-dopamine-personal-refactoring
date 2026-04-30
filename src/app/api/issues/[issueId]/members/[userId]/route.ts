@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { issueMemberService } from '@/lib/services/issue-member.service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { broadcast } from '@/lib/sse/sse-service';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 
 export async function GET(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ issueId: string; userId: string }> },
 ): Promise<NextResponse> {
   const { issueId, userId } = await params;
@@ -23,8 +23,7 @@ export async function GET(
       role: member.role,
     });
   } catch (error) {
-    console.error('사용자 정보 조회 실패:', error);
-    return createErrorResponse('MEMBER_FETCH_FAILED', 500);
+    return handleApiError(error, 'MEMBER_FETCH_FAILED');
   }
 }
 
@@ -56,7 +55,6 @@ export async function PATCH(
 
     return createSuccessResponse({ success: true });
   } catch (error) {
-    console.error('닉네임 수정 실패:', error);
-    return createErrorResponse('NICKNAME_UPDATE_FAILED', 500);
+    return handleApiError(error, 'NICKNAME_UPDATE_FAILED');
   }
 }

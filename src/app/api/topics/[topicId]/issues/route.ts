@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 import { issueMemberRepository } from '@/lib/repositories/issue-member.repository';
 import { createIssue } from '@/lib/repositories/issue.repository';
 import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ topicId: string }> }) {
   const { topicId } = await params;
@@ -28,8 +28,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ top
 
     return createSuccessResponse(issues, 200);
   } catch (error) {
-    console.error('이슈 조회 실패:', error);
-    return createErrorResponse('ISSUES_FETCH_FAILED', 500);
+    return handleApiError(error, 'ISSUES_FETCH_FAILED');
   }
 }
 
@@ -60,7 +59,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ top
 
     return createSuccessResponse({ issueId: issueId }, 201);
   } catch (error) {
-    console.error('토픽 이슈 생성 실패:', error);
-    return createErrorResponse('ISSUE_CREATE_FAILED', 500);
+    return handleApiError(error, 'ISSUE_CREATE_FAILED');
   }
 }

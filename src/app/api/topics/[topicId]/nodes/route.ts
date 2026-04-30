@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET(
   _req: NextRequest,
@@ -27,7 +27,6 @@ export async function GET(
 
     return createSuccessResponse(nodes, 200);
   } catch (error) {
-    console.error('노드 조회 실패:', error);
-    return createErrorResponse('NODES_FETCH_FAILED', 500);
+    return handleApiError(error, 'NODES_FETCH_FAILED');
   }
 }

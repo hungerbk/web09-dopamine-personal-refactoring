@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import * as topicRepository from '@/lib/repositories/topic.repository';
 import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function POST(req: NextRequest) {
   requireUserIdFromHeader(req);
@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
     const result = await topicRepository.createTopic(title, projectId);
     return createSuccessResponse(result, 201);
   } catch (error) {
-    console.error('토픽 생성 실패:', error);
-    return createErrorResponse('TOPIC_CREATE_FAILED', 500);
+    return handleApiError(error, 'TOPIC_CREATE_FAILED');
   }
 }

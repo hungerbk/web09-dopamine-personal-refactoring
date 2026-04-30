@@ -3,9 +3,9 @@ import { NextRequest } from 'next/server';
 import { authOptions } from '@/lib/auth';
 import { findTopicById } from '@/lib/repositories/topic.repository';
 import { topicService } from '@/lib/services/topic.service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ topicId: string }> }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ topicId: string }> }) {
   const { topicId } = await params;
 
   if (!topicId) {
@@ -27,8 +27,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ topi
       updatedAt: topic.updatedAt,
     });
   } catch (error) {
-    console.error('토픽 조회 실패:', error);
-    return createErrorResponse('TOPIC_FETCH_FAILED', 500);
+    return handleApiError(error, 'TOPIC_FETCH_FAILED');
   }
 }
 
@@ -68,7 +67,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ topicId: string }> },
 ) {
   const { topicId } = await params;

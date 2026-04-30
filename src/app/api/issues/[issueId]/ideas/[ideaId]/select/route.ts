@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { prisma } from '@/lib/prisma';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function POST(
   req: NextRequest,
@@ -48,7 +48,6 @@ export async function POST(
 
     return createSuccessResponse({ ok: true });
   } catch (error) {
-    console.error('선택된 아이디어를 브로드캐스팅 중 오류가 발생했습니다: ', error);
-    return createErrorResponse('IDEA_SELECTION_BROADCAST_FAILED', 500);
+    return handleApiError(error, 'IDEA_SELECTION_BROADCAST_FAILED');
   }
 }

@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import * as projectRepository from '@/lib/repositories/project.repository';
 import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET(req: NextRequest) {
   const ownerId = requireUserIdFromHeader(req);
@@ -11,8 +11,7 @@ export async function GET(req: NextRequest) {
     const projects = await projectRepository.getProjectsByUserMembership(ownerId);
     return createSuccessResponse(projects, 200);
   } catch (error) {
-    console.error('프로젝트 목록 조회 실패:', error);
-    return createErrorResponse('PROJECT_LIST_FAILED', 500);
+    return handleApiError(error, 'PROJECT_LIST_FAILED');
   }
 }
 
@@ -29,8 +28,7 @@ export async function POST(req: NextRequest) {
     const result = await projectRepository.createProject(title, ownerId, description);
     return createSuccessResponse(result, 201);
   } catch (error) {
-    console.error('프로젝트 생성 실패:', error);
-    return createErrorResponse('PROJECT_CREATE_FAILED', 500);
+    return handleApiError(error, 'PROJECT_CREATE_FAILED');
   }
 }
 
@@ -47,7 +45,6 @@ export async function DELETE(req: NextRequest) {
     const result = await projectRepository.deleteProject(id, ownerId);
     return createSuccessResponse(result, 200);
   } catch (error) {
-    console.error('프로젝트 삭제 실패:', error);
-    return createErrorResponse('PROJECT_DELETE_FAILED', 500);
+    return handleApiError(error, 'PROJECT_DELETE_FAILED');
   }
 }
