@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { categoryRepository } from '@/lib/repositories/category.repository';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+  handleApiError,
+} from '@/lib/utils/api-helpers';
 
 export async function GET(
   _req: NextRequest,
@@ -15,7 +19,7 @@ export async function GET(
 
     return createSuccessResponse(categories);
   } catch (error) {
-    return handleApiError(error, 'INTERNAL_ERROR');
+    return handleApiError(error, 'INTERNAL_SERVER_ERROR');
   }
 }
 
