@@ -1,13 +1,11 @@
 import { GET, POST, DELETE } from '@/app/api/projects/route';
-import { getAuthenticatedUserId } from '@/lib/utils/api-auth';
+import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
 import * as projectRepository from '@/lib/repositories/project.repository';
 import {
   createMockGetRequest,
   createMockRequest,
-  createMockSession,
   expectErrorResponse,
   expectSuccessResponse,
-  testUnauthenticatedAccess,
 } from '@test/utils/api-test-helpers';
 
 jest.mock('@/lib/utils/api-auth');
@@ -16,8 +14,8 @@ jest.mock('@/lib/auth', () => ({
 }));
 jest.mock('@/lib/repositories/project.repository');
 
-const mockedGetAuthenticatedUserId = getAuthenticatedUserId as jest.MockedFunction<
-  typeof getAuthenticatedUserId
+const mockedRequireUserIdFromHeader = requireUserIdFromHeader as jest.MockedFunction<
+  typeof requireUserIdFromHeader
 >;
 const mockedGetProjectsByUserMembership =
   projectRepository.getProjectsByUserMembership as jest.MockedFunction<
@@ -35,23 +33,13 @@ describe('GET /api/projects', () => {
     jest.clearAllMocks();
   });
 
-  it('인증되지 않은 사용자는 401 에러를 받는다', async () => {
-    const errorResponse = new Response(
-      JSON.stringify({
-        success: false,
-        data: null,
-        error: { code: 'UNAUTHORIZED', message: 'UNAUTHORIZED' },
-      }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } },
-    );
-
-    mockedGetAuthenticatedUserId.mockResolvedValue({
-      userId: null,
-      error: errorResponse as any,
+  it('헤더가 없으면 throw한다 (proxy 매처 누락 시 발견)', async () => {
+    mockedRequireUserIdFromHeader.mockImplementation(() => {
+      throw new Error('Missing x-user-id header');
     });
 
-    const response = await GET();
-    await expectErrorResponse(response, 401, 'UNAUTHORIZED');
+    const req = createMockGetRequest();
+    await expect(GET(req)).rejects.toThrow();
   });
 
   it('성공적으로 프로젝트 목록을 조회한다', async () => {
@@ -61,13 +49,11 @@ describe('GET /api/projects', () => {
       { id: 'project-2', title: 'Guest Project' },
     ];
 
-    mockedGetAuthenticatedUserId.mockResolvedValue({
-      userId,
-      error: null,
-    });
+    mockedRequireUserIdFromHeader.mockReturnValue(userId);
     mockedGetProjectsByUserMembership.mockResolvedValue(mockProjects as any);
 
-    const response = await GET();
+    const req = createMockGetRequest({ headers: { 'x-user-id': userId } });
+    const response = await GET(req);
     const data = await expectSuccessResponse(response, 200);
 
     expect(data).toHaveLength(2);
@@ -80,29 +66,18 @@ describe('POST /api/projects', () => {
     jest.clearAllMocks();
   });
 
-  it('인증되지 않은 사용자는 401 에러를 받는다', async () => {
-    const errorResponse = new Response(
-      JSON.stringify({
-        success: false,
-        data: null,
-        error: { code: 'UNAUTHORIZED', message: 'UNAUTHORIZED' },
-      }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } },
-    );
-
-    mockedGetAuthenticatedUserId.mockResolvedValue({
-      userId: null,
-      error: errorResponse as any,
+  it('헤더가 없으면 throw한다', async () => {
+    mockedRequireUserIdFromHeader.mockImplementation(() => {
+      throw new Error('Missing x-user-id header');
     });
 
     const req = createMockRequest({ title: 'New Project' });
-    const response = await POST(req);
-    await expectErrorResponse(response, 401, 'UNAUTHORIZED');
+    await expect(POST(req)).rejects.toThrow();
   });
 
   it('title이 없으면 400 에러를 반환한다', async () => {
     const userId = 'user-1';
-    mockedGetAuthenticatedUserId.mockResolvedValue({ userId, error: null });
+    mockedRequireUserIdFromHeader.mockReturnValue(userId);
 
     const req = createMockRequest({});
     const response = await POST(req);
@@ -113,7 +88,7 @@ describe('POST /api/projects', () => {
     const userId = 'user-1';
     const mockProject = { id: 'project-1', title: 'New Project' };
 
-    mockedGetAuthenticatedUserId.mockResolvedValue({ userId, error: null });
+    mockedRequireUserIdFromHeader.mockReturnValue(userId);
     mockedCreateProject.mockResolvedValue(mockProject as any);
 
     const req = createMockRequest({ title: 'New Project', description: 'Description' });
@@ -130,29 +105,18 @@ describe('DELETE /api/projects', () => {
     jest.clearAllMocks();
   });
 
-  it('인증되지 않은 사용자는 401 에러를 받는다', async () => {
-    const errorResponse = new Response(
-      JSON.stringify({
-        success: false,
-        data: null,
-        error: { code: 'UNAUTHORIZED', message: 'UNAUTHORIZED' },
-      }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } },
-    );
-
-    mockedGetAuthenticatedUserId.mockResolvedValue({
-      userId: null,
-      error: errorResponse as any,
+  it('헤더가 없으면 throw한다', async () => {
+    mockedRequireUserIdFromHeader.mockImplementation(() => {
+      throw new Error('Missing x-user-id header');
     });
 
     const req = createMockRequest({ id: 'project-1' });
-    const response = await DELETE(req);
-    await expectErrorResponse(response, 401, 'UNAUTHORIZED');
+    await expect(DELETE(req)).rejects.toThrow();
   });
 
   it('id가 없으면 400 에러를 반환한다', async () => {
     const userId = 'user-1';
-    mockedGetAuthenticatedUserId.mockResolvedValue({ userId, error: null });
+    mockedRequireUserIdFromHeader.mockReturnValue(userId);
 
     const req = createMockRequest({});
     const response = await DELETE(req);
@@ -163,7 +127,7 @@ describe('DELETE /api/projects', () => {
     const userId = 'user-1';
     const projectId = 'project-1';
 
-    mockedGetAuthenticatedUserId.mockResolvedValue({ userId, error: null });
+    mockedRequireUserIdFromHeader.mockReturnValue(userId);
     mockedDeleteProject.mockResolvedValue({ id: projectId } as any);
 
     const req = createMockRequest({ id: projectId });

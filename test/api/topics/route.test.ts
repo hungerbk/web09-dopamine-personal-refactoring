@@ -1,23 +1,21 @@
-import { getServerSession } from 'next-auth';
 import {
   createMockRequest,
-  createMockSession,
   expectErrorResponse,
   expectSuccessResponse,
-  setupAuthMock,
 } from '@test/utils/api-test-helpers';
 import { POST } from '@/app/api/topics/route';
 import * as topicRepository from '@/lib/repositories/topic.repository';
+import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
 
-jest.mock('next-auth', () => ({
-  getServerSession: jest.fn(),
-}));
+jest.mock('@/lib/utils/api-auth');
 jest.mock('@/lib/auth', () => ({
   authOptions: {},
 }));
 jest.mock('@/lib/repositories/topic.repository');
 
-const mockedGetServerSession = getServerSession as jest.MockedFunction<typeof getServerSession>;
+const mockedRequireUserIdFromHeader = requireUserIdFromHeader as jest.MockedFunction<
+  typeof requireUserIdFromHeader
+>;
 const mockedCreateTopic = topicRepository.createTopic as jest.MockedFunction<
   typeof topicRepository.createTopic
 >;
@@ -27,16 +25,17 @@ describe('POST /api/topics', () => {
     jest.clearAllMocks();
   });
 
-  it('인증되지 않은 사용자는 401 에러를 받는다', async () => {
-    setupAuthMock(mockedGetServerSession, null);
+  it('헤더가 없으면 throw한다', async () => {
+    mockedRequireUserIdFromHeader.mockImplementation(() => {
+      throw new Error('Missing x-user-id header');
+    });
 
     const req = createMockRequest({ title: 'New Topic', projectId: 'project-1' });
-    const response = await POST(req);
-    await expectErrorResponse(response, 401, 'UNAUTHORIZED');
+    await expect(POST(req)).rejects.toThrow();
   });
 
   it('title이 없으면 400 에러를 반환한다', async () => {
-    setupAuthMock(mockedGetServerSession, createMockSession('user-1'));
+    mockedRequireUserIdFromHeader.mockReturnValue('user-1');
 
     const req = createMockRequest({ projectId: 'project-1' });
     const response = await POST(req);
@@ -44,7 +43,7 @@ describe('POST /api/topics', () => {
   });
 
   it('projectId가 없으면 400 에러를 반환한다', async () => {
-    setupAuthMock(mockedGetServerSession, createMockSession('user-1'));
+    mockedRequireUserIdFromHeader.mockReturnValue('user-1');
 
     const req = createMockRequest({ title: 'New Topic' });
     const response = await POST(req);
@@ -54,7 +53,7 @@ describe('POST /api/topics', () => {
   it('성공적으로 토픽을 생성한다', async () => {
     const mockTopic = { id: 'topic-1', title: 'New Topic', projectId: 'project-1' };
 
-    setupAuthMock(mockedGetServerSession, createMockSession('user-1'));
+    mockedRequireUserIdFromHeader.mockReturnValue('user-1');
     mockedCreateTopic.mockResolvedValue(mockTopic as any);
 
     const req = createMockRequest({ title: 'New Topic', projectId: 'project-1' });
@@ -68,7 +67,7 @@ describe('POST /api/topics', () => {
   });
 
   it('에러 발생 시 500 에러를 반환한다', async () => {
-    setupAuthMock(mockedGetServerSession, createMockSession('user-1'));
+    mockedRequireUserIdFromHeader.mockReturnValue('user-1');
     mockedCreateTopic.mockRejectedValue(new Error('Database error'));
 
     const req = createMockRequest({ title: 'New Topic', projectId: 'project-1' });
