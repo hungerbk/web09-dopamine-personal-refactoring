@@ -1,14 +1,10 @@
 import { NextRequest } from 'next/server';
 import * as projectRepository from '@/lib/repositories/project.repository';
-import { getAuthenticatedUserId } from '@/lib/utils/api-auth';
+import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
 
 export async function GET(req: NextRequest) {
-  const { userId: ownerId, error } = await getAuthenticatedUserId(req);
-
-  if (!ownerId) {
-    return error ?? createErrorResponse('UNAUTHORIZED', 401);
-  }
+  const ownerId = requireUserIdFromHeader(req);
 
   try {
     // 참여중인 프로젝트(소유/게스트 포함) 조회
@@ -21,11 +17,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId: ownerId, error } = await getAuthenticatedUserId(req);
-
-  if (!ownerId) {
-    return error ?? createErrorResponse('UNAUTHORIZED', 401);
-  }
+  const ownerId = requireUserIdFromHeader(req);
 
   const { title, description } = await req.json();
 
@@ -43,11 +35,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const { userId: ownerId, error } = await getAuthenticatedUserId(req);
-
-  if (!ownerId) {
-    return error ?? createErrorResponse('UNAUTHORIZED', 401);
-  }
+  const ownerId = requireUserIdFromHeader(req);
 
   const { id } = await req.json();
 

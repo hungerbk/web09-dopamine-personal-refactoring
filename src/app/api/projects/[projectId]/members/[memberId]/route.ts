@@ -1,16 +1,13 @@
+import { NextRequest } from 'next/server';
 import { LeaveService } from '@/lib/services/leave.service';
-import { getAuthenticatedUserId } from '@/lib/utils/api-auth';
+import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ projectId: string; memberId: string }> },
 ) {
-  const { userId, error } = await getAuthenticatedUserId(req);
-
-  if (!userId) {
-    return error ?? createErrorResponse('UNAUTHORIZED', 401);
-  }
+  const userId = requireUserIdFromHeader(req);
 
   try {
     const { projectId } = await params;

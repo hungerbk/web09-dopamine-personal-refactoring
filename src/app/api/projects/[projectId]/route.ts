@@ -1,17 +1,13 @@
 import { NextRequest } from 'next/server';
 import * as projectRepository from '@/lib/repositories/project.repository';
-import { getAuthenticatedUserId } from '@/lib/utils/api-auth';
+import { requireUserIdFromHeader } from '@/lib/utils/api-auth';
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ projectId: string }> },
 ) {
-  const { userId, error } = await getAuthenticatedUserId(req);
-
-  if (!userId) {
-    return error ?? createErrorResponse('UNAUTHORIZED', 401);
-  }
+  requireUserIdFromHeader(req);
 
   const { projectId } = await params;
 
@@ -33,11 +29,7 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ projectId: string }> },
 ) {
-  const { userId, error } = await getAuthenticatedUserId(req);
-
-  if (!userId) {
-    return error ?? createErrorResponse('UNAUTHORIZED', 401);
-  }
+  requireUserIdFromHeader(req);
 
   const { projectId } = await params;
   const { title, description } = await req.json();
