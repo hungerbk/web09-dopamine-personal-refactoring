@@ -65,10 +65,9 @@ describe('Project Mutations', () => {
       expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
     });
 
-    test('실패 시 에러 토스트를 띄워야 한다', async () => {
-      // Given
-      const errorMsg = '생성 실패';
-      mockCreateProject.mockRejectedValue(new Error(errorMsg));
+    test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
+      // Given: errorMessage가 설정된 경우 error.message와 무관하게 항상 errorMessage를 표시
+      mockCreateProject.mockRejectedValue(new Error('생성 실패'));
       const { result } = renderHook(() => useCreateProjectMutation());
 
       // When
@@ -78,10 +77,10 @@ describe('Project Mutations', () => {
 
       // Then
       await waitFor(() => expect(result.current.isError).toBe(true));
-      expect(mockToastError).toHaveBeenCalledWith(errorMsg);
+      expect(mockToastError).toHaveBeenCalledWith('프로젝트 생성에 실패했습니다.');
     });
 
-    test('에러 메시지가 없는 경우 기본 메시지("프로젝트 생성에 실패했습니다.")를 띄워야 한다', async () => {
+    test('에러 메시지가 없는 경우에도 고정 메시지("프로젝트 생성에 실패했습니다.")를 띄워야 한다', async () => {
       // Given: 메시지가 빈 에러 객체
       const error = new Error();
       error.message = '';
@@ -133,7 +132,6 @@ describe('Project Mutations', () => {
 
       // useDeleteProjectMutation은 토스트를 띄우지 않음
       expect(mockToastError).not.toHaveBeenCalled();
-      // console.error 호출 여부는 spyOn으로 인해 로그에는 안 찍히지만 내부는 실행됨
     });
   });
 
@@ -159,8 +157,8 @@ describe('Project Mutations', () => {
       expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['project', 'proj-1'] });
     });
 
-    test('실패 시 에러 토스트를 띄워야 한다', async () => {
-      // Given
+    test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
+      // Given: errorMessage가 설정된 경우 error.message와 무관하게 항상 errorMessage를 표시
       mockUpdateProject.mockRejectedValue(new Error('수정 실패'));
       const { result } = renderHook(() => useUpdateProjectMutation());
 
@@ -171,7 +169,7 @@ describe('Project Mutations', () => {
 
       // Then
       await waitFor(() => expect(result.current.isError).toBe(true));
-      expect(mockToastError).toHaveBeenCalledWith('수정 실패');
+      expect(mockToastError).toHaveBeenCalledWith('프로젝트 수정에 실패했습니다.');
     });
 
     test('에러 메시지가 없는 경우 기본 메시지("프로젝트 수정에 실패했습니다.")를 띄워야 한다', async () => {
