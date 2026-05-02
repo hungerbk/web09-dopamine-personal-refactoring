@@ -117,7 +117,7 @@ describe('Project Mutations', () => {
       expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
     });
 
-    test('실패 시 콘솔 에러가 찍혀야 한다 (토스트 호출 없음)', async () => {
+    test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
       // Given
       mockDeleteProject.mockRejectedValue(new Error('삭제 실패'));
       const { result } = renderHook(() => useDeleteProjectMutation());
@@ -129,9 +129,7 @@ describe('Project Mutations', () => {
 
       // Then
       await waitFor(() => expect(result.current.isError).toBe(true));
-
-      // useDeleteProjectMutation은 토스트를 띄우지 않음
-      expect(mockToastError).not.toHaveBeenCalled();
+      expect(mockToastError).toHaveBeenCalledWith('프로젝트 삭제에 실패했습니다.');
     });
   });
 
@@ -209,7 +207,7 @@ describe('Project Mutations', () => {
       expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
     });
 
-    test('실패 시 콘솔 에러가 찍혀야 한다 (토스트 호출 없음)', async () => {
+    test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
       // Given
       mockLeaveProject.mockRejectedValue(new Error('나가기 실패'));
       const { result } = renderHook(() => useLeaveProjectMutation());
@@ -221,7 +219,7 @@ describe('Project Mutations', () => {
 
       // Then
       await waitFor(() => expect(result.current.isError).toBe(true));
-      expect(mockToastError).not.toHaveBeenCalled();
+      expect(mockToastError).toHaveBeenCalledWith('프로젝트 나가기 실패했습니다.');
     });
   });
 });
