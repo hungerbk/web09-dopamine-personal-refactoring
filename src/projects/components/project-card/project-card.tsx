@@ -111,9 +111,6 @@ export function ProjectCard({
               toast.success('프로젝트가 삭제되었습니다.');
               router.refresh();
             },
-            onError: () => {
-              toast.error('프로젝트 삭제에 실패했습니다.');
-            },
           },
         );
       }
@@ -135,9 +132,6 @@ export function ProjectCard({
           {
             onSuccess: () => {
               toast.success('프로젝트에서 나갔습니다.');
-            },
-            onError: () => {
-              toast.error('프로젝트 나가기 실패했습니다.');
             },
           },
         );

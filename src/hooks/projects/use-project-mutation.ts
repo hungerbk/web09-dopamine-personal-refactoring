@@ -20,7 +20,7 @@ export const useDeleteProjectMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    meta: { errorLabel: '프로젝트 삭제 실패', disableGlobalToast: true },
+    meta: { errorLabel: '프로젝트 삭제 실패', errorMessage: '프로젝트 삭제에 실패했습니다.' },
     mutationFn: (data: { id: string }) => deleteProject(data.id),
 
     onSuccess: () => {
@@ -48,7 +48,7 @@ export const useLeaveProjectMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    meta: { errorLabel: '프로젝트 나가기 실패', disableGlobalToast: true },
+    meta: { errorLabel: '프로젝트 나가기 실패', errorMessage: '프로젝트 나가기 실패했습니다.' },
     mutationFn: (data: { projectId: string; memberId: string }) =>
       leaveProject(data.projectId, data.memberId),
 
