@@ -8,14 +8,11 @@ export function useAIStructuringMutation(issueId: string) {
 
   const categorize = useMutation({
     mutationKey: ['ai-structuring', issueId],
+    meta: { errorLabel: 'AI 구조화 오류' },
     mutationFn: () => categorizeIdeas(issueId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'categories'] });
       queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
-    },
-
-    onError: (err) => {
-      console.error('AI 구조화 오류:', err);
     },
   });
 

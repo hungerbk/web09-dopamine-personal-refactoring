@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import type { IdeaWithPosition } from '@/issues/types';
 import {
@@ -36,6 +35,7 @@ export const useIdeaMutations = (issueId: string) => {
 
   // 아이디어 생성
   const createMutation = useMutation({
+    meta: { errorLabel: '아이디어 생성 실패' },
     mutationFn: async (data: CreateIdeaRequest) => {
       return createIdeaAPI(issueId, data, connectionId);
     },
@@ -47,14 +47,11 @@ export const useIdeaMutations = (issueId: string) => {
         return [...old, transformedIdea];
       });
     },
-
-    onError: (err) => {
-      toast.error(err.message);
-    },
   });
 
   // 아이디어 수정 (위치, 카테고리)
   const updateMutation = useMutation({
+    meta: { errorLabel: '아이디어 수정 실패' },
     mutationFn: async ({
       ideaId,
       positionX,
@@ -111,10 +108,7 @@ export const useIdeaMutations = (issueId: string) => {
 
       return { previousIdeas };
     },
-    onError: (error, variables, context) => {
-      console.error('아이디어 수정 실패:', error);
-      toast.error(error.message);
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousIdeas) {
         queryClient.setQueryData(['issues', issueId, 'ideas'], context.previousIdeas);
       }
@@ -128,6 +122,7 @@ export const useIdeaMutations = (issueId: string) => {
 
   // 아이디어 삭제
   const removeMutation = useMutation({
+    meta: { errorLabel: '아이디어 삭제 실패' },
     mutationFn: async (ideaId: string) => {
       return deleteIdeaAPI(issueId, ideaId, connectionId);
     },
@@ -152,10 +147,7 @@ export const useIdeaMutations = (issueId: string) => {
 
       return { previousIdeas };
     },
-    onError: (error, variables, context) => {
-      console.error('아이디어 삭제 실패:', error);
-      toast.error(error.message);
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousIdeas) {
         queryClient.setQueryData(['issues', issueId, 'ideas'], context.previousIdeas);
       }

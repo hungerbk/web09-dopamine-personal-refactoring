@@ -13,6 +13,7 @@ export const useCreateTopicMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { errorLabel: '토픽 생성 실패', errorMessage: '토픽 생성에 실패했습니다.' },
     mutationFn: (data: CreateTopicData) => createTopic(data.title, data.projectId),
 
     onSuccess: (data, variables) => {
@@ -41,11 +42,6 @@ export const useCreateTopicMutation = () => {
 
       return data;
     },
-
-    onError: (error) => {
-      console.error('토픽 생성 실패:', error);
-      toast.error(error.message || '토픽 생성에 실패했습니다.');
-    },
   });
 };
 
@@ -53,6 +49,7 @@ export const useUpdateTopicTitleMutation = (topicId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { errorLabel: '토픽 수정 실패' },
     mutationFn: (data: { title: string }) => updateTopicTitle(topicId, data.title),
 
     onSuccess: () => {
@@ -62,11 +59,6 @@ export const useUpdateTopicTitleMutation = (topicId: string) => {
 
       toast.success('토픽을 수정했습니다!');
     },
-
-    onError: (error: Error) => {
-      console.error('토픽 수정 실패:', error);
-      toast.error(error.message || '토픽 수정에 실패했습니다.');
-    },
   });
 };
 
@@ -75,6 +67,7 @@ export const useDeleteTopicMutation = (topicId: string) => {
   const router = useRouter();
 
   return useMutation({
+    meta: { errorLabel: '토픽 삭제 실패', errorMessage: '토픽 삭제에 실패했습니다.' },
     mutationFn: () => deleteTopic(topicId),
 
     onSuccess: async (data) => {
@@ -87,11 +80,6 @@ export const useDeleteTopicMutation = (topicId: string) => {
       toast.success('토픽이 삭제되었습니다.');
 
       router.push(`/projects/${data.projectId}`);
-    },
-
-    onError: (error: Error) => {
-      console.error('토픽 삭제 실패:', error);
-      toast.error(error.message || '토픽 삭제에 실패했습니다.');
     },
   });
 };

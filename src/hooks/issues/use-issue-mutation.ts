@@ -21,17 +21,13 @@ interface DbIssue {
 
 export const useQuickStartMutation = () => {
   return useMutation({
+    meta: { errorLabel: '이슈 시작 실패' },
     mutationFn: (data: { title: string; nickname: string }) =>
       createQuickIssue(data.title, data.nickname),
 
     onSuccess: (newIssue) => {
       // 이슈별로 userId 저장
       setUserIdForIssue(newIssue.issueId, newIssue.userId);
-    },
-
-    onError: (error) => {
-      console.error(error);
-      toast.error(error.message);
     },
   });
 };
@@ -42,6 +38,7 @@ export const useIssueStatusMutations = (issueId: string) => {
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   const update = useMutation({
+    meta: { errorLabel: '이슈 상태 변경 실패' },
     mutationFn: async (nextStatus: IssueStatus) => {
       await updateIssueStatus(issueId, nextStatus, undefined, undefined, connectionId);
       return nextStatus;
@@ -61,11 +58,10 @@ export const useIssueStatusMutations = (issueId: string) => {
       return { previousIssue };
     },
 
-    onError: (err, _variables, context) => {
+    onError: (_err, _variables, context) => {
       if (context?.previousIssue) {
         queryClient.setQueryData(queryKey, context.previousIssue);
       }
-      toast.error(err.message);
     },
 
     onSettled: () => {
@@ -74,6 +70,7 @@ export const useIssueStatusMutations = (issueId: string) => {
   });
 
   const close = useMutation({
+    meta: { errorLabel: '이슈 종료 실패' },
     mutationFn: async () => {
       await updateIssueStatus(issueId, ISSUE_STATUS.CLOSE, undefined, undefined, connectionId);
     },
@@ -81,11 +78,6 @@ export const useIssueStatusMutations = (issueId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
       toast.success('이슈가 종료되었습니다.');
-    },
-
-    onError: (error) => {
-      console.error('이슈 종료 실패:', error);
-      toast.error(error.message);
     },
   });
 
@@ -110,6 +102,7 @@ export const useCreateIssueInTopicMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { errorLabel: '이슈 생성 실패', errorMessage: '이슈 생성에 실패했습니다.' },
     mutationFn: (data: { topicId: string; title: string }) =>
       createIssueInTopic(data.topicId, data.title),
 
@@ -123,10 +116,6 @@ export const useCreateIssueInTopicMutation = () => {
       });
       toast.success('이슈가 생성되었습니다!');
     },
-
-    onError: (error: Error) => {
-      toast.error(error.message || '이슈 생성에 실패했습니다.');
-    },
   });
 };
 
@@ -134,6 +123,7 @@ export const useUpdateIssueTitleMutation = (issueId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { errorLabel: '이슈 수정 실패', errorMessage: '이슈 수정에 실패했습니다.' },
     mutationFn: (data: { title: string; connectionId?: string }) =>
       updateIssueTitle(issueId, data.title, data.connectionId),
 
@@ -143,10 +133,6 @@ export const useUpdateIssueTitleMutation = (issueId: string) => {
       });
       toast.success('이슈를 수정했습니다!');
     },
-
-    onError: (error: Error) => {
-      toast.error(error.message || '이슈 수정에 실패했습니다.');
-    },
   });
 };
 
@@ -155,6 +141,7 @@ export const useDeleteIssueMutation = (issueId: string) => {
   const router = useRouter();
 
   return useMutation({
+    meta: { errorLabel: '이슈 삭제 실패', errorMessage: '이슈 삭제에 실패했습니다.' },
     mutationFn: (data: { connectionId?: string }) => deleteIssue(issueId, data.connectionId),
 
     onSuccess: async (data) => {
@@ -170,11 +157,6 @@ export const useDeleteIssueMutation = (issueId: string) => {
       toast.success('이슈를 삭제했습니다.');
 
       router.push(data.topicId ? `/topics/${data.topicId}` : '/');
-    },
-
-    onError: (error: Error) => {
-      console.error('이슈 삭제 실패:', error);
-      toast.error(error.message || '이슈 삭제에 실패했습니다.');
     },
   });
 };

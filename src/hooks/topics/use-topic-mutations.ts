@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import {
   createConnection as createConnectionAPI,
   deleteConnection as deleteConnectionAPI,
@@ -12,6 +11,7 @@ export const useTopicMutations = (topicId: string) => {
 
   // 연결 생성
   const createConnectionMutation = useMutation({
+    meta: { errorLabel: '연결 생성 실패', errorMessage: '연결 생성에 실패했습니다.' },
     mutationFn: async (data: {
       sourceIssueId: string;
       targetIssueId: string;
@@ -45,10 +45,7 @@ export const useTopicMutations = (topicId: string) => {
 
       return { previousConnections };
     },
-    onError: (error, variables, context) => {
-      console.error('연결 생성 실패:', error);
-      toast.error('연결 생성에 실패했습니다.');
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousConnections) {
         queryClient.setQueryData(['topics', topicId, 'connections'], context.previousConnections);
       }
@@ -60,6 +57,7 @@ export const useTopicMutations = (topicId: string) => {
 
   // 연결 삭제
   const deleteConnectionMutation = useMutation({
+    meta: { errorLabel: '연결 삭제 실패', errorMessage: '연결 삭제에 실패했습니다.' },
     mutationFn: async (connectionId: string) => {
       return deleteConnectionAPI(topicId, connectionId);
     },
@@ -84,10 +82,7 @@ export const useTopicMutations = (topicId: string) => {
 
       return { previousConnections };
     },
-    onError: (error, variables, context) => {
-      console.error('연결 삭제 실패:', error);
-      toast.error('연결 삭제에 실패했습니다.');
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousConnections) {
         queryClient.setQueryData(['topics', topicId, 'connections'], context.previousConnections);
       }
@@ -99,6 +94,7 @@ export const useTopicMutations = (topicId: string) => {
 
   // 노드 위치 업데이트
   const updateNodePositionMutation = useMutation({
+    meta: { errorLabel: '노드 위치 업데이트 실패', errorMessage: '노드 위치 업데이트에 실패했습니다.' },
     mutationFn: async ({
       nodeId,
       positionX,
@@ -134,10 +130,7 @@ export const useTopicMutations = (topicId: string) => {
 
       return { previousNodes };
     },
-    onError: (error, variables, context) => {
-      console.error('노드 위치 업데이트 실패:', error);
-      toast.error('노드 위치 업데이트에 실패했습니다.');
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousNodes) {
         queryClient.setQueryData(['topics', topicId, 'nodes'], context.previousNodes);
       }

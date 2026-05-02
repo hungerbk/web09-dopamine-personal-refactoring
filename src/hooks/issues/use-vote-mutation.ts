@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { postVote } from '@/lib/api/vote';
 import type { IdeaWithPosition } from '@/issues/types';
@@ -10,6 +9,7 @@ export const useVoteMutation = (issueId: string, ideaId: string) => {
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   return useMutation({
+    meta: { errorLabel: '투표 실패' },
     mutationFn: (variables: { userId: string; voteType: 'AGREE' | 'DISAGREE' }) =>
       postVote({ issueId, ideaId, ...variables, connectionId }),
 
@@ -38,8 +38,7 @@ export const useVoteMutation = (issueId: string, ideaId: string) => {
       return { previousIdeas };
     },
 
-    onError: (err, _variables, context) => {
-      toast.error(err.message);
+    onError: (_err, _variables, context) => {
       if (context?.previousIdeas) {
         queryClient.setQueryData(listQueryKey, context.previousIdeas);
       }
