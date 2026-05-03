@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { createTopic, deleteTopic, updateTopicTitle } from '@/lib/api/topic';
 import type { ProjectwithTopic } from '@/projects/types';
+import { queryKeys } from '@/lib/query-keys';
 
 interface CreateTopicData {
   title: string;
@@ -17,7 +18,7 @@ export const useCreateTopicMutation = () => {
     mutationFn: (data: CreateTopicData) => createTopic(data.title, data.projectId),
 
     onSuccess: (data, variables) => {
-      queryClient.setQueryData<ProjectwithTopic>(['project', variables.projectId], (prev) => {
+      queryClient.setQueryData<ProjectwithTopic>(queryKeys.projects.detail(variables.projectId), (prev) => {
         if (!prev) {
           return prev;
         }
@@ -54,7 +55,7 @@ export const useUpdateTopicTitleMutation = (topicId: string) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['topics', topicId],
+        queryKey: queryKeys.topics.detail(topicId),
       });
 
       toast.success('토픽을 수정했습니다!');
@@ -71,10 +72,10 @@ export const useDeleteTopicMutation = (topicId: string) => {
     mutationFn: () => deleteTopic(topicId),
 
     onSuccess: async (data) => {
-      await queryClient.cancelQueries({ queryKey: ['topics', topicId] });
-      queryClient.removeQueries({ queryKey: ['topics', topicId] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.topics.detail(topicId) });
+      queryClient.removeQueries({ queryKey: queryKeys.topics.detail(topicId) });
       queryClient.invalidateQueries({
-        queryKey: ['project', data.projectId],
+        queryKey: queryKeys.projects.detail(data.projectId),
       });
 
       toast.success('토픽이 삭제되었습니다.');

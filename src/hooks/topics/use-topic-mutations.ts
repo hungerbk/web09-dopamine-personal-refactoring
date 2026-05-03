@@ -5,6 +5,7 @@ import {
   updateNodePosition as updateNodePositionAPI,
 } from '@/lib/api/issue-map';
 import type { IssueConnection, IssueNode } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 export const useTopicMutations = (topicId: string) => {
   const queryClient = useQueryClient();
@@ -22,7 +23,7 @@ export const useTopicMutations = (topicId: string) => {
     },
     onMutate: async (newConnection) => {
       // 진행 중인 쿼리 취소
-      await queryClient.cancelQueries({ queryKey: ['topics', topicId, 'connections'] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.topics.connections(topicId) });
 
       // 이전 데이터 스냅샷 저장
       const previousConnections = queryClient.getQueryData<IssueConnection[]>([
@@ -38,7 +39,7 @@ export const useTopicMutations = (topicId: string) => {
           ...newConnection,
         };
         queryClient.setQueryData<IssueConnection[]>(
-          ['topics', topicId, 'connections'],
+          queryKeys.topics.connections(topicId),
           [...previousConnections, optimisticConnection],
         );
       }
@@ -47,11 +48,11 @@ export const useTopicMutations = (topicId: string) => {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousConnections) {
-        queryClient.setQueryData(['topics', topicId, 'connections'], context.previousConnections);
+        queryClient.setQueryData(queryKeys.topics.connections(topicId), context.previousConnections);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['topics', topicId, 'connections'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.topics.connections(topicId) });
     },
   });
 
@@ -63,7 +64,7 @@ export const useTopicMutations = (topicId: string) => {
     },
     onMutate: async (connectionId) => {
       // 진행 중인 쿼리 취소
-      await queryClient.cancelQueries({ queryKey: ['topics', topicId, 'connections'] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.topics.connections(topicId) });
 
       // 이전 데이터 스냅샷 저장
       const previousConnections = queryClient.getQueryData<IssueConnection[]>([
@@ -75,7 +76,7 @@ export const useTopicMutations = (topicId: string) => {
       // 낙관적 업데이트로 즉시 제거
       if (previousConnections) {
         queryClient.setQueryData<IssueConnection[]>(
-          ['topics', topicId, 'connections'],
+          queryKeys.topics.connections(topicId),
           previousConnections.filter((conn) => conn.id !== connectionId),
         );
       }
@@ -84,11 +85,11 @@ export const useTopicMutations = (topicId: string) => {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousConnections) {
-        queryClient.setQueryData(['topics', topicId, 'connections'], context.previousConnections);
+        queryClient.setQueryData(queryKeys.topics.connections(topicId), context.previousConnections);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['topics', topicId, 'connections'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.topics.connections(topicId) });
     },
   });
 
@@ -108,15 +109,15 @@ export const useTopicMutations = (topicId: string) => {
     },
     onMutate: async ({ nodeId, positionX, positionY }) => {
       // 진행 중인 쿼리 취소
-      await queryClient.cancelQueries({ queryKey: ['topics', topicId, 'nodes'] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.topics.nodes(topicId) });
 
       // 이전 데이터 스냅샷 저장
-      const previousNodes = queryClient.getQueryData<IssueNode[]>(['topics', topicId, 'nodes']);
+      const previousNodes = queryClient.getQueryData<IssueNode[]>(queryKeys.topics.nodes(topicId));
 
       // 낙관적 업데이트로 즉시 위치 변경
       if (previousNodes) {
         queryClient.setQueryData<IssueNode[]>(
-          ['topics', topicId, 'nodes'],
+          queryKeys.topics.nodes(topicId),
           previousNodes.map((node) => {
             if (node.id !== nodeId) return node;
             return {
@@ -132,11 +133,11 @@ export const useTopicMutations = (topicId: string) => {
     },
     onError: (_error, _variables, context) => {
       if (context?.previousNodes) {
-        queryClient.setQueryData(['topics', topicId, 'nodes'], context.previousNodes);
+        queryClient.setQueryData(queryKeys.topics.nodes(topicId), context.previousNodes);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['topics', topicId, 'nodes'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.topics.nodes(topicId) });
     },
   });
 

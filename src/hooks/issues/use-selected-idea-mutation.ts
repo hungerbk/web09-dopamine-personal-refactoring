@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { selectIdea as selectIdeaAPI } from '@/lib/api/issue';
-import { selectedIdeaQueryKey } from './use-selected-idea-query';
+import { queryKeys } from '@/lib/query-keys';
 
 export function useSelectedIdeaMutation(issueId: string) {
   const queryClient = useQueryClient();
-  const queryKey = selectedIdeaQueryKey(issueId);
+  const queryKey = queryKeys.issues.selectedIdea(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   return useMutation({

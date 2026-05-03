@@ -3,10 +3,11 @@ import toast from 'react-hot-toast';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { generateNickname, joinIssue, updateIssueMemberNickname } from '@/lib/api/issue';
 import { setUserIdForIssue } from '@/lib/storage/issue-user-storage';
+import { queryKeys } from '@/lib/query-keys';
 
 export const useIssueMemberMutations = (issueId: string) => {
   const queryClient = useQueryClient();
-  const queryKey = ['issues', issueId, 'members'];
+  const queryKey = queryKeys.issues.members(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   const create = useMutation({
@@ -33,7 +34,7 @@ export const useNicknameMutations = (issueId: string) => {
 
 export const useUpdateNicknameMutation = (issueId: string, userId: string) => {
   const queryClient = useQueryClient();
-  const queryKey = ['issues', issueId, 'members'];
+  const queryKey = queryKeys.issues.members(issueId);
 
   const update = useMutation({
     meta: { errorLabel: '닉네임 수정 실패', disableGlobalToast: true },

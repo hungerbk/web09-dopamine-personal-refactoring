@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { type Comment, createComment, deleteComment, updateComment } from '@/lib/api/comment';
 import { getCommentQueryKey } from './use-comment-query';
+import { queryKeys } from '@/lib/query-keys';
 
 interface CreateCommentParams {
   userId: string;
@@ -29,7 +30,7 @@ export const useCommentMutations = (issueId: string, ideaId: string) => {
     onSuccess: (created) => {
       queryClient.setQueryData<Comment[]>(commentQueryKey, (prev) => [...(prev ?? []), created]);
       // 아이디어 쿼리 갱신하여 댓글 개수 업데이트
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas', ideaId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideaComments(issueId, ideaId) });
     },
   });
 
@@ -55,7 +56,7 @@ export const useCommentMutations = (issueId: string, ideaId: string) => {
         (prev ?? []).filter((comment) => comment.id !== variables.commentId),
       );
       // 아이디어 쿼리 갱신하여 댓글 개수 업데이트
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas', ideaId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideaComments(issueId, ideaId) });
     },
   });
 

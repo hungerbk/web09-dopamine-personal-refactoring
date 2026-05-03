@@ -2,10 +2,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { postVote } from '@/lib/api/vote';
 import type { IdeaWithPosition } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 export const useVoteMutation = (issueId: string, ideaId: string) => {
   const queryClient = useQueryClient();
-  const listQueryKey = ['issues', issueId, 'ideas'];
+  const listQueryKey = queryKeys.issues.ideas(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   return useMutation({

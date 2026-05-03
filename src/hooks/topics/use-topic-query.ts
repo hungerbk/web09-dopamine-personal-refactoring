@@ -3,6 +3,7 @@ import { getTopicConnections, getTopicIssues, getTopicNodes } from '@/lib/api/is
 import { getTopic } from '@/lib/api/topic';
 import { ApiError } from '@/lib/utils/api-response';
 import type { IssueConnection, IssueMapData, IssueNode } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 // 초기 데이터는 서버 컴포넌트에서 주입하고, invalidateQueries로 갱신
 export const useTopicQuery = (
@@ -12,19 +13,19 @@ export const useTopicQuery = (
   initialConnections: IssueConnection[],
 ) => {
   const issuesQuery = useQuery({
-    queryKey: ['topics', topicId, 'issues'],
+    queryKey: queryKeys.topics.issues(topicId),
     queryFn: () => getTopicIssues(topicId),
     initialData: initialIssues,
   });
 
   const nodesQuery = useQuery({
-    queryKey: ['topics', topicId, 'nodes'],
+    queryKey: queryKeys.topics.nodes(topicId),
     queryFn: () => getTopicNodes(topicId),
     initialData: initialNodes,
   });
 
   const connectionsQuery = useQuery({
-    queryKey: ['topics', topicId, 'connections'],
+    queryKey: queryKeys.topics.connections(topicId),
     queryFn: () => getTopicConnections(topicId),
     initialData: initialConnections,
   });
@@ -40,7 +41,7 @@ export const useTopicQuery = (
 // 토픽 상세 정보 조회
 export const useTopicDetailQuery = (topicId: string) => {
   return useQuery({
-    queryKey: ['topics', topicId],
+    queryKey: queryKeys.topics.detail(topicId),
     queryFn: () => getTopic(topicId),
     staleTime: 1000 * 10,
     retry: (failureCount, error) => {

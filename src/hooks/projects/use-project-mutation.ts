@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { leaveProject } from '@/lib/api/leave';
 import { createProject, deleteProject, updateProject } from '@/lib/api/project';
+import { queryKeys } from '@/lib/query-keys';
 
 export const useCreateProjectMutation = () => {
   const queryClient = useQueryClient();
@@ -11,7 +12,7 @@ export const useCreateProjectMutation = () => {
       createProject(data.title, data.description),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all() });
     },
   });
 };
@@ -24,7 +25,7 @@ export const useDeleteProjectMutation = () => {
     mutationFn: (data: { id: string }) => deleteProject(data.id),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all() });
     },
   });
 };
@@ -38,8 +39,8 @@ export const useUpdateProjectMutation = () => {
       updateProject(data.id, data.title, data.description),
 
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-      queryClient.invalidateQueries({ queryKey: ['project', variables.id] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.detail(variables.id) });
     },
   });
 };
@@ -53,7 +54,7 @@ export const useLeaveProjectMutation = () => {
       leaveProject(data.projectId, data.memberId),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.projects.all() });
     },
   });
 };

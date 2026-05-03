@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import type { IdeaWithPosition } from '@/issues/types';
 import type { SimpleIdea } from '@/issues/types';
 import { fetchIdeas } from '@/lib/api/idea';
+import { queryKeys } from '@/lib/query-keys';
 
 // 이슈의 아이디어 목록 조회 (SimpleIdea -> IdeaWithPosition)
 export const useIssueIdeaQuery = (issueId: string) => {
   return useQuery({
-    queryKey: ['issues', issueId, 'ideas'],
+    queryKey: queryKeys.issues.ideas(issueId),
     queryFn: async () => {
       const fetchedIdeas: SimpleIdea[] = await fetchIdeas(issueId);
 

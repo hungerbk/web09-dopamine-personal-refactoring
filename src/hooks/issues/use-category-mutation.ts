@@ -3,6 +3,7 @@ import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 import { createCategory, deleteCategory, updateCategory } from '@/lib/api/category';
 import type { Category } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 interface CategoryPayload {
   title: string;
@@ -14,7 +15,7 @@ interface CategoryPayload {
 
 export const useCategoryMutations = (issueId: string) => {
   const queryClient = useQueryClient();
-  const queryKey = ['issues', issueId, 'categories'];
+  const queryKey = queryKeys.issues.categories(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   const create = useMutation({

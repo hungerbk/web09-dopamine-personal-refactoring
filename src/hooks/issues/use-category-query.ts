@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '@/lib/api/category';
 import type { Category, Position } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 interface UICategory {
   id: string;
@@ -11,7 +12,7 @@ interface UICategory {
 
 export const useCategoryQuery = (issueId: string) => {
   return useQuery({
-    queryKey: ['issues', issueId, 'categories'],
+    queryKey: queryKeys.issues.categories(issueId),
     queryFn: () => fetchCategories(issueId),
     staleTime: 1000 * 10,
     select: (data: Category[]): UICategory[] =>

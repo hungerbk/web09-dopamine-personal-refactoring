@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
+import { queryKeys } from '@/lib/query-keys';
 
 interface UseTopicEventsParams {
   topicId: string;
@@ -66,10 +67,10 @@ export function useTopicEvents({
     eventSource.addEventListener(SSE_EVENT_TYPES.ISSUE_STATUS_CHANGED, (event) => {
       const data = JSON.parse((event as MessageEvent).data);
       // 사이드바 이슈 목록 갱신
-      queryClient.invalidateQueries({ queryKey: ['topics', topicId, 'issues'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.topics.issues(topicId) });
       // 특정 이슈 데이터 갱신
       if (data.issueId) {
-        queryClient.invalidateQueries({ queryKey: ['issues', data.issueId] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.issues.detail(data.issueId) });
       }
     });
 
@@ -80,10 +81,10 @@ export function useTopicEvents({
         return;
       }
 
-      queryClient.invalidateQueries({ queryKey: ['topics', topicId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.topics.detail(topicId) });
 
       if (data.issueId) {
-        queryClient.invalidateQueries({ queryKey: ['issues', data.issueId] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.issues.detail(data.issueId) });
       }
 
       toast.error('이슈가 삭제되었습니다.');

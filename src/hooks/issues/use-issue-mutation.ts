@@ -12,6 +12,7 @@ import {
 } from '@/lib/api/issue';
 import { setUserIdForIssue } from '@/lib/storage/issue-user-storage';
 import { IssueStatus } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 interface DbIssue {
   id: string;
@@ -34,7 +35,7 @@ export const useQuickStartMutation = () => {
 
 export const useIssueStatusMutations = (issueId: string) => {
   const queryClient = useQueryClient();
-  const queryKey = ['issues', issueId];
+  const queryKey = queryKeys.issues.detail(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   const update = useMutation({
@@ -109,10 +110,10 @@ export const useCreateIssueInTopicMutation = () => {
     onSuccess: (newIssue, variables) => {
       // 토픽의 이슈 목록 캐시 무효화
       queryClient.invalidateQueries({
-        queryKey: ['topics', variables.topicId, 'issues'],
+        queryKey: queryKeys.topics.issues(variables.topicId),
       });
       queryClient.invalidateQueries({
-        queryKey: ['topics', variables.topicId, 'nodes'],
+        queryKey: queryKeys.topics.nodes(variables.topicId),
       });
       toast.success('이슈가 생성되었습니다!');
     },
@@ -129,7 +130,7 @@ export const useUpdateIssueTitleMutation = (issueId: string) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['issues', issueId],
+        queryKey: queryKeys.issues.detail(issueId),
       });
       toast.success('이슈를 수정했습니다!');
     },
@@ -145,12 +146,12 @@ export const useDeleteIssueMutation = (issueId: string) => {
     mutationFn: (data: { connectionId?: string }) => deleteIssue(issueId, data.connectionId),
 
     onSuccess: async (data) => {
-      await queryClient.cancelQueries({ queryKey: ['issues', issueId] });
-      queryClient.removeQueries({ queryKey: ['issues', issueId] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.issues.detail(issueId) });
+      queryClient.removeQueries({ queryKey: queryKeys.issues.detail(issueId) });
 
       if (data.topicId) {
         queryClient.invalidateQueries({
-          queryKey: ['topics', data.topicId],
+          queryKey: queryKeys.topics.detail(data.topicId),
         });
       }
 
