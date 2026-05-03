@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
 import { useIssueMemberMutations, useNicknameMutations, useUpdateNicknameMutation } from '@/hooks';
 import * as issueApi from '@/lib/api/issue';
+import { queryKeys } from '@/lib/query-keys';
 import * as storage from '@/lib/storage/issue-user-storage';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
@@ -91,7 +92,7 @@ describe('Issue Member & Nickname Mutations', () => {
 
       // 3. 쿼리 무효화 확인
       expect(mockInvalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['issues', issueId, 'members'],
+        queryKey: queryKeys.issues.members(issueId),
       });
     });
 
@@ -175,7 +176,7 @@ describe('Issue Member & Nickname Mutations', () => {
 
       // 2. 쿼리 무효화 확인
       expect(mockInvalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['issues', issueId, 'members'],
+        queryKey: queryKeys.issues.members(issueId),
       });
 
       // 3. 토스트 메시지 확인

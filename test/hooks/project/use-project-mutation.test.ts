@@ -11,6 +11,7 @@ import {
 } from '@/hooks';
 import * as leaveApi from '@/lib/api/leave';
 import * as projectApi from '@/lib/api/project';
+import { queryKeys } from '@/lib/query-keys';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
 // 1. 외부 모듈 모킹
@@ -62,7 +63,7 @@ describe('Project Mutations', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(mockCreateProject).toHaveBeenCalledWith('New Project', 'Desc');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: queryKeys.projects.all() });
     });
 
     test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
@@ -114,7 +115,7 @@ describe('Project Mutations', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(mockDeleteProject).toHaveBeenCalledWith('proj-1');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: queryKeys.projects.all() });
     });
 
     test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
@@ -151,8 +152,8 @@ describe('Project Mutations', () => {
       expect(mockUpdateProject).toHaveBeenCalledWith('proj-1', 'Updated', 'New Desc');
 
       // 두 가지 쿼리 키가 무효화되었는지 확인
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['project', 'proj-1'] });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: queryKeys.projects.all() });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: queryKeys.projects.detail('proj-1') });
     });
 
     test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {
@@ -204,7 +205,7 @@ describe('Project Mutations', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       expect(mockLeaveProject).toHaveBeenCalledWith('proj-1', 'user-1');
-      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: ['projects'] });
+      expect(mockInvalidateQueries).toHaveBeenCalledWith({ queryKey: queryKeys.projects.all() });
     });
 
     test('실패 시 고정된 에러 메시지를 토스트로 띄워야 한다', async () => {

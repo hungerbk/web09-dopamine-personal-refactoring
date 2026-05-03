@@ -7,6 +7,7 @@ import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse
 import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 import { useCategoryMutations } from '@/hooks';
 import * as categoryApi from '@/lib/api/category';
+import { queryKeys } from '@/lib/query-keys';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
 // 1. 외부 의존성 모킹
@@ -35,7 +36,7 @@ jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
 describe('useCategoryMutations', () => {
   const issueId = 'issue-123';
   const connectionId = 'conn-1';
-  const queryKey = ['issues', issueId, 'categories'];
+  const queryKey = queryKeys.issues.categories(issueId);
 
   // Mock 함수들
   const mockCreateCategory = categoryApi.createCategory as jest.Mock;
