@@ -3,7 +3,7 @@
  */
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { useIssueMemberMutations, useNicknameMutations, useUpdateNicknameMutation } from '@/hooks';
 import * as issueApi from '@/lib/api/issue';
 import { queryKeys } from '@/lib/query-keys';
@@ -25,7 +25,7 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹 (껍데기 생성)
-jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
+jest.mock('@/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn(),
 }));
 

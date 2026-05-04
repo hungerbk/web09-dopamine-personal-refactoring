@@ -3,14 +3,14 @@
  */
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
-import { selectedIdeaQueryKey, useSelectedIdeaMutation } from '@/hooks';
+import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
+import { useSelectedIdeaMutation } from '@/hooks';
 import * as issueApi from '@/lib/api/issue';
+import { queryKeys } from '@/lib/query-keys';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
 // 1. 외부 의존성 모킹
 jest.mock('@/lib/api/issue');
-jest.mock('@/hooks/issues/use-selected-idea-query');
 jest.mock('react-hot-toast');
 
 // 2. React Query 모킹
@@ -23,18 +23,17 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹 (껍데기 생성)
-jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
+jest.mock('@/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn(),
 }));
 
 describe('useSelectedIdeaMutation', () => {
   const issueId = 'issue-1';
   const connectionId = 'conn-1'; // 테스트용 connectionId
-  const queryKey = ['selected-idea', issueId]; // 테스트용 키
+  const queryKey = queryKeys.issues.selectedIdea(issueId);
 
   // Mock 함수들
   const mockSelectIdeaAPI = issueApi.selectIdea as jest.Mock;
-  const mockSelectedIdeaQueryKey = selectedIdeaQueryKey as jest.Mock;
   const mockToastError = toast.error as jest.Mock;
 
   // QueryClient Spy
@@ -51,9 +50,6 @@ describe('useSelectedIdeaMutation', () => {
       setQueryData: mockSetQueryData,
       cancelQueries: mockCancelQueries,
     });
-
-    // 쿼리 키 유틸 설정
-    mockSelectedIdeaQueryKey.mockReturnValue(queryKey);
 
     // Store 구현 주입: 특정 issueId에 대해 connectionId 반환
     (useSseConnectionStore as unknown as jest.Mock).mockImplementation((selector) => {

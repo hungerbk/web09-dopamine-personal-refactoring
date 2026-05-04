@@ -4,7 +4,6 @@
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
 import { ISSUE_STATUS } from '@/constants/issue';
 import {
   useCreateIssueInTopicMutation,
@@ -13,6 +12,7 @@ import {
   useQuickStartMutation,
   useUpdateIssueTitleMutation,
 } from '@/hooks';
+import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import * as issueApi from '@/lib/api/issue';
 import { queryKeys } from '@/lib/query-keys';
 import * as storage from '@/lib/storage/issue-user-storage';
@@ -34,7 +34,7 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹
-jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
+jest.mock('@/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn(),
 }));
 
@@ -284,7 +284,7 @@ describe('Issue Mutations', () => {
         result.current.mutate({ title: 'Fail', connectionId });
       });
       await waitFor(() => expect(result.current.isError).toBe(true));
-      expect(mockToastError).toHaveBeenCalledWith('Update Failed');
+      expect(mockToastError).toHaveBeenCalledWith('이슈 수정에 실패했습니다.');
     });
   });
 
@@ -298,8 +298,12 @@ describe('Issue Mutations', () => {
         result.current.mutate({ connectionId });
       });
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
-      expect(mockQueryClient.cancelQueries).toHaveBeenCalledWith({ queryKey: queryKeys.issues.detail(issueId) });
-      expect(mockQueryClient.removeQueries).toHaveBeenCalledWith({ queryKey: queryKeys.issues.detail(issueId) });
+      expect(mockQueryClient.cancelQueries).toHaveBeenCalledWith({
+        queryKey: queryKeys.issues.detail(issueId),
+      });
+      expect(mockQueryClient.removeQueries).toHaveBeenCalledWith({
+        queryKey: queryKeys.issues.detail(issueId),
+      });
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
         queryKey: queryKeys.topics.detail(topicId),
       });
@@ -324,7 +328,7 @@ describe('Issue Mutations', () => {
         result.current.mutate({});
       });
       await waitFor(() => expect(result.current.isError).toBe(true));
-      expect(mockToastError).toHaveBeenCalledWith('Delete Fail');
+      expect(mockToastError).toHaveBeenCalledWith('이슈 삭제에 실패했습니다.');
     });
   });
 });

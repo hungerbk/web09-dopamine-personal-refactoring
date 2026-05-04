@@ -16,18 +16,21 @@ export const useTopicQuery = (
     queryKey: queryKeys.topics.issues(topicId),
     queryFn: () => getTopicIssues(topicId),
     initialData: initialIssues,
+    staleTime: initialIssues ? Infinity : 0,
   });
 
   const nodesQuery = useQuery({
     queryKey: queryKeys.topics.nodes(topicId),
     queryFn: () => getTopicNodes(topicId),
     initialData: initialNodes,
+    staleTime: initialNodes ? Infinity : 0,
   });
 
   const connectionsQuery = useQuery({
     queryKey: queryKeys.topics.connections(topicId),
     queryFn: () => getTopicConnections(topicId),
     initialData: initialConnections,
+    staleTime: initialConnections ? Infinity : 0,
   });
 
   return {

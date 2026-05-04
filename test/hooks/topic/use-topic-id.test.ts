@@ -10,7 +10,7 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
 }));
 
-jest.mock('@/hooks/issue', () => ({
+jest.mock('@/hooks/issues', () => ({
   useIssueQuery: jest.fn(),
 }));
 
@@ -25,10 +25,10 @@ describe('useTopicId Hook', () => {
   });
 
   describe('토픽 페이지 (/topic)인 경우', () => {
-    test('URL 파라미터(params.id)에서 topicId를 가져와야 한다', () => {
+    test('URL 파라미터(params.topicId)에서 topicId를 가져와야 한다', () => {
       // Given: 토픽 페이지 URL과 파라미터 설정
       mockUsePathname.mockReturnValue('/topics/123');
-      mockUseParams.mockReturnValue({ id: '123' });
+      mockUseParams.mockReturnValue({ topicId: '123' });
       // 이슈 쿼리는 실행되더라도 데이터가 없다고 가정 (또는 enabled: false라 실행 안 됨)
       mockUseIssueQuery.mockReturnValue({ data: undefined });
 
@@ -42,7 +42,7 @@ describe('useTopicId Hook', () => {
 
     test('useIssueQuery는 비활성화 되어야 한다', () => {
       mockUsePathname.mockReturnValue('/topics/123');
-      mockUseParams.mockReturnValue({ id: 'topic-123' });
+      mockUseParams.mockReturnValue({ topicId: 'topic-123' });
 
       mockUseIssueQuery.mockReturnValue({ data: undefined });
 
@@ -54,9 +54,9 @@ describe('useTopicId Hook', () => {
 
   describe('이슈 페이지 (토픽 페이지 아님)인 경우', () => {
     test('URL 파라미터는 무시하고, useIssueQuery의 결과에서 topicId를 가져와야 한다', () => {
-      // Given: 이슈 페이지 URL (여기서 id는 이슈 ID임)
+      // Given: 이슈 페이지 URL (여기서 issueId는 이슈 ID임)
       mockUsePathname.mockReturnValue('/issues/999');
-      mockUseParams.mockReturnValue({ id: '999' });
+      mockUseParams.mockReturnValue({ issueId: '999' });
 
       // useIssueQuery가 topicId가 포함된 이슈 데이터를 반환하도록 설정
       mockUseIssueQuery.mockReturnValue({
@@ -74,7 +74,7 @@ describe('useTopicId Hook', () => {
     test('이슈 데이터를 아직 불러오지 못했으면 topicId는 undefined여야 한다', () => {
       // Given
       mockUsePathname.mockReturnValue('/issues/999');
-      mockUseParams.mockReturnValue({ id: '999' });
+      mockUseParams.mockReturnValue({ issueId: '999' });
       // 데이터 로딩 중 (data: undefined)
       mockUseIssueQuery.mockReturnValue({ data: undefined });
 
@@ -87,7 +87,7 @@ describe('useTopicId Hook', () => {
 
     test('올바른 issueId로 쿼리를 호출해야 한다', () => {
       mockUsePathname.mockReturnValue('/issues/999');
-      mockUseParams.mockReturnValue({ id: '999' });
+      mockUseParams.mockReturnValue({ issueId: '999' });
       mockUseIssueQuery.mockReturnValue({ data: undefined });
 
       renderHook(() => useTopicId());

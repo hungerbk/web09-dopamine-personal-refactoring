@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { selectedIdeaQueryKey, useSelectedIdeaQuery } from '@/hooks';
+import { useSelectedIdeaQuery } from '@/hooks';
+import { queryKeys } from '@/lib/query-keys';
 import { act, renderHook } from '../../utils/test-utils';
 
 describe('useSelectedIdeaQuery', () => {
@@ -10,7 +11,7 @@ describe('useSelectedIdeaQuery', () => {
   // 1. 유틸리티 함수(Query Key) 테스트
   describe('selectedIdeaQueryKey', () => {
     test('일관된 배열 형태의 쿼리 키를 반환해야 한다', () => {
-      const key = selectedIdeaQueryKey(issueId);
+      const key = queryKeys.issues.selectedIdea(issueId);
 
       // 다른 컴포넌트나 Mutation에서 이 키를 참조하므로 정확해야 함
       expect(key).toEqual(['issues', issueId, 'selected-idea']);

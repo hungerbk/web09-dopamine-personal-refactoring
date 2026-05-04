@@ -22,7 +22,7 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹
-jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
+jest.mock('@/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn((selector) => selector({ connectionIds: {} })),
 }));
 
