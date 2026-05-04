@@ -4,6 +4,7 @@
 import { useTopicDetailQuery, useTopicQuery } from '@/hooks';
 import * as issueMapApi from '@/lib/api/issue-map';
 import * as topicApi from '@/lib/api/topic';
+import { ApiError } from '@/lib/utils/api-response';
 import { renderHook, waitFor } from '../../utils/test-utils';
 
 // 1. API 모킹
@@ -91,8 +92,8 @@ describe('Topic Queries', () => {
 
     // 에러 발생 시 처리
     test('API 에러 발생 시 isError가 true가 되어야 한다', async () => {
-      // Given
-      mockGetTopic.mockRejectedValue(new Error('Fetch Failed'));
+      // Given: TOPIC_NOT_FOUND ApiError는 retry 없이 즉시 isError = true
+      mockGetTopic.mockRejectedValue(new ApiError('Topic not found', 'TOPIC_NOT_FOUND'));
 
       const { result } = renderHook(() => useTopicDetailQuery(topicId));
 
