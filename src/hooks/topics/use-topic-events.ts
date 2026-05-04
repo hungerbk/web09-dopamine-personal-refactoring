@@ -57,10 +57,13 @@ export function useTopicEvents({
     };
 
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-
-      if (data.type === 'connected') {
-        toast.success('토픽에 연결되었습니다');
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'connected') {
+          toast.success('토픽에 연결되었습니다');
+        }
+      } catch {
+        // heartbeat 등 JSON이 아닌 메시지 무시
       }
     };
 
@@ -97,7 +100,7 @@ export function useTopicEvents({
       eventSource.close();
       eventSourceRef.current = null;
     };
-  }, [topicId, enabled, queryClient]);
+  }, [topicId, enabled, queryClient, router]);
 
   return { isConnected, error };
 }
