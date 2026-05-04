@@ -3,7 +3,7 @@
  */
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import { useSseConnectionStore } from '@/app/(with-sidebar)/issues/store/use-sse-connection-store';
+import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 import { useCategoryMutations } from '@/hooks';
 import * as categoryApi from '@/lib/api/category';
@@ -29,7 +29,7 @@ jest.mock('@tanstack/react-query', () => {
 });
 
 // 3. Store 모킹
-jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
+jest.mock('@/issues/store/use-sse-connection-store', () => ({
   useSseConnectionStore: jest.fn(),
 }));
 
