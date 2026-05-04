@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
@@ -26,6 +27,7 @@ export function useTopicEvents({
 }: UseTopicEventsParams): UseTopicEventsReturn {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<Event | null>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
@@ -54,14 +56,13 @@ export function useTopicEvents({
       setError(event);
     };
 
-    // 기본 메시지 핸들러 (connected 이벤트)
-    // eventSource.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
 
-    //   if (data.type === 'connected') {
-    //     toast.success('토픽에 연결되었습니다');
-    //   }
-    // };
+      if (data.type === 'connected') {
+        toast.success('토픽에 연결되었습니다');
+      }
+    };
 
     // 이슈 상태 변경 이벤트 핸들러
     eventSource.addEventListener(SSE_EVENT_TYPES.ISSUE_STATUS_CHANGED, (event) => {
@@ -88,6 +89,7 @@ export function useTopicEvents({
       }
 
       toast.error('이슈가 삭제되었습니다.');
+      router.refresh();
     });
 
     return () => {
