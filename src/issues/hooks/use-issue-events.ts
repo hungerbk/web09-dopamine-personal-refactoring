@@ -6,8 +6,9 @@ import CloseIssueModal from '@/issues/components/close-issue-modal/close-issue-m
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { ISSUE_STATUS, MEMBER_ROLE } from '@/constants/issue';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
-import { selectedIdeaQueryKey, useIssueMemberQuery } from '@/hooks/issues';
+import { useIssueMemberQuery } from '@/hooks/issues';
 import { deleteCloseModal } from '@/lib/api/issue';
+import { queryKeys } from '@/lib/query-keys';
 import { useIssueStore } from '../store/use-issue-store';
 import { useSseConnectionStore } from '../store/use-sse-connection-store';
 import { useIdeasWithTemp } from './use-ideas-with-temp';
@@ -37,7 +38,7 @@ export function useIssueEvents({
   const [error, setError] = useState<Event | null>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
   const connectionIdRef = useRef<string | null>(null);
-  const selectedIdeaKey = useMemo(() => selectedIdeaQueryKey(issueId), [issueId]);
+  const selectedIdeaKey = useMemo(() => queryKeys.issues.selectedIdea(issueId), [issueId]);
 
   const { setIsAIStructuring } = useIssueStore((state) => state.actions);
   const { setOnlineMemberIds } = useIssueStore((state) => state.actions);
@@ -77,7 +78,7 @@ export function useIssueEvents({
       // 재연결 시 전체 데이터 갱신
       const isReconnect = connectionIdRef.current !== null;
       if (isReconnect) {
-        queryClient.invalidateQueries({ queryKey: ['issues', issueId] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.issues.detail(issueId) });
       }
     };
 
@@ -106,32 +107,32 @@ export function useIssueEvents({
     // 요청이 많아질 수록 안좋긴 한데, tanstack query의 플로우랑 잘 맞음...
     // 만약 SSE에 데이터를 직접 가져와서 setQueryData로 반영하는 방식으로 바꾸게 된다면 이 부분을 수정해야 함
     eventSource.addEventListener(SSE_EVENT_TYPES.IDEA_CREATED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.IDEA_MOVED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.IDEA_DELETED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
     });
 
     // 카테고리 이벤트 핸들러
     eventSource.addEventListener(SSE_EVENT_TYPES.CATEGORY_CREATED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'categories'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.categories(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.CATEGORY_UPDATED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'categories'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.categories(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.CATEGORY_MOVED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'categories'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.categories(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.CATEGORY_DELETED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'categories'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.categories(issueId) });
     });
 
     // AI 구조화 핸들러
@@ -162,7 +163,7 @@ export function useIssueEvents({
         typeof data.disagreeCount !== 'number'
       )
         return;
-      queryClient.setQueryData<IdeaWithPosition[]>(['issues', issueId, 'ideas'], (old) => {
+      queryClient.setQueryData<IdeaWithPosition[]>(queryKeys.issues.ideas(issueId), (old) => {
         if (!Array.isArray(old)) return old;
         return old.map((idea) =>
           idea.id === data.ideaId
@@ -177,17 +178,17 @@ export function useIssueEvents({
       const data = JSON.parse((event as MessageEvent).data);
       // 특정 아이디어의 댓글 목록 및 commentCount 갱신
       if (data.ideaId) {
-        queryClient.invalidateQueries({ queryKey: ['comments', issueId, data.ideaId] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.comments.list(issueId, data.ideaId) });
 
         if (typeof data.commentCount === 'number') {
-          queryClient.setQueryData(['issues', issueId, 'ideas'], (old: any) => {
+          queryClient.setQueryData(queryKeys.issues.ideas(issueId), (old: any) => {
             if (!Array.isArray(old)) return old;
             return old.map((idea) =>
               idea.id === data.ideaId ? { ...idea, commentCount: data.commentCount } : idea,
             );
           });
         } else {
-          queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+          queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
         }
       }
     });
@@ -195,7 +196,7 @@ export function useIssueEvents({
     eventSource.addEventListener(SSE_EVENT_TYPES.COMMENT_UPDATED, (event) => {
       const data = JSON.parse((event as MessageEvent).data);
       if (data.ideaId) {
-        queryClient.invalidateQueries({ queryKey: ['comments', issueId, data.ideaId] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.comments.list(issueId, data.ideaId) });
       }
     });
 
@@ -203,17 +204,17 @@ export function useIssueEvents({
       const data = JSON.parse((event as MessageEvent).data);
       // 특정 아이디어의 댓글 목록 및 commentCount 갱신
       if (data.ideaId) {
-        queryClient.invalidateQueries({ queryKey: ['comments', issueId, data.ideaId] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.comments.list(issueId, data.ideaId) });
 
         if (typeof data.commentCount === 'number') {
-          queryClient.setQueryData(['issues', issueId, 'ideas'], (old: any) => {
+          queryClient.setQueryData(queryKeys.issues.ideas(issueId), (old: any) => {
             if (!Array.isArray(old)) return old;
             return old.map((idea) =>
               idea.id === data.ideaId ? { ...idea, commentCount: data.commentCount } : idea,
             );
           });
         } else {
-          queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+          queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
         }
       }
     });
@@ -221,36 +222,36 @@ export function useIssueEvents({
     // 이슈 변경 이벤트 핸들러
     eventSource.addEventListener(SSE_EVENT_TYPES.ISSUE_STATUS_CHANGED, (event) => {
       const data = JSON.parse((event as MessageEvent).data);
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.detail(issueId) });
       if (data.status === ISSUE_STATUS.CATEGORIZE) {
         deleteTempIdea();
       }
       // 사이드바 이슈 목록도 갱신
       const targetTopicId = data.topicId || topicId;
       if (targetTopicId) {
-        queryClient.invalidateQueries({ queryKey: ['topics', targetTopicId, 'issues'] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.topics.issues(targetTopicId) });
       }
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.ISSUE_TITLE_CHANGED, (event) => {
       const data = JSON.parse((event as MessageEvent).data);
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.detail(issueId) });
       // 사이드바 이슈 목록도 갱신
       const targetTopicId = data.topicId || topicId;
       if (targetTopicId) {
-        queryClient.invalidateQueries({ queryKey: ['topics', targetTopicId, 'issues'] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.topics.issues(targetTopicId) });
       }
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.ISSUE_DELETED, (event) => {
       const data = JSON.parse((event as MessageEvent).data);
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.detail(issueId) });
 
       const targetTopicId = data.topicId || topicId;
       if (targetTopicId) {
-        queryClient.invalidateQueries({ queryKey: ['topics', targetTopicId, 'issues'] });
-        queryClient.invalidateQueries({ queryKey: ['topics', targetTopicId, 'nodes'] });
-        queryClient.invalidateQueries({ queryKey: ['topics', targetTopicId, 'connections'] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.topics.issues(targetTopicId) });
+        queryClient.invalidateQueries({ queryKey: queryKeys.topics.nodes(targetTopicId) });
+        queryClient.invalidateQueries({ queryKey: queryKeys.topics.connections(targetTopicId) });
       }
 
       toast.error('이슈가 삭제되었습니다.');
@@ -260,15 +261,15 @@ export function useIssueEvents({
 
     // 멤버 이벤트 핸들러
     eventSource.addEventListener(SSE_EVENT_TYPES.MEMBER_JOINED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'members'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.members(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.MEMBER_UPDATED, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'members'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.members(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.MEMBER_LEFT, () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'members'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.members(issueId) });
     });
 
     eventSource.addEventListener(SSE_EVENT_TYPES.MEMBER_PRESENCE, (event) => {
@@ -282,7 +283,7 @@ export function useIssueEvents({
       const data = JSON.parse((event as MessageEvent).data);
       if (!data.ideaId) return;
       queryClient.setQueryData(selectedIdeaKey, data.ideaId);
-      queryClient.setQueryData<IdeaWithPosition[]>(['issues', issueId, 'ideas'], (old) => {
+      queryClient.setQueryData<IdeaWithPosition[]>(queryKeys.issues.ideas(issueId), (old) => {
         if (!Array.isArray(old)) return old;
         return old.map((idea) =>
           idea.id === data.ideaId ? { ...idea, isSelected: true } : { ...idea, isSelected: false },

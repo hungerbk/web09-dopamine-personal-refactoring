@@ -2,7 +2,7 @@ export const CLIENT_ERROR_MESSAGES: Record<string, string> = {
   // 공통
   API_NOT_FOUND: '요청한 기능을 찾을 수 없습니다. 잠시 후 다시 시도해주세요.',
   PERMISSION_DENIED: '접근 권한이 없습니다.',
-  INTERNAL_ERROR: '서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+  INTERNAL_SERVER_ERROR: '서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
   VALIDATION_FAILED: '입력한 값이 올바르지 않습니다. 다시 확인해주세요.',
   UNKNOWN_ERROR: '알 수 없는 오류가 발생했습니다.',
   UNAUTHORIZED_USER: '로그인이 필요합니다.',
@@ -10,7 +10,10 @@ export const CLIENT_ERROR_MESSAGES: Record<string, string> = {
 
   // 토픽
   TOPIC_NOT_FOUND: '존재하지 않는 토픽입니다.',
+  TOPIC_FETCH_FAILED: '토픽 조회에 실패했습니다.',
+  TOPIC_CREATE_FAILED: '토픽 생성에 실패했습니다.',
   TOPIC_UPDATE_FAILED: '토픽 수정에 실패했습니다.',
+  TOPIC_DELETE_FAILED: '토픽 삭제에 실패했습니다.',
 
   // 카테고리
   CATEGORY_NOT_FOUND: '카테고리를 찾을 수 없습니다.',
@@ -24,8 +27,10 @@ export const CLIENT_ERROR_MESSAGES: Record<string, string> = {
   ISSUE_FETCH_FAILED: '이슈 조회에 실패했습니다.',
   ISSUE_CREATE_FAILED: '이슈 생성에 실패했습니다.',
   ISSUE_UPDATE_FAILED: '이슈 수정에 실패했습니다.',
+  ISSUE_DELETE_FAILED: '이슈 삭제에 실패했습니다.',
   ISSUE_STATUS_UPDATE_FAILED: '이슈 상태 변경에 실패했습니다.',
   INVALID_ISSUE_STATUS: '유효하지 않은 이슈 상태입니다.',
+  ISSUES_FETCH_FAILED: '이슈 목록 조회에 실패했습니다.',
   NICKNAME_AND_TITLE_REQUIRED: 'nickname과 title은 필수입니다.',
   SELECTED_IDEA_ID_REQUIRED: '선택된 아이디어 ID가 필요합니다.',
   IDEA_SELECTION_BROADCAST_FAILED: '아이디어 선택 알림에 실패했습니다.',
@@ -37,9 +42,17 @@ export const CLIENT_ERROR_MESSAGES: Record<string, string> = {
   MEMBER_FETCH_FAILED: '사용자 정보 조회에 실패했습니다.',
   MEMBER_JOIN_FAILED: '이슈 참여에 실패했습니다.',
   NICKNAME_REQUIRED: 'nickname은 필수입니다.',
+  NICKNAME_UPDATE_FAILED: '닉네임 수정에 실패했습니다.',
   NICKNAME_GENERATION_FAILED: '닉네임 생성에 실패했습니다.',
   USER_ID_REQUIRED: 'User ID가 필요합니다.',
   OWNER_PERMISSION_REQUIRED: '방장 권한이 필요합니다.',
+
+  // 프로젝트
+  PROJECT_LIST_FAILED: '프로젝트 목록 조회에 실패했습니다.',
+  PROJECT_FETCH_FAILED: '프로젝트 조회에 실패했습니다.',
+  PROJECT_CREATE_FAILED: '프로젝트 생성에 실패했습니다.',
+  PROJECT_UPDATE_FAILED: '프로젝트 수정에 실패했습니다.',
+  PROJECT_DELETE_FAILED: '프로젝트 삭제에 실패했습니다.',
 
   // 프로젝트 초대
   INVITATION_NOT_FOUND: '유효하지 않은 초대 링크입니다.',
@@ -55,6 +68,13 @@ export const CLIENT_ERROR_MESSAGES: Record<string, string> = {
   INVALID_AI_CATEGORIES: 'AI 카테고리 데이터가 유효하지 않습니다.',
   AI_CATEGORIZATION_FAILED: 'AI 카테고리화에 실패했습니다.',
 
+  // 댓글
+  COMMENT_FETCH_FAILED: '댓글 조회에 실패했습니다.',
+  COMMENT_CREATE_FAILED: '댓글 생성에 실패했습니다.',
+  COMMENT_UPDATE_FAILED: '댓글 수정에 실패했습니다.',
+  COMMENT_DELETE_FAILED: '댓글 삭제에 실패했습니다.',
+  COMMENT_NOT_FOUND: '댓글을 찾을 수 없습니다.',
+
   // 아이디어
   IDEA_DETAIL_FETCH_FAILED: '아이디어 상세 조회에 실패했습니다.',
   IDEA_NOT_FOUND: '아이디어를 찾을 수 없습니다.',
@@ -67,6 +87,16 @@ export const CLIENT_ERROR_MESSAGES: Record<string, string> = {
   // 투표
   INVALID_VOTE_REQUEST: '잘못된 투표 요청입니다.',
   VOTE_FAILED: '투표 처리 중 오류가 발생했습니다.',
+
+  // 연결 / 노드
+  CONNECTIONS_FETCH_FAILED: '연결 조회에 실패했습니다.',
+  CONNECTION_CREATE_FAILED: '연결 생성에 실패했습니다.',
+  CONNECTION_DELETE_FAILED: '연결 삭제에 실패했습니다.',
+  NODES_FETCH_FAILED: '노드 조회에 실패했습니다.',
+  NODE_UPDATE_FAILED: '노드 위치 업데이트에 실패했습니다.',
+
+  // 인증
+  GET_PROVIDERS_ERROR: '인증 공급자 조회에 실패했습니다.',
 
   // 리포트
   REPORT_NOT_FOUND: '리포트를 찾을 수 없습니다.',

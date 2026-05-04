@@ -3,7 +3,7 @@ import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { ideaRepository } from '@/lib/repositories/idea.repository';
 import { issueMemberRepository } from '@/lib/repositories/issue-member.repository';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { getAuthenticatedUserId } from '@/lib/utils/auth-helpers';
 
 export async function GET(
@@ -33,8 +33,7 @@ export async function GET(
       issueMember: issueMember ? { nickname: issueMember.nickname } : null,
     });
   } catch (error) {
-    console.error('아이디어 상세 조회 실패:', error);
-    return createErrorResponse('IDEA_DETAIL_FETCH_FAILED', 500);
+    return handleApiError(error, 'IDEA_DETAIL_FETCH_FAILED');
   }
 }
 

@@ -4,6 +4,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { useVoteMutation } from '@/hooks';
+import { queryKeys } from '@/lib/query-keys';
 import * as voteApi from '@/lib/api/vote';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
@@ -28,7 +29,7 @@ jest.mock('@/app/(with-sidebar)/issues/store/use-sse-connection-store', () => ({
 describe('useVoteMutation', () => {
   const issueId = 'issue-1';
   const ideaId = 'idea-1';
-  const queryKey = ['issues', issueId, 'ideas'];
+  const queryKey = queryKeys.issues.ideas(issueId);
 
   const mockPostVote = voteApi.postVote as jest.Mock;
   const mockToastError = toast.error as jest.Mock;

@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { selectIdea as selectIdeaAPI } from '@/lib/api/issue';
-import { selectedIdeaQueryKey } from './use-selected-idea-query';
+import { queryKeys } from '@/lib/query-keys';
 
 export function useSelectedIdeaMutation(issueId: string) {
   const queryClient = useQueryClient();
-  const queryKey = selectedIdeaQueryKey(issueId);
+  const queryKey = queryKeys.issues.selectedIdea(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   return useMutation({
+    meta: { errorLabel: '아이디어 선택 실패' },
     mutationFn: (selectedIdeaId: string) => selectIdeaAPI(issueId, selectedIdeaId, connectionId),
     onMutate: async (selectedIdeaId) => {
       await queryClient.cancelQueries({ queryKey });
@@ -17,8 +17,7 @@ export function useSelectedIdeaMutation(issueId: string) {
       queryClient.setQueryData(queryKey, selectedIdeaId);
       return { previousSelectedIdeaId };
     },
-    onError: (error, _selectedIdeaId, context) => {
-      toast.error(error.message);
+    onError: (_error, _selectedIdeaId, context) => {
       if (context?.previousSelectedIdeaId !== undefined) {
         queryClient.setQueryData(queryKey, context.previousSelectedIdeaId);
       }

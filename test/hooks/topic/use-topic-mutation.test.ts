@@ -10,6 +10,7 @@ import {
   useUpdateTopicTitleMutation,
 } from '@/hooks';
 import * as topicApi from '@/lib/api/topic';
+import { queryKeys } from '@/lib/query-keys';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
 jest.mock('@/lib/api/topic');
@@ -113,7 +114,7 @@ describe('useTopicMutation', () => {
 
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['topics', topicId],
+        queryKey: queryKeys.topics.detail(topicId),
       });
       expect(toast.success).toHaveBeenCalledWith('토픽을 수정했습니다!');
     });
@@ -146,10 +147,10 @@ describe('useTopicMutation', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
       // 삭제 프로세스 순서 검증
-      expect(mockQueryClient.cancelQueries).toHaveBeenCalledWith({ queryKey: ['topics', topicId] });
-      expect(mockQueryClient.removeQueries).toHaveBeenCalledWith({ queryKey: ['topics', topicId] });
+      expect(mockQueryClient.cancelQueries).toHaveBeenCalledWith({ queryKey: queryKeys.topics.detail(topicId) });
+      expect(mockQueryClient.removeQueries).toHaveBeenCalledWith({ queryKey: queryKeys.topics.detail(topicId) });
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['project', projectId],
+        queryKey: queryKeys.projects.detail(projectId),
       });
       expect(mockRouter.push).toHaveBeenCalledWith(`/projects/${projectId}`);
       expect(toast.success).toHaveBeenCalledWith('토픽이 삭제되었습니다.');

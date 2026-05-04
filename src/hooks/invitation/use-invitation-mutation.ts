@@ -8,14 +8,12 @@ export const useInvitationMutations = (projectId: string) => {
   const router = useRouter();
 
   const createToken = useMutation({
+    meta: { errorLabel: '초대 링크 생성 실패', errorMessage: '초대 링크를 생성할 수 없습니다.' },
     mutationFn: (emails: string[]) => createInvitation(projectId, emails),
-
-    onError: (err) => {
-      toast.error('초대 링크를 생성할 수 없습니다.');
-    },
   });
 
   const joinProject = useMutation({
+    meta: { errorLabel: '초대 참여 실패' },
     mutationFn: (token: string) => acceptInvitation(projectId, token),
 
     onSuccess: () => {
@@ -24,7 +22,6 @@ export const useInvitationMutations = (projectId: string) => {
     },
 
     onError: (err) => {
-      toast.error(err.message);
       if (err.message === CLIENT_ERROR_MESSAGES['ALREADY_EXISTED']) {
         router.push(`/projects/${projectId}`);
       }

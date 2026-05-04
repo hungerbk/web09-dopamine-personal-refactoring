@@ -16,9 +16,10 @@ import { ErrorPage } from '@/components/error/error';
 import LoadingOverlay from '@/components/loading-overlay/loading-overlay';
 import { useModalStore } from '@/components/modal/use-modal-store';
 import { ISSUE_STATUS, ISSUE_STATUS_DESCRIPTION } from '@/constants/issue';
-import { selectedIdeaQueryKey, useIssueQuery, useSelectedIdeaQuery } from '@/hooks/issues';
+import { useIssueQuery, useSelectedIdeaQuery } from '@/hooks/issues';
 import { useProjectsQuery } from '@/hooks/projects';
 import { joinIssueAsLoggedInUser } from '@/lib/api/issue';
+import { queryKeys } from '@/lib/query-keys';
 import { getActiveDiscussionIdeaIds } from '@/lib/utils/active-discussion-idea';
 import IssueJoinModal from './issue-join-modal/issue-join-modal';
 import {
@@ -118,7 +119,7 @@ const IssueDetailPage = () => {
 
       try {
         await joinIssueAsLoggedInUser(issueId, connectionId);
-        queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'members'] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.issues.members(issueId) });
       } catch (error) {
         console.error('자동 참여 실패:', error);
       }
@@ -193,7 +194,7 @@ const IssueDetailPage = () => {
   useEffect(() => {
     if (!serverIdeas?.length || !issueId) return;
     const selectedId = serverIdeas.find((i) => i.isSelected)?.id ?? null;
-    queryClient.setQueryData(selectedIdeaQueryKey(issueId), selectedId);
+    queryClient.setQueryData(queryKeys.issues.selectedIdea(issueId), selectedId);
   }, [serverIdeas, issueId, queryClient]);
 
   // 드래그 중인 position을 오버레이

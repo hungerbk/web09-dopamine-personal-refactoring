@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { createTopic, deleteTopic, updateTopicTitle } from '@/lib/api/topic';
 import type { ProjectwithTopic } from '@/projects/types';
+import { queryKeys } from '@/lib/query-keys';
 
 interface CreateTopicData {
   title: string;
@@ -13,10 +14,11 @@ export const useCreateTopicMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { errorLabel: '토픽 생성 실패', errorMessage: '토픽 생성에 실패했습니다.' },
     mutationFn: (data: CreateTopicData) => createTopic(data.title, data.projectId),
 
     onSuccess: (data, variables) => {
-      queryClient.setQueryData<ProjectwithTopic>(['project', variables.projectId], (prev) => {
+      queryClient.setQueryData<ProjectwithTopic>(queryKeys.projects.detail(variables.projectId), (prev) => {
         if (!prev) {
           return prev;
         }
@@ -41,11 +43,6 @@ export const useCreateTopicMutation = () => {
 
       return data;
     },
-
-    onError: (error) => {
-      console.error('토픽 생성 실패:', error);
-      toast.error(error.message || '토픽 생성에 실패했습니다.');
-    },
   });
 };
 
@@ -53,19 +50,15 @@ export const useUpdateTopicTitleMutation = (topicId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { errorLabel: '토픽 수정 실패' },
     mutationFn: (data: { title: string }) => updateTopicTitle(topicId, data.title),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['topics', topicId],
+        queryKey: queryKeys.topics.detail(topicId),
       });
 
       toast.success('토픽을 수정했습니다!');
-    },
-
-    onError: (error: Error) => {
-      console.error('토픽 수정 실패:', error);
-      toast.error(error.message || '토픽 수정에 실패했습니다.');
     },
   });
 };
@@ -75,23 +68,19 @@ export const useDeleteTopicMutation = (topicId: string) => {
   const router = useRouter();
 
   return useMutation({
+    meta: { errorLabel: '토픽 삭제 실패', errorMessage: '토픽 삭제에 실패했습니다.' },
     mutationFn: () => deleteTopic(topicId),
 
     onSuccess: async (data) => {
-      await queryClient.cancelQueries({ queryKey: ['topics', topicId] });
-      queryClient.removeQueries({ queryKey: ['topics', topicId] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.topics.detail(topicId) });
+      queryClient.removeQueries({ queryKey: queryKeys.topics.detail(topicId) });
       queryClient.invalidateQueries({
-        queryKey: ['project', data.projectId],
+        queryKey: queryKeys.projects.detail(data.projectId),
       });
 
       toast.success('토픽이 삭제되었습니다.');
 
       router.push(`/projects/${data.projectId}`);
-    },
-
-    onError: (error: Error) => {
-      console.error('토픽 삭제 실패:', error);
-      toast.error(error.message || '토픽 삭제에 실패했습니다.');
     },
   });
 };

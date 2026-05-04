@@ -2,10 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { getIssue } from '@/lib/api/issue';
 import { getTopicIssues } from '@/lib/api/issue-map';
 import { ApiError } from '@/lib/utils/api-response';
+import { queryKeys } from '@/lib/query-keys';
 
 export const useIssueQuery = (issueId: string, enabled: boolean = true) => {
   return useQuery({
-    queryKey: ['issues', issueId],
+    queryKey: queryKeys.issues.detail(issueId),
     queryFn: () => getIssue(issueId),
     enabled: enabled && !!issueId,
     retry: (failureCount, error) => {
@@ -17,7 +18,7 @@ export const useIssueQuery = (issueId: string, enabled: boolean = true) => {
 
 export const useTopicIssuesQuery = (topicId: string | null | undefined) => {
   return useQuery({
-    queryKey: ['topics', topicId, 'issues'],
+    queryKey: queryKeys.topics.issues(topicId!),
     queryFn: () => getTopicIssues(topicId!),
     enabled: !!topicId,
   });

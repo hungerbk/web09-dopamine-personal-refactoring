@@ -4,7 +4,7 @@ import { findIssueById } from '@/lib/repositories/issue.repository';
 import { issueService } from '@/lib/services/issue.service';
 import { broadcast, broadcastToTopic } from '@/lib/sse/sse-service';
 import { getIssueUserId } from '@/lib/utils/api-auth';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET(
   req: NextRequest,
@@ -21,8 +21,7 @@ export async function GET(
 
     return createSuccessResponse(issue);
   } catch (error) {
-    console.error('이슈 조회 실패:', error);
-    return createErrorResponse('ISSUE_FETCH_FAILED', 500);
+    return handleApiError(error, 'ISSUE_FETCH_FAILED');
   }
 }
 

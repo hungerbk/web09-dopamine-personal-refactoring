@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 import { createCategory, deleteCategory, updateCategory } from '@/lib/api/category';
 import type { Category } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 
 interface CategoryPayload {
   title: string;
@@ -15,10 +15,11 @@ interface CategoryPayload {
 
 export const useCategoryMutations = (issueId: string) => {
   const queryClient = useQueryClient();
-  const queryKey = ['issues', issueId, 'categories'];
+  const queryKey = queryKeys.issues.categories(issueId);
   const connectionId = useSseConnectionStore((state) => state.connectionIds[issueId]);
 
   const create = useMutation({
+    meta: { errorLabel: '카테고리 생성 실패' },
     mutationFn: async (payload: CategoryPayload) => {
       const categories = queryClient.getQueryData<Category[]>(queryKey);
       if (categories?.some((c) => c.title === payload.title)) {
@@ -27,16 +28,13 @@ export const useCategoryMutations = (issueId: string) => {
       return createCategory(issueId, payload, connectionId);
     },
 
-    onError: (_err) => {
-      toast.error(_err.message);
-    },
-
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
     },
   });
 
   const update = useMutation({
+    meta: { errorLabel: '카테고리 수정 실패' },
     mutationFn: ({
       categoryId,
       payload,
@@ -53,21 +51,14 @@ export const useCategoryMutations = (issueId: string) => {
       return updateCategory(issueId, categoryId, payload, connectionId);
     },
 
-    onError: (err) => {
-      toast.error(err.message);
-    },
-
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
     },
   });
 
   const remove = useMutation({
+    meta: { errorLabel: '카테고리 삭제 실패' },
     mutationFn: (categoryId: string) => deleteCategory(issueId, categoryId, connectionId),
-
-    onError: (err) => {
-      toast.error(err.message);
-    },
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });

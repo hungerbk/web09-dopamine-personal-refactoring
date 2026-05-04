@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function PATCH(
   req: NextRequest,
@@ -26,7 +26,6 @@ export async function PATCH(
 
     return createSuccessResponse(node, 200);
   } catch (error) {
-    console.error('노드 위치 업데이트 실패:', error);
-    return createErrorResponse('NODE_UPDATE_FAILED', 500);
+    return handleApiError(error, 'NODE_UPDATE_FAILED');
   }
 }

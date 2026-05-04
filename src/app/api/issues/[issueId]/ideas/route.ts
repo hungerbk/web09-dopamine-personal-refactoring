@@ -4,7 +4,7 @@ import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { ideaRepository } from '@/lib/repositories/idea.repository';
 import { ideaFilterService } from '@/lib/services/idea-filter.service';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { getAuthenticatedUserId } from '@/lib/utils/auth-helpers';
 
 export async function GET(
@@ -35,8 +35,7 @@ export async function GET(
 
     return createSuccessResponse(ideas);
   } catch (error) {
-    console.error('아이디어 조회 실패:', error);
-    return createErrorResponse('IDEA_FETCH_FAILED', 500);
+    return handleApiError(error, 'IDEA_FETCH_FAILED');
   }
 }
 
@@ -70,7 +69,6 @@ export async function POST(
 
     return createSuccessResponse(newIdea, 201);
   } catch (error) {
-    console.error('아이디어 생성 실패:', error);
-    return createErrorResponse('IDEA_CREATE_FAILED', 500);
+    return handleApiError(error, 'IDEA_CREATE_FAILED');
   }
 }

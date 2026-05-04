@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import * as userRepository from '@/lib/repositories/user.repository';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET() {
   try {
@@ -15,7 +15,6 @@ export async function GET() {
 
     return createSuccessResponse(providers);
   } catch (error) {
-    console.error('get providers error', error);
-    return createErrorResponse('GET_PROVIDERS_ERROR', 500);
+    return handleApiError(error, 'GET_PROVIDERS_ERROR');
   }
 }

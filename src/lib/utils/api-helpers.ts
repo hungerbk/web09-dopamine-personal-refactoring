@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { ApiError, ApiSuccess } from '@/types';
+import { CLIENT_ERROR_MESSAGES } from '@/constants/error-messages';
 
 // 성공 응답 생성
 export function createSuccessResponse<T>(data: T, status = 200): NextResponse<ApiSuccess<T>> {
@@ -11,6 +12,13 @@ export function createSuccessResponse<T>(data: T, status = 200): NextResponse<Ap
     },
     { status },
   );
+}
+
+// 단순 catch 블록용: console.error + createErrorResponse 패턴 통합
+export function handleApiError(error: unknown, fallbackCode: string): NextResponse<ApiError> {
+  const logMessage = CLIENT_ERROR_MESSAGES[fallbackCode] ?? fallbackCode;
+  console.error(logMessage, error);
+  return createErrorResponse(fallbackCode, 500);
 }
 
 // 에러 응답 생성

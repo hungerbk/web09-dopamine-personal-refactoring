@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { issueMemberRepository } from '@/lib/repositories/issue-member.repository';
 import { createIssue } from '@/lib/repositories/issue.repository';
 import { createAnonymousUser } from '@/lib/repositories/user.repository';
-import { createErrorResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { createSuccessResponse } from '@/lib/utils/api-helpers';
 import { setUserIdCookie } from '@/lib/utils/cookie';
 
@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
 
     return createSuccessResponse(result, 201);
   } catch (error) {
-    console.error('빠른 이슈 생성 실패:', error);
-    return createErrorResponse('ISSUE_CREATE_FAILED', 500);
+    return handleApiError(error, 'ISSUE_CREATE_FAILED');
   }
 }

@@ -75,9 +75,8 @@ describe('useUserMutation', () => {
     });
 
     test('회원탈퇴 실패 시 에러 토스트를 띄워야 한다', async () => {
-      // Given: API 실패 가정
-      const errorMessage = '탈퇴 처리 중 오류 발생';
-      mockWithdraw.mockRejectedValue(new Error(errorMessage));
+      // Given: errorMessage가 설정된 경우 error.message와 무관하게 항상 errorMessage를 표시
+      mockWithdraw.mockRejectedValue(new Error('탈퇴 처리 중 오류 발생'));
 
       const { result } = renderHook(() => useUserMutation());
 
@@ -89,8 +88,8 @@ describe('useUserMutation', () => {
       // Then: 에러 상태 대기
       await waitFor(() => expect(result.current.withdrawMutation.isError).toBe(true));
 
-      // 1. 에러 토스트 확인
-      expect(mockToastError).toHaveBeenCalledWith(errorMessage);
+      // 1. 에러 토스트 확인 (errorMessage가 항상 우선)
+      expect(mockToastError).toHaveBeenCalledWith('회원탈퇴 중 오류가 발생했습니다.');
 
       // 2. 실패 시에는 로그아웃이나 캐시 초기화가 실행되면 안 됨
       expect(mockSignOut).not.toHaveBeenCalled();
@@ -172,8 +171,8 @@ describe('useUserMutation', () => {
 
       await waitFor(() => expect(result.current.updateDisplayNameMutation.isError).toBe(true));
 
-      // 기본 메시지 확인
-      expect(mockToastError).toHaveBeenCalledWith('이름 변경 중 오류가 발생했습니다.');
+      // errorMessage가 없으므로 최종 fallback 메시지 표시
+      expect(mockToastError).toHaveBeenCalledWith('오류가 발생했습니다.');
     });
   });
 });

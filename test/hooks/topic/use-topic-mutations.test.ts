@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import { useTopicMutations } from '@/hooks';
 import * as issueMapApi from '@/lib/api/issue-map';
+import { queryKeys } from '@/lib/query-keys';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
 // 1. API 및 Toast 모킹
@@ -69,12 +70,12 @@ describe('useTopicMutations Hook', () => {
       // Then
       // 1. 기존 쿼리 취소 확인
       expect(mockCancelQueries).toHaveBeenCalledWith({
-        queryKey: ['topics', topicId, 'connections'],
+        queryKey: queryKeys.topics.connections(topicId),
       });
 
       // 2. 낙관적 업데이트 확인 (새로운 데이터가 즉시 추가되었는지)
       expect(mockSetQueryData).toHaveBeenCalledWith(
-        ['topics', topicId, 'connections'],
+        queryKeys.topics.connections(topicId),
         expect.arrayContaining([
           ...previousConnections,
           expect.objectContaining({
@@ -88,7 +89,7 @@ describe('useTopicMutations Hook', () => {
       expect(mockCreateConnection).toHaveBeenCalled();
       await waitFor(() => {
         expect(mockInvalidateQueries).toHaveBeenCalledWith({
-          queryKey: ['topics', topicId, 'connections'],
+          queryKey: queryKeys.topics.connections(topicId),
         });
       });
     });
@@ -117,7 +118,7 @@ describe('useTopicMutations Hook', () => {
       // 롤백 확인: setQueryData가 이전 데이터(previousConnections)로 다시 호출되었는지
       // (첫 번째 호출은 낙관적 업데이트, 두 번째 호출이 롤백이어야 함)
       expect(mockSetQueryData).toHaveBeenLastCalledWith(
-        ['topics', topicId, 'connections'],
+        queryKeys.topics.connections(topicId),
         previousConnections, // 롤백된 데이터
       );
     });
@@ -145,7 +146,7 @@ describe('useTopicMutations Hook', () => {
 
       // 낙관적 업데이트: conn-2가 제거된 배열로 setQueryData 호출
       expect(mockSetQueryData).toHaveBeenCalledWith(
-        ['topics', topicId, 'connections'],
+        queryKeys.topics.connections(topicId),
         [{ id: 'conn-1' }],
       );
 
@@ -170,7 +171,7 @@ describe('useTopicMutations Hook', () => {
 
       // 롤백 확인
       expect(mockSetQueryData).toHaveBeenLastCalledWith(
-        ['topics', topicId, 'connections'],
+        queryKeys.topics.connections(topicId),
         previousConnections,
       );
     });
@@ -194,11 +195,11 @@ describe('useTopicMutations Hook', () => {
       });
 
       // Then
-      expect(mockCancelQueries).toHaveBeenCalledWith({ queryKey: ['topics', topicId, 'nodes'] });
+      expect(mockCancelQueries).toHaveBeenCalledWith({ queryKey: queryKeys.topics.nodes(topicId) });
 
       // 낙관적 업데이트 확인: node-1의 좌표가 바뀐 상태로 저장되었는지
       expect(mockSetQueryData).toHaveBeenCalledWith(
-        ['topics', topicId, 'nodes'],
+        queryKeys.topics.nodes(topicId),
         [
           expect.objectContaining({ id: 'node-1', positionX: 100, positionY: 100 }), // 변경됨
           expect.objectContaining({ id: 'node-2', positionX: 10, positionY: 10 }), // 그대로
@@ -224,7 +225,7 @@ describe('useTopicMutations Hook', () => {
 
       // 롤백 확인: 원래 좌표(0,0)인 previousNodes로 다시 덮어씌웠는지 확인
       expect(mockSetQueryData).toHaveBeenLastCalledWith(
-        ['topics', topicId, 'nodes'],
+        queryKeys.topics.nodes(topicId),
         previousNodes,
       );
     });

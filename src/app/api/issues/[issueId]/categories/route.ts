@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { SSE_EVENT_TYPES } from '@/constants/sse-events';
 import { categoryRepository } from '@/lib/repositories/category.repository';
 import { broadcast } from '@/lib/sse/sse-service';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import {
+  createErrorResponse,
+  createSuccessResponse,
+  handleApiError,
+} from '@/lib/utils/api-helpers';
 
 export async function GET(
   _req: NextRequest,
@@ -15,8 +19,7 @@ export async function GET(
 
     return createSuccessResponse(categories);
   } catch (error) {
-    console.error('카테고리 조회 실패:', error);
-    return createErrorResponse('INTERNAL_ERROR', 500);
+    return handleApiError(error, 'INTERNAL_SERVER_ERROR');
   }
 }
 
@@ -55,7 +58,6 @@ export async function POST(
 
     return createSuccessResponse(category, 201);
   } catch (error) {
-    console.error('카테고리 생성 실패:', error);
-    return createErrorResponse('CATEGORY_CREATE_FAILED', 500);
+    return handleApiError(error, 'CATEGORY_CREATE_FAILED');
   }
 }

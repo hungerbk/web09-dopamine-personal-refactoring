@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useSseConnectionStore } from '@/issues/store/use-sse-connection-store';
 import type { IdeaWithPosition } from '@/issues/types';
+import { queryKeys } from '@/lib/query-keys';
 import {
   createIdea as createIdeaAPI,
   deleteIdea as deleteIdeaAPI,
@@ -36,6 +36,7 @@ export const useIdeaMutations = (issueId: string) => {
 
   // 아이디어 생성
   const createMutation = useMutation({
+    meta: { errorLabel: '아이디어 생성 실패' },
     mutationFn: async (data: CreateIdeaRequest) => {
       return createIdeaAPI(issueId, data, connectionId);
     },
@@ -43,18 +44,15 @@ export const useIdeaMutations = (issueId: string) => {
     onSuccess: (newIdea) => {
       // 서버 응답을 IdeaWithPosition으로 변환하여 캐시에 추가
       const transformedIdea = transformIdeaToIdeaWithPosition(newIdea);
-      queryClient.setQueryData<IdeaWithPosition[]>(['issues', issueId, 'ideas'], (old = []) => {
+      queryClient.setQueryData<IdeaWithPosition[]>(queryKeys.issues.ideas(issueId), (old = []) => {
         return [...old, transformedIdea];
       });
-    },
-
-    onError: (err) => {
-      toast.error(err.message);
     },
   });
 
   // 아이디어 수정 (위치, 카테고리)
   const updateMutation = useMutation({
+    meta: { errorLabel: '아이디어 수정 실패' },
     mutationFn: async ({
       ideaId,
       positionX,
@@ -70,7 +68,7 @@ export const useIdeaMutations = (issueId: string) => {
     },
     onMutate: async ({ ideaId, positionX, positionY, categoryId }) => {
       // 진행 중인 쿼리 취소
-      await queryClient.cancelQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.issues.ideas(issueId) });
 
       // 이전 데이터 스냅샷 저장
       const previousIdeas = queryClient.getQueryData<IdeaWithPosition[]>([
@@ -83,7 +81,7 @@ export const useIdeaMutations = (issueId: string) => {
       // 당장은 필요 없을 수도 있지만, 추후 개선 가능성을 위해 구현
       if (previousIdeas) {
         queryClient.setQueryData<IdeaWithPosition[]>(
-          ['issues', issueId, 'ideas'],
+          queryKeys.issues.ideas(issueId),
           previousIdeas.map((idea) => {
             if (idea.id !== ideaId) return idea;
 
@@ -111,29 +109,27 @@ export const useIdeaMutations = (issueId: string) => {
 
       return { previousIdeas };
     },
-    onError: (error, variables, context) => {
-      console.error('아이디어 수정 실패:', error);
-      toast.error(error.message);
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousIdeas) {
-        queryClient.setQueryData(['issues', issueId, 'ideas'], context.previousIdeas);
+        queryClient.setQueryData(queryKeys.issues.ideas(issueId), context.previousIdeas);
       }
     },
     // 성공하든, 실패하든 무조건 실행
     // 낙관적 업데이트 적용시 서버 상태를 한 번 더 확인
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
     },
   });
 
   // 아이디어 삭제
   const removeMutation = useMutation({
+    meta: { errorLabel: '아이디어 삭제 실패' },
     mutationFn: async (ideaId: string) => {
       return deleteIdeaAPI(issueId, ideaId, connectionId);
     },
     onMutate: async (ideaId) => {
       // 진행 중인 쿼리 취소
-      await queryClient.cancelQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      await queryClient.cancelQueries({ queryKey: queryKeys.issues.ideas(issueId) });
 
       // 이전 데이터 스냅샷 저장
       const previousIdeas = queryClient.getQueryData<IdeaWithPosition[]>([
@@ -145,23 +141,20 @@ export const useIdeaMutations = (issueId: string) => {
       // 낙관적 업데이트로 즉시 제거
       if (previousIdeas) {
         queryClient.setQueryData<IdeaWithPosition[]>(
-          ['issues', issueId, 'ideas'],
+          queryKeys.issues.ideas(issueId),
           previousIdeas.filter((idea) => idea.id !== ideaId),
         );
       }
 
       return { previousIdeas };
     },
-    onError: (error, variables, context) => {
-      console.error('아이디어 삭제 실패:', error);
-      toast.error(error.message);
-      // 에러 시 롤백
+    onError: (_error, _variables, context) => {
       if (context?.previousIdeas) {
-        queryClient.setQueryData(['issues', issueId, 'ideas'], context.previousIdeas);
+        queryClient.setQueryData(queryKeys.issues.ideas(issueId), context.previousIdeas);
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['issues', issueId, 'ideas'] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.issues.ideas(issueId) });
     },
   });
 

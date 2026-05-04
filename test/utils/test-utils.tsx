@@ -1,15 +1,30 @@
 import React, { ReactElement } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MutationCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RenderHookOptions, RenderOptions, render, renderHook } from '@testing-library/react';
+import toast from 'react-hot-toast';
 import { AuthProvider } from '@/providers/auth-provider';
 
 // 1. 전역 래퍼 (RootLayout 구조 반영)
 const createWrapper = () => {
-  // 테스트용 쿼리 클라이언트
+  // 테스트용 쿼리 클라이언트 (query-provider.tsx의 makeQueryClient와 동일한 설정)
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: { retry: false },
+      mutations: { retry: false },
     },
+    mutationCache: new MutationCache({
+      onError: (error, _variables, _context, mutation) => {
+        const label = mutation.meta?.errorLabel ?? '[Mutation Error]';
+        console.error(`${label}:`, error);
+
+        if (mutation.meta?.disableGlobalToast) return;
+
+        const message = mutation.meta?.errorMessage
+          || (error instanceof Error ? error.message : null)
+          || '오류가 발생했습니다.';
+        toast.error(message);
+      },
+    }),
   });
 
   return ({ children }: { children: React.ReactNode }) => (

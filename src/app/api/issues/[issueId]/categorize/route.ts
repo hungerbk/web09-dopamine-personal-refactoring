@@ -6,7 +6,7 @@ import { findIssueById } from '@/lib/repositories/issue.repository';
 import { categorizeService } from '@/lib/services/categorize.service';
 import { broadcast } from '@/lib/sse/sse-service';
 import { validateAIFunctionCallResponse } from '@/lib/utils/ai-response-validator';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 import { broadcastError } from '@/lib/utils/broadcast-helpers';
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ issueId: string }> }) {
@@ -114,9 +114,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ iss
 
     return createSuccessResponse(result);
   } catch (error) {
-    console.error('[AI 카테고리화] 에러 발생:', error);
     broadcastError(issueId, '서버 내부 오류로 AI 분류에 실패했습니다.');
-
-    return createErrorResponse('AI_CATEGORIZATION_FAILED', 500);
+    return handleApiError(error, 'AI_CATEGORIZATION_FAILED');
   }
 }

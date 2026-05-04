@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { createErrorResponse, createSuccessResponse } from '@/lib/utils/api-helpers';
+import { createErrorResponse, createSuccessResponse, handleApiError } from '@/lib/utils/api-helpers';
 
 export async function GET(
   _req: NextRequest,
@@ -32,8 +32,7 @@ export async function GET(
 
     return createSuccessResponse(connections, 200);
   } catch (error) {
-    console.error('연결 조회 실패:', error);
-    return createErrorResponse('CONNECTIONS_FETCH_FAILED', 500);
+    return handleApiError(error, 'CONNECTIONS_FETCH_FAILED');
   }
 }
 
@@ -74,7 +73,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ top
 
     return createSuccessResponse(connection, 201);
   } catch (error) {
-    console.error('연결 생성 실패:', error);
-    return createErrorResponse('CONNECTION_CREATE_FAILED', 500);
+    return handleApiError(error, 'CONNECTION_CREATE_FAILED');
   }
 }

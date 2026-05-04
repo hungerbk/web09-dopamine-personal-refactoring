@@ -14,6 +14,7 @@ import {
   useUpdateIssueTitleMutation,
 } from '@/hooks';
 import * as issueApi from '@/lib/api/issue';
+import { queryKeys } from '@/lib/query-keys';
 import * as storage from '@/lib/storage/issue-user-storage';
 import { act, renderHook, waitFor } from '../../utils/test-utils';
 
@@ -106,7 +107,7 @@ describe('Issue Mutations', () => {
 
   // 2. 이슈 상태 관리 (Status Update & Next Step)
   describe('useIssueStatusMutations', () => {
-    const queryKey = ['issues', issueId];
+    const queryKey = queryKeys.issues.detail(issueId);
 
     describe('handleNextStep (다음 단계 이동)', () => {
       test('BRAINSTORMING 상태에서 다음 단계인 CATEGORIZE로 업데이트해야 한다', async () => {
@@ -242,7 +243,7 @@ describe('Issue Mutations', () => {
       });
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['topics', topicId, 'issues'],
+        queryKey: queryKeys.topics.issues(topicId),
       });
       expect(mockToastSuccess).toHaveBeenCalledWith('이슈가 생성되었습니다!');
     });
@@ -271,7 +272,7 @@ describe('Issue Mutations', () => {
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
       expect(mockUpdateIssueTitle).toHaveBeenCalledWith(issueId, 'New Title', connectionId);
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['issues', issueId],
+        queryKey: queryKeys.issues.detail(issueId),
       });
       expect(mockToastSuccess).toHaveBeenCalledWith('이슈를 수정했습니다!');
     });
@@ -297,10 +298,10 @@ describe('Issue Mutations', () => {
         result.current.mutate({ connectionId });
       });
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
-      expect(mockQueryClient.cancelQueries).toHaveBeenCalledWith({ queryKey: ['issues', issueId] });
-      expect(mockQueryClient.removeQueries).toHaveBeenCalledWith({ queryKey: ['issues', issueId] });
+      expect(mockQueryClient.cancelQueries).toHaveBeenCalledWith({ queryKey: queryKeys.issues.detail(issueId) });
+      expect(mockQueryClient.removeQueries).toHaveBeenCalledWith({ queryKey: queryKeys.issues.detail(issueId) });
       expect(mockQueryClient.invalidateQueries).toHaveBeenCalledWith({
-        queryKey: ['topics', topicId],
+        queryKey: queryKeys.topics.detail(topicId),
       });
       expect(mockRouter.push).toHaveBeenCalledWith(`/topics/${topicId}`);
       expect(mockToastSuccess).toHaveBeenCalledWith('이슈를 삭제했습니다.');
